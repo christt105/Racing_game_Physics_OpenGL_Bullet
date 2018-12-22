@@ -93,3 +93,9 @@ float PhysVehicle3D::GetKmh() const
 {
 	return vehicle->getCurrentSpeedKmHour();
 }
+
+vec3 PhysVehicle3D::GetLocalPosition() const
+{
+	btVector3 f_vector = vehicle->getForwardVector();
+	return vec3(f_vector.getX(), f_vector.getY(), f_vector.getZ());
+}

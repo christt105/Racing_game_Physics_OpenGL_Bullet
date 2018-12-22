@@ -27,6 +27,12 @@ void PhysBody3D::GetTransform(float* matrix) const
 	}
 }
 
+vec3 PhysBody3D::GetPosition() const
+{
+	btVector3 vector = body->getWorldTransform().getOrigin();
+	return vec3(vector.getX(), vector.getY(), vector.getZ());
+}
+
 // ---------------------------------------------------------
 void PhysBody3D::SetTransform(const float* matrix) const
 {
