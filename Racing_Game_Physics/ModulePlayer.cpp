@@ -149,8 +149,9 @@ update_status ModulePlayer::Update(float dt)
 
 	vehicle->Render();
 
-	//App->camera->Position.Set(vehicle->GetLocalPosition().x + CAMERA_OFFSET_X, vehicle->GetLocalPosition().y + CAMERA_OFFSET_Y, vehicle->GetLocalPosition().z + CAMERA_OFFSET_Z);
-	App->camera->Position.Set(vehicle->GetPosition().x + CAMERA_OFFSET_X, App->camera->Position.y/*vehicle->GetPosition().y + CAMERA_OFFSET_Y*/, vehicle->vehicle->getForwardVector().getZ() + CAMERA_OFFSET_Z);
+	App->camera->Position.Set(vehicle->GetPosition().x - vehicle->GetLocalPosition().x*CAMERA_OFFSET_X, 
+							  vehicle->GetPosition().y + CAMERA_OFFSET_Y, 
+							  vehicle->GetPosition().z - vehicle->GetLocalPosition().z * CAMERA_OFFSET_Z);
 	App->camera->LookAt(vehicle->GetPosition());
 
 	char title[80];
