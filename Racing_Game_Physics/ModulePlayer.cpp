@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModulePlayer.h"
 #include "Primitive.h"
+#include "ModuleInput.h"
 #include "PhysVehicle3D.h"
 #include "PhysBody3D.h"
 
@@ -113,6 +114,11 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update(float dt)
 {
+	
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
+		vehicle->SetPos(0, 12, 10);
+	}
+	
 	turn = acceleration = brake = 0.0f;
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
@@ -144,7 +150,7 @@ update_status ModulePlayer::Update(float dt)
 	vehicle->Render();
 
 	//App->camera->Position.Set(vehicle->GetLocalPosition().x + CAMERA_OFFSET_X, vehicle->GetLocalPosition().y + CAMERA_OFFSET_Y, vehicle->GetLocalPosition().z + CAMERA_OFFSET_Z);
-	App->camera->Position.Set(vehicle->GetPosition().x + CAMERA_OFFSET_X, vehicle->GetPosition().y + CAMERA_OFFSET_Y, vehicle->GetPosition().z + CAMERA_OFFSET_Z);
+	App->camera->Position.Set(vehicle->GetPosition().x + CAMERA_OFFSET_X, App->camera->Position.y/*vehicle->GetPosition().y + CAMERA_OFFSET_Y*/, vehicle->vehicle->getForwardVector().getZ() + CAMERA_OFFSET_Z);
 	App->camera->LookAt(vehicle->GetPosition());
 
 	char title[80];
