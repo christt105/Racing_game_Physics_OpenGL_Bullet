@@ -332,6 +332,26 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	return pvehicle;
 }
 
+p2DynArray<Cube> ModulePhysics3D::AddRect(vec3 position, int length, int x, int y, int z)
+{
+	p2DynArray <Cube> rect;
+
+	for (int i = 0; i < length; i++)
+	{
+		Cube current_rect(x, y, z);
+		current_rect.color = { 0, 0, 255, 100 };
+		PhysBody3D* pbody = AddBody(current_rect, 0);
+		btTransform transform;
+
+		transform = btTransform({ position.x, position.y, position.z });
+		pbody->body->setWorldTransform(transform);
+
+		pbody->GetTransform(&current_rect.transform);
+		rect.PushBack(current_rect);
+	}
+	return rect;
+}
+
 // ---------------------------------------------------------
 void ModulePhysics3D::AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec3& anchorA, const vec3& anchorB)
 {

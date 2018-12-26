@@ -19,9 +19,14 @@ bool ModuleSceneIntro::Start()
 
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
+	
+	// Global Floor
+	map_floor = { 300, -1, 300 };
+	map_floor.color.Set(125, 125, 125, 0.25F);
+	map.PushBack(map_floor);
 
-	CreateRect(15, 0, 300);
-	CreateRect(55, 0, 300);
+	// Rects
+	CreateRect(0, 0, 0, 0);
 	return ret;
 }
 
@@ -48,11 +53,14 @@ bool ModuleSceneIntro::CleanUp()
 	return true;
 }
 
-void ModuleSceneIntro::CreateRect(float x, float y, float h)
+void ModuleSceneIntro::CreateRect(int x, int y, int z, int lenth)
 {
-	map_floor = { x, y, h };
-	map_floor.color.Set(125, 125, 125, 0.25F);
-	map.PushBack(map_floor);
+	p2DynArray <Cube> rect = App->physics->AddRect({ -180, 48 , 140 }, 9);
+
+	for (int i = 0; i < rect.Count(); i++)
+	{
+		map.PushBack(rect[i]);
+	}
 }
 
 void ModuleSceneIntro::CreateCurve()

@@ -19,13 +19,18 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	void CreateRect(float x, float y, float h);
+	void CreateRect(int x, int y, int z, int lenth);
 	void CreateCurve();
 	void CreateRamp();
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 public:
+
+	Cube map_floor;
+	p2DynArray <Cube> map;
+
+
 	/*
 	PhysBody3D* pb_snake[MAX_SNAKE];
 	Sphere s_snake[MAX_SNAKE];
@@ -34,10 +39,7 @@ public:
 	Sphere s_snake2[MAX_SNAKE];
 	*/
 
-	Cube map_floor;
-	p2DynArray <Cube> map;
-
-	PhysBody3D* pb_chassis;
+	/*PhysBody3D* pb_chassis;
 	Cube p_chassis;
 
 	PhysBody3D* pb_wheel;
@@ -47,5 +49,5 @@ public:
 	Cylinder p_wheel2;
 
 	PhysMotor3D* left_wheel;
-	PhysMotor3D* right_wheel;
+	PhysMotor3D* right_wheel;*/
 };
