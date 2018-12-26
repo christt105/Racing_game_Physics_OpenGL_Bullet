@@ -121,6 +121,13 @@ update_status ModulePlayer::Update(float dt)
 	
 	turn = acceleration = brake = 0.0f;
 
+	if (vehicle->GetKmh() >= 0)
+		acceleration = -MAX_ACCELERATION;
+	else if (vehicle->GetKmh() <= 0)
+		acceleration = MAX_ACCELERATION;
+	else
+		acceleration = 0;
+
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
 		acceleration = MAX_ACCELERATION;
@@ -142,6 +149,8 @@ update_status ModulePlayer::Update(float dt)
 	{
 		acceleration = -MAX_ACCELERATION;
 	}
+	
+	
 
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
@@ -155,7 +164,7 @@ update_status ModulePlayer::Update(float dt)
 	App->camera->LookAt(vehicle->GetPosition());
 
 	char title[80];
-	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
+	sprintf_s(title, "%.1f Km/h		%.1f ac", vehicle->GetKmh(), acceleration);
 	App->window->SetTitle(title);
 
 	return UPDATE_CONTINUE;
