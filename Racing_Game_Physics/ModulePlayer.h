@@ -21,6 +21,7 @@ public:
 	bool Start();
 	update_status Update(float dt);
 	bool CleanUp();
+	void NitroSpeed();
 
 public:
 
@@ -34,4 +35,9 @@ private:
 	vec3 axis;
 	bool accelerating = false;
 	bool decelerating = false;
+	bool nitro = true;
+
+	int current_time = 0;
+	int start_time = 0;
+
 };

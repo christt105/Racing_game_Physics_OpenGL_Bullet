@@ -103,14 +103,6 @@ bool ModulePlayer::Start()
 	return true;
 }
 
-// Unload assets
-bool ModulePlayer::CleanUp()
-{
-	LOG("Unloading player");
-
-	return true;
-}
-
 // Update: draw background
 update_status ModulePlayer::Update(float dt)
 {
@@ -156,7 +148,10 @@ update_status ModulePlayer::Update(float dt)
 		decelerating = true;
 	}
 	
-	
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+	{
+		NitroSpeed();
+	}
 
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
@@ -176,5 +171,32 @@ update_status ModulePlayer::Update(float dt)
 	return UPDATE_CONTINUE;
 }
 
+// Unload assets
+bool ModulePlayer::CleanUp()
+{
+	LOG("Unloading player");
+
+	return true;
+}
+
+void ModulePlayer::NitroSpeed()
+{
+	if (nitro)
+	{
+		start_time = SDL_GetTicks(); 
+		nitro = false;
+	}
+
+	current_time = SDL_GetTicks() - start_time;
+	
+	if (current_time <= 1500)
+	{
+  		acceleration = MAX_ACCELERATION * 5;
+		accelerating = true;
+	}
+	
+	
+
+}
 
 
