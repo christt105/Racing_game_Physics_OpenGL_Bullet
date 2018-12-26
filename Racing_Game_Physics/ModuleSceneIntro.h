@@ -19,7 +19,8 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	void CreateRect(int x, int y, int z, int x_width, int high, int y_width);
+	//void CreateRect(int x, int y, int z, int x_width, int high, int y_width);
+	void CreateRect(const float &x, const float &y, const float &z, const float &width, const float &length, Cube &cube);
 	void CreateCurve();
 	void CreateRamp();
 
@@ -27,27 +28,5 @@ public:
 
 public:
 
-	Cube map_floor;
-	p2DynArray <Cube> map;
-
-
-	/*
-	PhysBody3D* pb_snake[MAX_SNAKE];
-	Sphere s_snake[MAX_SNAKE];
-
-	PhysBody3D* pb_snake2[MAX_SNAKE];
-	Sphere s_snake2[MAX_SNAKE];
-	*/
-
-	/*PhysBody3D* pb_chassis;
-	Cube p_chassis;
-
-	PhysBody3D* pb_wheel;
-	Cylinder p_wheel;
-
-	PhysBody3D* pb_wheel2;
-	Cylinder p_wheel2;
-
-	PhysMotor3D* left_wheel;
-	PhysMotor3D* right_wheel;*/
+	p2DynArray <Cube*> map;
 };
