@@ -32,4 +32,6 @@ public:
 private:
 	vec3 direction;
 	vec3 axis;
+	bool accelerating = false;
+	bool decelerating = false;
 };

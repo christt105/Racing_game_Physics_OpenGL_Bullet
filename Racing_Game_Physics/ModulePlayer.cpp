@@ -121,16 +121,21 @@ update_status ModulePlayer::Update(float dt)
 	
 	turn = acceleration = brake = 0.0f;
 
-	if (vehicle->GetKmh() >= 0)
+	if (vehicle->GetKmh() >= 0 && accelerating)
 		acceleration = -MAX_ACCELERATION;
-	else if (vehicle->GetKmh() <= 0)
+	else if (vehicle->GetKmh() <= 0 && decelerating)
 		acceleration = MAX_ACCELERATION;
 	else
+	{
 		acceleration = 0;
+		accelerating = false;
+		decelerating = false;
+	}
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
 		acceleration = MAX_ACCELERATION;
+		accelerating = true;
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
@@ -148,6 +153,7 @@ update_status ModulePlayer::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
 		acceleration = -MAX_ACCELERATION;
+		decelerating = true;
 	}
 	
 	
