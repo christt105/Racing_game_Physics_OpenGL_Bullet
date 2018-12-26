@@ -19,6 +19,10 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	void CreateRect(float x, float y, float h);
+	void CreateCurve();
+	void CreateRamp();
+
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 public:
@@ -29,6 +33,9 @@ public:
 	PhysBody3D* pb_snake2[MAX_SNAKE];
 	Sphere s_snake2[MAX_SNAKE];
 	*/
+
+	Cube map_floor;
+	p2DynArray <Cube> map;
 
 	PhysBody3D* pb_chassis;
 	Cube p_chassis;
