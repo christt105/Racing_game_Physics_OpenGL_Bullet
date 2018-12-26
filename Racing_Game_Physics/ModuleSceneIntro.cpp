@@ -25,8 +25,12 @@ bool ModuleSceneIntro::Start()
 	map_floor.color.Set(125, 125, 125, 0.25F);
 	map.PushBack(map_floor);
 
-	// Rects
-	CreateRect(5, 0, 10, 10, 1, 30); //x, y, z, x_width, high, y_width
+	// Rects (x, y, z, x_width, high, y_width)
+	CreateRect(5, 0, 10, 10, 1, 30);
+	CreateRect(15, 0, 40, 30, 1, 10);
+	CreateRect(30, 0, -20, 30, 1, 10);
+	CreateRect(15, 0, 0, 30, 1, 10);
+	CreateRect(50, 0, 40, 10, 1, 30);
 	return ret;
 }
 
