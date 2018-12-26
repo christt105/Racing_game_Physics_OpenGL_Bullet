@@ -26,7 +26,7 @@ bool ModuleSceneIntro::Start()
 	map.PushBack(map_floor);
 
 	// Rects
-	CreateRect(0, 0, 0, 0);
+	CreateRect(5, 0, 10, 10, 1, 30); //x, y, z, x_width, high, y_width
 	return ret;
 }
 
@@ -53,9 +53,10 @@ bool ModuleSceneIntro::CleanUp()
 	return true;
 }
 
-void ModuleSceneIntro::CreateRect(int x, int y, int z, int lenth)
+void ModuleSceneIntro::CreateRect(int x, int y, int z, int x_width, int high, int y_width)
 {
-	p2DynArray <Cube> rect = App->physics->AddRect({ -180, 48 , 140 }, 9);
+	vec3 position = { (float)x, (float)y, (float)z };
+	p2DynArray <Cube> rect = App->physics->AddRect(position, x_width, high, y_width);
 
 	for (int i = 0; i < rect.Count(); i++)
 	{

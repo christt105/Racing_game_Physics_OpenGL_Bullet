@@ -31,7 +31,7 @@ public:
 	PhysBody3D* AddBody(const Cube& cube, float mass = 1.0f);
 	PhysBody3D* AddBody(const Cylinder& cylinder, float mass = 1.0f);
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info);
-	p2DynArray <Cube> AddRect(vec3 position, int length, int x = 10, int y = 3, int z = 5);
+	p2DynArray <Cube> AddRect(vec3 position, int x_width, int high, int y_width);
 
 	void AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec3& anchorA, const vec3& anchorB);
 	void AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec3& anchorA, const vec3& anchorB, const vec3& axisS, const vec3& axisB, bool disable_collision = false);
@@ -53,6 +53,8 @@ private:
 	p2List<btDefaultMotionState*> motions;
 	p2List<btTypedConstraint*> constraints;
 	p2List<PhysVehicle3D*> vehicles;
+
+	p2DynArray <Cube> rect; //	p2DynArray <Cube*> rect;
 };
 
 class DebugDrawer : public btIDebugDraw

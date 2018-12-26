@@ -185,6 +185,13 @@ bool ModulePhysics3D::CleanUp()
 
 	vehicles.clear();
 
+
+	for (int i = 0; i < rect.Count(); i++)
+	{
+		//delete rect[i];
+	}
+	rect.Clear();
+
 	delete vehicle_raycaster;
 	delete world;
 
@@ -332,23 +339,26 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	return pvehicle;
 }
 
-p2DynArray<Cube> ModulePhysics3D::AddRect(vec3 position, int length, int x, int y, int z)
+p2DynArray<Cube> ModulePhysics3D::AddRect(vec3 position, int x_width, int high, int y_width)
 {
-	p2DynArray <Cube> rect;
+	Cube current_rect(x_width, high, y_width);
+	current_rect.color = { 0, 0, 255, 100 };
+	PhysBody3D* pbody = AddBody(current_rect, 0);
 
-	for (int i = 0; i < length; i++)
-	{
-		Cube current_rect(x, y, z);
-		current_rect.color = { 0, 0, 255, 100 };
-		PhysBody3D* pbody = AddBody(current_rect, 0);
-		btTransform transform;
+	vec3 next_position = { 5, 1, 5 };
 
-		transform = btTransform({ position.x, position.y, position.z });
-		pbody->body->setWorldTransform(transform);
+	next_position += next_position;
 
-		pbody->GetTransform(&current_rect.transform);
-		rect.PushBack(current_rect);
-	}
+	btQuaternion rotation;
+	rotation.setRotation({ 1, 0, 0 }, 3.14);
+
+	btTransform transform;
+	transform = btTransform(rotation, { next_position.x + position.x, next_position.y + position.y, next_position.z + position.z });
+	pbody->body->setWorldTransform(transform);
+
+	pbody->GetTransform(&current_rect.transform);
+	rect.PushBack(current_rect);
+
 	return rect;
 }
 

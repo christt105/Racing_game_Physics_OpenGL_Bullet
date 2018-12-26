@@ -19,7 +19,7 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	void CreateRect(int x, int y, int z, int lenth);
+	void CreateRect(int x, int y, int z, int x_width, int high, int y_width);
 	void CreateCurve();
 	void CreateRamp();
 
