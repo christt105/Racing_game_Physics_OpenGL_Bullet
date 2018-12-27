@@ -3,6 +3,7 @@
 #include "p2DynArray.h"
 #include "Globals.h"
 #include "Primitive.h"
+#include "Timer.h"
 
 #define MAX_SNAKE 2
 
@@ -54,6 +55,9 @@ public:
 	p2DynArray <Cube*> checkpoint_objects;
 	p2DynArray <PhysBody3D*> checkpoint_objects_body;
 
-
-
+private:
+	Timer timer;
+	int time_sec = 0;
+	int time_min = 0;
+	int timer_manager = 0;
 };
