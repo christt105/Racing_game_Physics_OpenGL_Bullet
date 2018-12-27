@@ -159,11 +159,12 @@ update_status ModulePlayer::Update(float dt)
 
 	vehicle->Render();
 
-	App->camera->Position.Set(vehicle->GetPosition().x - vehicle->GetLocalPosition().x*CAMERA_OFFSET_X, 
-							  vehicle->GetPosition().y + CAMERA_OFFSET_Y, 
-							  vehicle->GetPosition().z - vehicle->GetLocalPosition().z * CAMERA_OFFSET_Z);
-	App->camera->LookAt(vehicle->GetPosition());
-
+	if (!App->scene_intro->camera_free) {
+		App->camera->Position.Set(vehicle->GetPosition().x - vehicle->GetLocalPosition().x*CAMERA_OFFSET_X,
+			vehicle->GetPosition().y + CAMERA_OFFSET_Y,
+			vehicle->GetPosition().z - vehicle->GetLocalPosition().z * CAMERA_OFFSET_Z);
+		App->camera->LookAt(vehicle->GetPosition());
+	}
 	char title[80];
 	sprintf_s(title, "%.1f Km/h		%.1f ac", vehicle->GetKmh(), acceleration);
 	App->window->SetTitle(title);
