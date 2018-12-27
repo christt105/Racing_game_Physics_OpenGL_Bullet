@@ -3,6 +3,8 @@
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
+#include "ModulePlayer.h"
+#include "PhysVehicle3D.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -34,6 +36,10 @@ bool ModuleSceneIntro::Start()
 	
 	//Checkpoint Objects
 	CreateCheckpoint({0, 1, 50});
+
+	// Timer
+	timer.Start();
+
 	return ret;
 }
 
@@ -60,6 +66,19 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		checkpoint_objects[i]->Render();
 	}
+
+
+	// Timer Manage
+	time_sec = (timer.Read() / 1000) - timer_manager;
+	if (time_sec >= 60)
+	{
+		time_min++;
+		timer_manager = 60 * time_min;
+	}
+
+	char title[80];
+	sprintf_s(title, "Velocity: %.1F Km/h || Nitro: %d || Timer: %.2d:%.2d", App->player->vehicle->GetKmh(), App->player->nitro, time_min, time_sec);
+	App->window->SetTitle(title);
 	return UPDATE_CONTINUE;
 }
 
@@ -222,7 +241,7 @@ void ModuleSceneIntro::Checkpoint(PhysBody3D* checkpoint_body)
 		if (checkpoint_objects_body[i] == checkpoint_body)
 		{
 			checkpoint_objects.Pop(checkpoint_objects[i]);
-			checkpoint_objects_body.Pop(nitro_objects_body[i]);
+			checkpoint_objects_body.Pop(checkpoint_objects_body[i]);
 		}
 	}
 	//Checkpoints 1 - 4
