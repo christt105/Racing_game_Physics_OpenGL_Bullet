@@ -49,9 +49,9 @@ public:
 public:
 	bool camera_free = false;
 	p2DynArray <Cube*> map;
-	p2DynArray <Sphere> nitro_objects;
+	p2DynArray <Sphere*> nitro_objects;
 	p2DynArray <PhysBody3D*> nitro_objects_body;
-	p2DynArray <Cube> checkpoint_objects;
+	p2DynArray <Cube*> checkpoint_objects;
 	p2DynArray <PhysBody3D*> checkpoint_objects_body;
 
 

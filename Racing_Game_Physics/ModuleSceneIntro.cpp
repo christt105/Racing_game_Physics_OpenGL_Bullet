@@ -52,13 +52,13 @@ update_status ModuleSceneIntro::Update(float dt)
 	// Nitro Scene Objects
 	for (uint i = 0; i < nitro_objects.Count(); i++)
 	{
-		nitro_objects[i].Render();
+		nitro_objects[i]->Render();
 	}
 
 	// Checkpoints Scene Objects
 	for (uint i = 0; i < checkpoint_objects.Count(); i++)
 	{
-		checkpoint_objects[i].Render();
+		checkpoint_objects[i]->Render();
 	}
 	return UPDATE_CONTINUE;
 }
@@ -72,11 +72,11 @@ bool ModuleSceneIntro::CleanUp()
 	for (uint i = 0; i < map.Count(); ++i)
 		delete map[i];
 
-	/*for (int i = 0; i < nitro_objects.Count(); i++)
-		delete nitro_objects[i];*/
+	for (int i = 0; i < nitro_objects.Count(); i++)
+		delete nitro_objects[i];
 
-	/*for (int i = 0; i < checkpoint_objects.Count(); i++)
-		delete checkpoint_objects[i];*/
+	for (int i = 0; i < checkpoint_objects.Count(); i++)
+		delete checkpoint_objects[i];
 
 	return true;
 }
@@ -174,14 +174,15 @@ void ModuleSceneIntro::CreateCurve(const float & x, const float & y, const float
 
 void ModuleSceneIntro::NitroObject(vec3 pos, int size, int distance_to)
 {
+	Sphere* nitro_obj = nullptr;
 	for (int i = 0; i < size; i++)
 	{
-		Sphere nitro_obj(1);
-		nitro_obj.color.Set(255, 0, 128, 1.F);
-		nitro_obj.SetPos(pos.x + distance_to, pos.y, pos.z);
+		nitro_obj = new Sphere(1);
+		nitro_obj->color.Set(255, 0, 128, 1.F);
+		nitro_obj->SetPos(pos.x + distance_to, pos.y, pos.z);
 		nitro_objects.PushBack(nitro_obj);
 		distance_to += 4;
-		PhysBody3D* sensor = App->physics->AddBody(nitro_obj, 0);
+		PhysBody3D* sensor = App->physics->AddBody(*nitro_obj, 0);
 		sensor->SetListener(true);
 		sensor->SetState(PhysBody3D::state::NITRO);
 		nitro_objects_body.PushBack(sensor);
@@ -203,14 +204,15 @@ void ModuleSceneIntro::PickUpNitroObject(PhysBody3D * nitro_body)
 
 void ModuleSceneIntro::CreateCheckpoint(vec3 pos)
 {
-	Cube checkpoint_obj(15, 2, 2);
-	checkpoint_obj.color.Set(0, 255, 0, 1.F);
-	checkpoint_obj.SetPos(pos.x, pos.y, pos.z);
+	Cube* checkpoint_obj = nullptr;
+	checkpoint_obj = new Cube(15, 2, 2);
+	checkpoint_obj->color.Set(0, 255, 0, 1.F);
+	checkpoint_obj->SetPos(pos.x, pos.y, pos.z);
 	checkpoint_objects.PushBack(checkpoint_obj);
-	PhysBody3D* sensor2 = App->physics->AddBody(checkpoint_obj, 0);
-	sensor2->SetListener(true);
-	sensor2->SetState(PhysBody3D::state::CHECKPOINT);
-	checkpoint_objects_body.PushBack(sensor2);
+	PhysBody3D* sensor = App->physics->AddBody(*checkpoint_obj, 0);
+	sensor->SetListener(true);
+	sensor->SetState(PhysBody3D::state::CHECKPOINT);
+	checkpoint_objects_body.PushBack(sensor);
 }
 
 void ModuleSceneIntro::Checkpoint(PhysBody3D* checkpoint_body)
