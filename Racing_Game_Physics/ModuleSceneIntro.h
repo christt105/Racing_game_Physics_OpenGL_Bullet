@@ -9,6 +9,18 @@
 struct PhysBody3D;
 struct PhysMotor3D;
 
+enum class ORIENTATION {
+	NORTH,		//positive Z axis
+	SOUTH,		//negative Z axis
+	EAST,		//negative X azis
+	WEST,		//positive X axis
+
+	NORTHEAST,
+	NORTHWEST,
+	SOUTHEAST,
+	SOUTHWEST
+};
+
 class ModuleSceneIntro : public Module
 {
 public:
@@ -20,7 +32,7 @@ public:
 	bool CleanUp();
 
 	//void CreateRect(int x, int y, int z, int x_width, int high, int y_width);
-	void CreateRect(const float &x, const float &y, const float &z, const float &width, const float &length, Cube &cube);
+	void CreateRect(const float &x, const float &y, const float &z, const float &width, const float &length, const Cube & cube, ORIENTATION orientation = ORIENTATION::NORTH);
 	void CreateCurve();
 	void CreateRamp();
 
@@ -33,7 +45,7 @@ public:
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 public:
-
+	bool camera_free = false;
 	p2DynArray <Cube*> map;
 	p2DynArray <Sphere> nitro_objects;
 	p2DynArray <PhysBody3D*> nitro_objects_body;

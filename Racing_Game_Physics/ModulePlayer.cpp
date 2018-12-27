@@ -102,6 +102,11 @@ bool ModulePlayer::Start()
 	vehicle->SetPos(0, 1, 0);
 	vehicle->collision_listeners.add(App->scene_intro);
 
+	App->camera->Position.Set(vehicle->GetPosition().x - vehicle->GetLocalPosition().x*CAMERA_OFFSET_X,
+		vehicle->GetPosition().y + CAMERA_OFFSET_Y,
+		vehicle->GetPosition().z - vehicle->GetLocalPosition().z * CAMERA_OFFSET_Z);
+	App->camera->LookAt(vehicle->GetPosition());
+
 	return true;
 }
 
@@ -161,11 +166,12 @@ update_status ModulePlayer::Update(float dt)
 
 	vehicle->Render();
 
-	App->camera->Position.Set(vehicle->GetPosition().x - vehicle->GetLocalPosition().x*CAMERA_OFFSET_X, 
-							  vehicle->GetPosition().y + CAMERA_OFFSET_Y, 
-							  vehicle->GetPosition().z - vehicle->GetLocalPosition().z * CAMERA_OFFSET_Z);
-	App->camera->LookAt(vehicle->GetPosition());
-
+	if (!App->scene_intro->camera_free) {
+		App->camera->Position.Set(vehicle->GetPosition().x - vehicle->GetLocalPosition().x*CAMERA_OFFSET_X,
+			vehicle->GetPosition().y + CAMERA_OFFSET_Y,
+			vehicle->GetPosition().z - vehicle->GetLocalPosition().z * CAMERA_OFFSET_Z);
+		App->camera->LookAt(vehicle->GetPosition());
+	}
 	char title[80];
 	sprintf_s(title, "Velocity: %.1f Km/h || Nitro: %d", vehicle->GetKmh(), nitro);
 	App->window->SetTitle(title);
