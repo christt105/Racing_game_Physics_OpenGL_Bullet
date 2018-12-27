@@ -5,6 +5,7 @@
 #include "PhysBody3D.h"
 #include "ModulePlayer.h"
 #include "PhysVehicle3D.h"
+#include "ModuleAudio.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -67,7 +68,6 @@ update_status ModuleSceneIntro::Update(float dt)
 		checkpoint_objects[i]->Render();
 	}
 
-
 	// Timer Manage
 	time_sec = (timer.Read() / 1000) - timer_manager;
 	if (time_sec >= 60)
@@ -75,6 +75,8 @@ update_status ModuleSceneIntro::Update(float dt)
 		time_min++;
 		timer_manager = 60 * time_min;
 	}
+	if(timer.Read()/1000 == 240)
+		App->audio->PlayMusic("Audio/Music/60 Seconds.ogg");
 
 	char title[80];
 	sprintf_s(title, "Velocity: %.1F Km/h || Nitro: %d || Timer: %.2d:%.2d", App->player->vehicle->GetKmh(), App->player->nitro, time_min, time_sec);
