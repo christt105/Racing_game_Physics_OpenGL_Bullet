@@ -25,12 +25,17 @@ bool ModuleSceneIntro::Start()
 	c->color.Set(125, 125, 125, 0.25F);
 	map.PushBack(c);
 
-	Cube road(1, 1, 1);
+	Cube road(1, 3, 1);
 	road.color.Set(0.0f, 0.0f, 1.0f);
-	CreateRect(-7.0f, 0.0f, 0.0f, 15, 100, road);
-	CreateRect(-7.0f, 0.0f, 0.0f, 15, 100, road,ORIENTATION::SOUTH);
+
+	CreateRect(-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::NORTH);
+	CreateRect(-7.0f, 0, 100, 15, 100, road, ORIENTATION::EAST);
+	CreateRect(-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::SOUTH);
+	CreateRect(-7.0f, 0, -100, 15, 100, road, ORIENTATION::WEST);
 	CreateRect(-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::EAST);
+	CreateRect(100-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::NORTH);
 	CreateRect(-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::WEST);
+	CreateRect(-100-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::SOUTH);
 	
 	return ret;
 }
@@ -38,12 +43,15 @@ bool ModuleSceneIntro::Start()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
+		camera_free = !camera_free;
+
 	//Render Map ==============================
 	for (int i = 0; i < map.Count(); i++)
 	{
 		map[i]->Render();
 	}
-
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -59,7 +67,7 @@ bool ModuleSceneIntro::CleanUp()
 	return true;
 }
 
-void ModuleSceneIntro::CreateRect(const float & x, const float & y, const float & z, const float & width, const float &length, Cube &cube, ORIENTATION orientation)
+void ModuleSceneIntro::CreateRect(const float & x, const float & y, const float & z, const float & width, const float &length, const Cube & cube, ORIENTATION orientation)
 {
 	PhysBody3D* phys1 = nullptr;
 	PhysBody3D* phys2 = nullptr;
@@ -80,20 +88,28 @@ void ModuleSceneIntro::CreateRect(const float & x, const float & y, const float 
 			phys2->SetPos(x + width, y, z - cube.size.x*i);
 			break;
 		case ORIENTATION::EAST:
-			phys1->SetPos(x + cube.size.x*i, y, z);
-			phys2->SetPos(x + cube.size.x*i, y, z + width);
-			break;
-		case ORIENTATION::WEST:
 			phys1->SetPos(x - cube.size.x*i, y, z);
 			phys2->SetPos(x - cube.size.x*i, y, z + width);
 			break;
+		case ORIENTATION::WEST:
+			phys1->SetPos(x + cube.size.x*i, y, z);
+			phys2->SetPos(x + cube.size.x*i, y, z + width);
+			break;
 		case ORIENTATION::NORTHEAST:
+			phys1->SetPos(x - cube.size.x*i, y, z + cube.size.x*i);
+			phys2->SetPos(x + width - cube.size.x*i, y, z + cube.size.x*i);
 			break;
 		case ORIENTATION::NORTHWEST:
+			phys1->SetPos(x + cube.size.x*i, y, z + cube.size.x*i);
+			phys2->SetPos(x + width + cube.size.x*i, y, z + cube.size.x*i);
 			break;
 		case ORIENTATION::SOUTHEAST:
+			phys1->SetPos(x - cube.size.x*i, y, z - cube.size.x*i);
+			phys2->SetPos(x - cube.size.x*i + width, y, z - cube.size.x*i);
 			break;
 		case ORIENTATION::SOUTHWEST:
+			phys1->SetPos(x + cube.size.x*i, y, z - cube.size.x*i);
+			phys2->SetPos(x + cube.size.x*i + width, y, z - cube.size.x*i);
 			break;
 		default:
 			break;
