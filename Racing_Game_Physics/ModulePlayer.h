@@ -28,6 +28,7 @@ public:
 public:
 
 	PhysVehicle3D* vehicle;
+	PhysVehicle3D* ghost;
 	float turn;
 	float acceleration;
 	float brake;
@@ -38,6 +39,7 @@ private:
 	vec3 axis;
 	bool accelerating = false;
 	bool decelerating = false;
+	p2DynArray<vec3> ghost_pos;
 
 	int current_time = 0;
 	int start_time = 0;

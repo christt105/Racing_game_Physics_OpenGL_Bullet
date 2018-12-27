@@ -6,19 +6,19 @@
 #include "Primitive.h"
 
 #ifdef _DEBUG
-	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
-	#pragma comment (lib, "Bullet/libx86/BulletCollision_debug.lib")
-	#pragma comment (lib, "Bullet/libx86/LinearMath_debug.lib")
+#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
+#pragma comment (lib, "Bullet/libx86/BulletCollision_debug.lib")
+#pragma comment (lib, "Bullet/libx86/LinearMath_debug.lib")
 #else
-	#pragma comment (lib, "Bullet/libx86/BulletDynamics.lib")
-	#pragma comment (lib, "Bullet/libx86/BulletCollision.lib")
-	#pragma comment (lib, "Bullet/libx86/LinearMath.lib")
+#pragma comment (lib, "Bullet/libx86/BulletDynamics.lib")
+#pragma comment (lib, "Bullet/libx86/BulletCollision.lib")
+#pragma comment (lib, "Bullet/libx86/LinearMath.lib")
 #endif
 
 ModulePhysics3D::ModulePhysics3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	debug = true;
-
+	
 	collision_conf = new btDefaultCollisionConfiguration();
 	dispatcher = new btCollisionDispatcher(collision_conf);
 	broad_phase = new btDbvtBroadphase();
@@ -65,7 +65,7 @@ bool ModulePhysics3D::Start()
 		btRigidBody* body = new btRigidBody(rbInfo);
 		world->addRigidBody(body);
 	}
-
+	
 	return true;
 }
 
@@ -128,14 +128,6 @@ update_status ModulePhysics3D::Update(float dt)
 		{
 			item->data->Render();
 			item = item->next;
-		}
-
-		if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-		{
-			Sphere s(1);
-			s.SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
-			float force = 30.0F;
-			AddBody(s)->Push(-(App->camera->Z.x * force), -(App->camera->Z.y * force), -(App->camera->Z.z * force));
 		}
 	}
 

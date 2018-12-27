@@ -11,7 +11,7 @@ class vec3;
 struct PhysBody3D
 {
 	friend class ModulePhysics3D;
-	enum class state { PLAYER, NITRO, CHECKPOINT 
+	enum class state { PLAYER, NITRO, CHECKPOINT, GHOST
 	};
 
 public:
@@ -37,4 +37,4 @@ public:
 	bool on_collision = true;
 };
 
-#endif // __PhysBody3D_H__
+#endif //__PhysBody3D_H__

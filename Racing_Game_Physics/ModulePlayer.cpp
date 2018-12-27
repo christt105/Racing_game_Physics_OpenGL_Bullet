@@ -110,6 +110,12 @@ bool ModulePlayer::Start()
 	// Timer
 	timer.Start();
 
+	ghost = App->physics->AddVehicle(car);
+	ghost->SetState(PhysBody3D::state::GHOST);
+	ghost->SetPos(0, 1, 0);
+	ghost->SetListener(true);
+	//App->physics->DestroyBody(ghost);
+
 	return true;
 }
 
@@ -234,8 +240,4 @@ void ModulePlayer::NitroSpeed()
 		accelerating = true;
 	}
 	
-	
-
 }
-
-

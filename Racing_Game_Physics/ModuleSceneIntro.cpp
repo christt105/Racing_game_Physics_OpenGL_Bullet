@@ -48,7 +48,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		map[i]->Render();
 	}
-
+	
 	// Nitro Scene Objects
 	for (uint i = 0; i < nitro_objects.Count(); i++)
 	{
