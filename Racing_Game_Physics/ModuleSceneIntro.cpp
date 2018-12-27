@@ -24,16 +24,16 @@ bool ModuleSceneIntro::Start()
 
 	//Map creation
 	Cube road(1, 3, 1);
-	road.color.Set(0.0f, 0.0f, 1.0f);
+	road.color.Set(0.0f, 0.0f, 0.0f);
 
 	CreateRect(-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::NORTH);
 	CreateCurve(-20-7.0f, 0.0f, 100, 15, 180, 0, road, 20);
 	
 	// Nitro Objects
-	NitroObject({ -17, 1, 30 }, 3, 20);
+	NitroObject({ -23, 1, 30 }, 3, 20);
 	
 	//Checkpoint Objects
-	//CreateCheckpoint({7, 1, 50});
+	CreateCheckpoint({0, 1, 50});
 	return ret;
 }
 
@@ -43,7 +43,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 		camera_free = !camera_free;
 
-	//Render Map ==============================
+	//Render Map 
 	for (int i = 0; i < map.Count(); i++)
 	{
 		map[i]->Render();
@@ -55,6 +55,11 @@ update_status ModuleSceneIntro::Update(float dt)
 		nitro_objects[i].Render();
 	}
 
+	// Checkpoints Scene Objects
+	for (uint i = 0; i < checkpoint_objects.Count(); i++)
+	{
+		checkpoint_objects[i].Render();
+	}
 	return UPDATE_CONTINUE;
 }
 
@@ -69,6 +74,9 @@ bool ModuleSceneIntro::CleanUp()
 
 	/*for (int i = 0; i < nitro_objects.Count(); i++)
 		delete nitro_objects[i];*/
+
+	/*for (int i = 0; i < checkpoint_objects.Count(); i++)
+		delete checkpoint_objects[i];*/
 
 	return true;
 }
@@ -193,7 +201,7 @@ void ModuleSceneIntro::PickUpNitroObject(PhysBody3D * nitro_body)
 
 void ModuleSceneIntro::CreateCheckpoint(vec3 pos)
 {
-	Cube checkpoint_obj(25, 2, 2);
+	Cube checkpoint_obj(15, 2, 2);
 	checkpoint_obj.color.Set(0, 255, 0, 1.F);
 	checkpoint_obj.SetPos(pos.x, pos.y, pos.z);
 	checkpoint_objects.PushBack(checkpoint_obj);
