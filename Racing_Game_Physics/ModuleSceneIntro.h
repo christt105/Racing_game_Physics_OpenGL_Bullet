@@ -33,7 +33,7 @@ public:
 
 	//void CreateRect(int x, int y, int z, int x_width, int high, int y_width);
 	void CreateRect(const float &x, const float &y, const float &z, const float &width, const float &length, const Cube & cube, ORIENTATION orientation = ORIENTATION::NORTH);
-	void CreateCurve();
+	void CreateCurve(const float &x, const float &y, const float &z, const float & width, const float & angle_i, const float & angle_f, const Cube & cube, const float & radius);
 	//void CreateRamp(const float & x, const float & y, const float & z, const float & inclination = 10.0f, const float& rotation = 0.0f);
 
 	void NitroObject(vec3 pos, int size, int distance_to);

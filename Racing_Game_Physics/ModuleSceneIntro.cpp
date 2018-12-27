@@ -27,13 +27,7 @@ bool ModuleSceneIntro::Start()
 	road.color.Set(0.0f, 0.0f, 0.0f);
 
 	CreateRect(-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::NORTH);
-	CreateRect(-7.0f, 0, 100, 15, 100, road, ORIENTATION::EAST);
-	CreateRect(-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::SOUTH);
-	CreateRect(-7.0f, 0, -100, 15, 100, road, ORIENTATION::WEST);
-	CreateRect(-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::EAST);
-	CreateRect(100-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::NORTH);
-	CreateRect(7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::WEST);
-	CreateRect(-100-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::SOUTH);
+	CreateCurve(-20-7.0f, 0.0f, 100, 15, 180, 0, road, 20);
 	
 	// Nitro Objects
 	NitroObject({ -23, 1, 30 }, 3, 20);
@@ -143,8 +137,20 @@ void ModuleSceneIntro::CreateRect(const float & x, const float & y, const float 
 	}	
 }
 
-void ModuleSceneIntro::CreateCurve()
+void ModuleSceneIntro::CreateCurve(const float & x, const float & y, const float & z, const float & width, const float & angle_i, const float & angle_f, const Cube & cube, const float & radius)
 {
+
+	//PhysBody3D* phys = nullptr;
+	Cube* c = nullptr;
+	//float l = 2 * 3.1415F * radius * angle_f / 360;
+	
+	for (int i = angle_f; i < angle_i-angle_f; ++i) {
+		c = new Cube(cube);
+		c->SetPos(x+radius*cos(i), y, z+radius*sin(i));
+		App->physics->AddBody(*c, 0.0F);
+		map.PushBack(c);
+	}
+	
 }
 
 //void ModuleSceneIntro::CreateRamp(const float & x, const float & y, const float & z, const float & inclination, const float & rotation)
