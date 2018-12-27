@@ -42,5 +42,7 @@ private:
 	int current_time = 0;
 	int start_time = 0;
 	Timer timer;
-	int live_time = 0;
+	int time_sec = 0;
+	int time_min = 0;
+	int timer_manager = 0;
 };

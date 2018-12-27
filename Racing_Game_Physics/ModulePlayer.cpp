@@ -196,8 +196,15 @@ update_status ModulePlayer::Update(float dt)
 	}
 	char title[80];
 
-	live_time = timer.Read() / 1000;
-	sprintf_s(title, "Velocity: %.1F Km/h || Nitro: %d || Timer: %d", vehicle->GetKmh(), nitro, live_time);
+	// Timer Manage
+	time_sec = (timer.Read() / 1000) - timer_manager;
+	if (time_sec >= 2)
+	{
+		time_min++;
+		timer_manager = 2 * time_min;
+	}
+
+	sprintf_s(title, "Velocity: %.1F Km/h || Nitro: %d || Timer: %.2d:%.2d", vehicle->GetKmh(), nitro, time_min, time_sec);
 	App->window->SetTitle(title);
 
 	return UPDATE_CONTINUE;
