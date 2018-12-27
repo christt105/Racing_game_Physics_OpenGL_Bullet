@@ -29,13 +29,13 @@ public:
 	float turn;
 	float acceleration;
 	float brake;
+	bool nitro = true;
 
 private:
 	vec3 direction;
 	vec3 axis;
 	bool accelerating = false;
 	bool decelerating = false;
-	bool nitro = true;
 
 	int current_time = 0;
 	int start_time = 0;

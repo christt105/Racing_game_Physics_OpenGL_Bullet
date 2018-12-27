@@ -127,6 +127,7 @@ void ModuleSceneIntro::PickUpNitroObject(PhysBody3D * point)
 			nitro_objects_body.Pop(nitro_objects_body[i]);
 		}
 	}
+	App->player->nitro = true;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
