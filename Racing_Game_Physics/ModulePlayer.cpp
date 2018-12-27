@@ -176,9 +176,9 @@ update_status ModulePlayer::Update(float dt)
 	}
 	turn = acceleration = brake = 0.0F;
 
-	if (vehicle->GetKmh() >= 0 && accelerating)
+	if (vehicle->GetKmh() >= 1 && accelerating)
 		acceleration = -MAX_ACCELERATION;
-	else if (vehicle->GetKmh() <= 0 && decelerating)
+	else if (vehicle->GetKmh() <= -1 && decelerating)
 		acceleration = MAX_ACCELERATION;
 	else
 	{
@@ -260,7 +260,7 @@ void ModulePlayer::NitroSpeed()
 	
 	if (current_time <= 1500)
 	{
-  		acceleration = MAX_ACCELERATION * 5;
+  		acceleration = MAX_ACCELERATION * 2;
 		accelerating = true;
 	}
 	
