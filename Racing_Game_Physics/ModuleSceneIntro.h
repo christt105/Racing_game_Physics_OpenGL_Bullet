@@ -9,6 +9,18 @@
 struct PhysBody3D;
 struct PhysMotor3D;
 
+enum class ORIENTATION {
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST,
+
+	NORTHEAST,
+	NORTHWEST,
+	SOUTHEAST,
+	SOUTHWEST
+};
+
 class ModuleSceneIntro : public Module
 {
 public:
@@ -20,7 +32,7 @@ public:
 	bool CleanUp();
 
 	//void CreateRect(int x, int y, int z, int x_width, int high, int y_width);
-	void CreateRect(const float &x, const float &y, const float &z, const float &width, const float &length, Cube &cube);
+	void CreateRect(const float &x, const float &y, const float &z, const float &width, const float &length, Cube &cube, ORIENTATION orientation = ORIENTATION::NORTH);
 	void CreateCurve();
 	void CreateRamp();
 

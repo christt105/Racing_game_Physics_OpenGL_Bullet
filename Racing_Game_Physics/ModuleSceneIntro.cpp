@@ -23,18 +23,14 @@ bool ModuleSceneIntro::Start()
 	// Global Floor
 	Cube* c = new Cube(300, -1, 300);
 	c->color.Set(125, 125, 125, 0.25F);
-	//c->SetPos(App->physics->AddBody(*c)->GetPosition());
 	map.PushBack(c);
 
-	// Rects (x, y, z, x_width, high, y_width)
 	Cube road(1, 1, 1);
 	road.color.Set(0.0f, 0.0f, 1.0f);
-	CreateRect(0.0f, 0.0f, 0.0f, 15, 100, road);
-	/*CreateRect(5, 0, 10, 10, 1, 30);
-	CreateRect(15, 0, 40, 30, 1, 10);
-	CreateRect(30, 0, -20, 30, 1, 10);
-	CreateRect(15, 0, 0, 30, 1, 10);
-	CreateRect(50, 0, 40, 10, 1, 30);*/
+	CreateRect(-7.0f, 0.0f, 0.0f, 15, 100, road);
+	CreateRect(-7.0f, 0.0f, 0.0f, 15, 100, road,ORIENTATION::SOUTH);
+	CreateRect(-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::EAST);
+	CreateRect(-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::WEST);
 	
 	return ret;
 }
@@ -63,27 +59,52 @@ bool ModuleSceneIntro::CleanUp()
 	return true;
 }
 
-void ModuleSceneIntro::CreateRect(const float & x, const float & y, const float & z, const float & width, const float &length, Cube &cube)
+void ModuleSceneIntro::CreateRect(const float & x, const float & y, const float & z, const float & width, const float &length, Cube &cube, ORIENTATION orientation)
 {
-	PhysBody3D* phys = nullptr;
-	Cube* c = nullptr;
+	PhysBody3D* phys1 = nullptr;
+	PhysBody3D* phys2 = nullptr;
+	Cube* c1 = nullptr;
+	Cube* c2 = nullptr;
 	
 	for (int i = 0; i < length; ++i) {
-		phys = App->physics->AddBody(cube,0.0F);
-		phys->SetPos(x, y, z + cube.size.x*i);
-		c = new Cube(cube);
-		c->SetPos(phys->GetPosition());
-		map.PushBack(c);
-	}
-
-	for (int i = 0; i < length; ++i) {
-		phys = App->physics->AddBody(cube, 0.0F);
-		phys->SetPos(x + width, y, z + cube.size.x*i);
-		c = new Cube(cube);
-		c->SetPos(phys->GetPosition());
-		map.PushBack(c);
-	}
-	
+		phys1 = App->physics->AddBody(cube, 0.0F);
+		phys2 = App->physics->AddBody(cube, 0.0F);
+		switch (orientation)
+		{
+		case ORIENTATION::NORTH:
+			phys1->SetPos(x, y, z + cube.size.x*i);
+			phys2->SetPos(x + width, y, z + cube.size.x*i);
+			break;
+		case ORIENTATION::SOUTH:
+			phys1->SetPos(x, y, z - cube.size.x*i);
+			phys2->SetPos(x + width, y, z - cube.size.x*i);
+			break;
+		case ORIENTATION::EAST:
+			phys1->SetPos(x + cube.size.x*i, y, z);
+			phys2->SetPos(x + cube.size.x*i, y, z + width);
+			break;
+		case ORIENTATION::WEST:
+			phys1->SetPos(x - cube.size.x*i, y, z);
+			phys2->SetPos(x - cube.size.x*i, y, z + width);
+			break;
+		case ORIENTATION::NORTHEAST:
+			break;
+		case ORIENTATION::NORTHWEST:
+			break;
+		case ORIENTATION::SOUTHEAST:
+			break;
+		case ORIENTATION::SOUTHWEST:
+			break;
+		default:
+			break;
+		}
+		c1 = new Cube(cube);
+		c2 = new Cube(cube);
+		c1->SetPos(phys1->GetPosition());
+		c2->SetPos(phys2->GetPosition());
+		map.PushBack(c1);
+		map.PushBack(c2);
+	}	
 }
 
 void ModuleSceneIntro::CreateCurve()
