@@ -139,18 +139,18 @@ void ModuleSceneIntro::CreateRect(const float & x, const float & y, const float 
 
 void ModuleSceneIntro::CreateCurve(const float & x, const float & y, const float & z, const float & width, const float & angle_i, const float & angle_f, const Cube & cube, const float & radius)
 {
-
-	//PhysBody3D* phys = nullptr;
-	Cube* c = nullptr;
-	//float l = 2 * 3.1415F * radius * angle_f / 360;
+	Cube* c1 = nullptr;
+	Cube* c2 = nullptr;
 	
 	for (int i = angle_f; i < angle_i - angle_f; i = i + cube.size.x*10) {
-		c = new Cube(cube);
-		c->SetPos(x + radius * cos(i*3.1415 / 360), y, z + radius * sin(i*3.1415 / 360));
-		LOG("%i sin(i) = %.2f", i, z + radius * sin(i*3.1415 / 360));
-		vec3 pos = App->physics->AddBody(*c, 0.0F)->GetPosition();
-		//LOG("pos (%.2f, %.2f)", pos.x, pos.z);
-		map.PushBack(c);
+		c1 = new Cube(cube);
+		c2 = new Cube(cube);
+		c1->SetPos(x + radius * cos(i*3.1415 / 360), y, z + radius * sin(i*3.1415 / 360));
+		c2->SetPos(x + (radius + width) * cos(i*3.1415 / 360), y, z + (radius + width) * sin(i*3.1415 / 360));
+		App->physics->AddBody(*c1, 0.0F);
+		App->physics->AddBody(*c2, 0.0F);
+		map.PushBack(c1);
+		map.PushBack(c2);
 	}
 	
 }
