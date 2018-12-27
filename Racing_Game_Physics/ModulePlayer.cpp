@@ -112,7 +112,6 @@ bool ModulePlayer::Start()
 	ghost->SetState(PhysBody3D::state::GHOST);
 	ghost->SetPos(0, 1, 0);
 	ghost->SetListener(true);
-	//App->physics->DestroyBody(ghost);
 
 	return true;
 }
@@ -135,7 +134,46 @@ update_status ModulePlayer::Update(float dt)
 			break;
 		}
 	}
-	
+	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {
+		save_ghost_data = !save_ghost_data;
+		timer.Start();
+	}
+
+	if (save_ghost_data) {
+		if (timer.Read() > 1000) {
+			ghost_pos.PushBack(vehicle->GetPosition());
+			LOG("Saved position(%.2f, %.2f, %.2f) on %i", ghost_pos[ghost_pos.Count()-1].x, ghost_pos[ghost_pos.Count()-1].y, ghost_pos[ghost_pos.Count()-1].z, ghost_pos.Count());
+			timer.Start();
+		}
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
+		timer.Stop();
+		timer.Start();
+		save_ghost_data = false;
+		path_ghost = true;
+		iterator_ghost = 0;
+		ghost->SetPos(ghost_pos[0]);
+	}
+
+	if (path_ghost) {
+		if (timer.Read() > 1000) {
+			/*if (iterator_ghost+1 >= ghost_pos.Count())
+				iterator_ghost = 0;*/
+			if (iterator_ghost + 1 >= ghost_pos.Count()) {
+				path_ghost = false;
+				ghost_pos.Clear();
+				timer.Stop();
+				/*for (int i = 0; i < ghost_pos.Count(); ++i) {
+					delete ghost_pos[i];
+				}*/
+			}
+			else {
+				ghost->SetPos(ghost_pos[++iterator_ghost]);
+				timer.Start();
+			}
+		}
+	}
 	turn = acceleration = brake = 0.0F;
 
 	if (vehicle->GetKmh() >= 0 && accelerating)

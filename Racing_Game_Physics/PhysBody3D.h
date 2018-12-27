@@ -24,6 +24,7 @@ public:
 	void SetListener(bool listener);
 	void SetTransform(const float* matrix) const;
 	void SetPos(float x, float y, float z);
+	void SetPos(const vec3& pos);
 	state GetState();
 	void SetState(state current_state);
 

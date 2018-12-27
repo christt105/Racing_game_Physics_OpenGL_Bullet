@@ -71,6 +71,13 @@ void PhysBody3D::SetPos(float x, float y, float z)
 	body->setWorldTransform(t);
 }
 
+void PhysBody3D::SetPos(const vec3 &pos)
+{
+	btTransform t = body->getWorldTransform();
+	t.setOrigin(btVector3(pos.x, pos.y, pos.z));
+	body->setWorldTransform(t);
+}
+
 PhysBody3D::state PhysBody3D::GetState()
 {
 	return current_state;

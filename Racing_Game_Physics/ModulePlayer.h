@@ -39,6 +39,10 @@ private:
 	bool accelerating = false;
 	bool decelerating = false;
 	p2DynArray<vec3> ghost_pos;
+	bool save_ghost_data = false;
+	bool path_ghost = false;
+	int iterator_ghost = 0;
+	Timer timer;
 
 	int current_time = 0;
 	int start_time = 0;
