@@ -36,9 +36,15 @@ public:
 	void CreateCurve();
 	void CreateRamp();
 
+	void NitroObject(vec3 pos, int size, int distance_to);
+	void PickUpNitroObject(PhysBody3D* nitro_obj);
+
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 public:
 	bool camera_free = false;
 	p2DynArray <Cube*> map;
+	p2DynArray <Sphere> nitro_objects;
+	p2DynArray <PhysBody3D*> nitro_objects_body;
+
 };

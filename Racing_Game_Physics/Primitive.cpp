@@ -26,33 +26,33 @@ void Primitive::Render() const
 	if(axis == true)
 	{
 		// Draw Axis Grid
-		glLineWidth(2.0f);
+		glLineWidth(2.0F);
 
 		glBegin(GL_LINES);
 
-		glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+		glColor4f(1.0F, 0.0F, 0.0F, 1.0F);
 
-		glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(1.0f, 0.0f, 0.0f);
-		glVertex3f(1.0f, 0.1f, 0.0f); glVertex3f(1.1f, -0.1f, 0.0f);
-		glVertex3f(1.1f, 0.1f, 0.0f); glVertex3f(1.0f, -0.1f, 0.0f);
+		glVertex3f(0.0F, 0.0F, 0.0F); glVertex3f(1.0F, 0.0F, 0.0F);
+		glVertex3f(1.0F, 0.1F, 0.0F); glVertex3f(1.1F, -0.1F, 0.0F);
+		glVertex3f(1.1F, 0.1F, 0.0F); glVertex3f(1.0F, -0.1F, 0.0F);
 
-		glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+		glColor4f(0.0F, 1.0F, 0.0F, 1.0F);
 
-		glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(-0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
-		glVertex3f(0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
-		glVertex3f(0.0f, 1.15f, 0.0f); glVertex3f(0.0f, 1.05f, 0.0f);
+		glVertex3f(0.0F, 0.0F, 0.0F); glVertex3f(0.0F, 1.0F, 0.0F);
+		glVertex3f(-0.05F, 1.25F, 0.0F); glVertex3f(0.0F, 1.15F, 0.0F);
+		glVertex3f(0.05F, 1.25F, 0.0F); glVertex3f(0.0F, 1.15F, 0.0F);
+		glVertex3f(0.0F, 1.15F, 0.0F); glVertex3f(0.0F, 1.05F, 0.0F);
 
-		glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+		glColor4f(0.0F, 0.0F, 1.0F, 1.0F);
 
-		glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 1.0f);
-		glVertex3f(-0.05f, 0.1f, 1.05f); glVertex3f(0.05f, 0.1f, 1.05f);
-		glVertex3f(0.05f, 0.1f, 1.05f); glVertex3f(-0.05f, -0.1f, 1.05f);
-		glVertex3f(-0.05f, -0.1f, 1.05f); glVertex3f(0.05f, -0.1f, 1.05f);
+		glVertex3f(0.0F, 0.0F, 0.0F); glVertex3f(0.0F, 0.0F, 1.0F);
+		glVertex3f(-0.05F, 0.1F, 1.05F); glVertex3f(0.05F, 0.1F, 1.05F);
+		glVertex3f(0.05F, 0.1F, 1.05F); glVertex3f(-0.05F, -0.1F, 1.05F);
+		glVertex3f(-0.05F, -0.1F, 1.05F); glVertex3f(0.05F, -0.1F, 1.05F);
 
 		glEnd();
 
-		glLineWidth(1.0f);
+		glLineWidth(1.0F);
 	}
 
 	glColor3f(color.r, color.g, color.b);
@@ -70,15 +70,15 @@ void Primitive::Render() const
 // ------------------------------------------------------------
 void Primitive::InnerRender() const
 {
-	glPointSize(5.0f);
+	glPointSize(5.0F);
 
 	glBegin(GL_POINTS);
 
-	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(0.0F, 0.0F, 0.0F);
 
 	glEnd();
 
-	glPointSize(1.0f);
+	glPointSize(1.0F);
 }
 
 // ------------------------------------------------------------
@@ -105,7 +105,7 @@ void Primitive::Scale(float x, float y, float z)
 }
 
 // CUBE ============================================
-Cube::Cube() : Primitive(), size(1.0f, 1.0f, 1.0f)
+Cube::Cube() : Primitive(), size(1.0F, 1.0F, 1.0F)
 {
 	type = PrimitiveTypes::Primitive_Cube;
 }
@@ -117,43 +117,43 @@ Cube::Cube(float sizeX, float sizeY, float sizeZ) : Primitive(), size(sizeX, siz
 
 void Cube::InnerRender() const
 {	
-	float sx = size.x * 0.5f;
-	float sy = size.y * 0.5f;
-	float sz = size.z * 0.5f;
+	float sx = size.x * 0.5F;
+	float sy = size.y * 0.5F;
+	float sz = size.z * 0.5F;
 
 	glBegin(GL_QUADS);
 
-	glNormal3f(0.0f, 0.0f, 1.0f);
+	glNormal3f(0.0F, 0.0F, 1.0F);
 	glVertex3f(-sx, -sy, sz);
 	glVertex3f( sx, -sy, sz);
 	glVertex3f( sx,  sy, sz);
 	glVertex3f(-sx,  sy, sz);
 
-	glNormal3f(0.0f, 0.0f, -1.0f);
+	glNormal3f(0.0F, 0.0F, -1.0F);
 	glVertex3f( sx, -sy, -sz);
 	glVertex3f(-sx, -sy, -sz);
 	glVertex3f(-sx,  sy, -sz);
 	glVertex3f( sx,  sy, -sz);
 
-	glNormal3f(1.0f, 0.0f, 0.0f);
+	glNormal3f(1.0F, 0.0F, 0.0F);
 	glVertex3f(sx, -sy,  sz);
 	glVertex3f(sx, -sy, -sz);
 	glVertex3f(sx,  sy, -sz);
 	glVertex3f(sx,  sy,  sz);
 
-	glNormal3f(-1.0f, 0.0f, 0.0f);
+	glNormal3f(-1.0F, 0.0F, 0.0F);
 	glVertex3f(-sx, -sy, -sz);
 	glVertex3f(-sx, -sy,  sz);
 	glVertex3f(-sx,  sy,  sz);
 	glVertex3f(-sx,  sy, -sz);
 
-	glNormal3f(0.0f, 1.0f, 0.0f);
+	glNormal3f(0.0F, 1.0F, 0.0F);
 	glVertex3f(-sx, sy,  sz);
 	glVertex3f( sx, sy,  sz);
 	glVertex3f( sx, sy, -sz);
 	glVertex3f(-sx, sy, -sz);
 
-	glNormal3f(0.0f, -1.0f, 0.0f);
+	glNormal3f(0.0F, -1.0F, 0.0F);
 	glVertex3f(-sx, -sy, -sz);
 	glVertex3f( sx, -sy, -sz);
 	glVertex3f( sx, -sy,  sz);
@@ -163,7 +163,7 @@ void Cube::InnerRender() const
 }
 
 // SPHERE ============================================
-Sphere::Sphere() : Primitive(), radius(1.0f)
+Sphere::Sphere() : Primitive(), radius(1.0F)
 {
 	type = PrimitiveTypes::Primitive_Sphere;
 }
@@ -180,7 +180,7 @@ void Sphere::InnerRender() const
 
 
 // CYLINDER ============================================
-Cylinder::Cylinder() : Primitive(), radius(1.0f), height(1.0f)
+Cylinder::Cylinder() : Primitive(), radius(1.0F), height(1.0F)
 {
 	type = PrimitiveTypes::Primitive_Cylinder;
 }
@@ -200,17 +200,17 @@ void Cylinder::InnerRender() const
 	for(int i = 360; i >= 0; i -= (360 / n))
 	{
 		float a = i * M_PI / 180; // degrees to radians
-		glVertex3f(-height*0.5f, radius * cos(a), radius * sin(a));
+		glVertex3f(-height*0.5F, radius * cos(a), radius * sin(a));
 	}
 	glEnd();
 
 	// Cylinder Top
 	glBegin(GL_POLYGON);
-	glNormal3f(0.0f, 0.0f, 1.0f);
+	glNormal3f(0.0F, 0.0F, 1.0F);
 	for(int i = 0; i <= 360; i += (360 / n))
 	{
 		float a = i * M_PI / 180; // degrees to radians
-		glVertex3f(height * 0.5f, radius * cos(a), radius * sin(a));
+		glVertex3f(height * 0.5F, radius * cos(a), radius * sin(a));
 	}
 	glEnd();
 
@@ -220,8 +220,8 @@ void Cylinder::InnerRender() const
 	{
 		float a = i * M_PI / 180; // degrees to radians
 
-		glVertex3f(height*0.5f,  radius * cos(a), radius * sin(a) );
-		glVertex3f(-height*0.5f, radius * cos(a), radius * sin(a) );
+		glVertex3f(height*0.5F,  radius * cos(a), radius * sin(a) );
+		glVertex3f(-height*0.5F, radius * cos(a), radius * sin(a) );
 	}
 	glEnd();
 }
@@ -239,7 +239,7 @@ Line::Line(float x, float y, float z) : Primitive(), origin(0, 0, 0), destinatio
 
 void Line::InnerRender() const
 {
-	glLineWidth(2.0f);
+	glLineWidth(2.0F);
 
 	glBegin(GL_LINES);
 
@@ -248,7 +248,7 @@ void Line::InnerRender() const
 
 	glEnd();
 
-	glLineWidth(1.0f);
+	glLineWidth(1.0F);
 }
 
 // PLANE ==================================================
@@ -264,18 +264,18 @@ Plane::Plane(float x, float y, float z, float d) : Primitive(), normal(x, y, z),
 
 void Plane::InnerRender() const
 {
-	glLineWidth(1.0f);
+	glLineWidth(1.0F);
 
 	glBegin(GL_LINES);
 
-	float d = 200.0f;
+	float d = 200.0F;
 
-	for(float i = -d; i <= d; i += 1.0f)
+	for(float i = -d; i <= d; i += 1.0F)
 	{
-		glVertex3f(i, 0.0f, -d);
-		glVertex3f(i, 0.0f, d);
-		glVertex3f(-d, 0.0f, i);
-		glVertex3f(d, 0.0f, i);
+		glVertex3f(i, 0.0F, -d);
+		glVertex3f(i, 0.0F, d);
+		glVertex3f(-d, 0.0F, i);
+		glVertex3f(d, 0.0F, i);
 	}
 
 	glEnd();

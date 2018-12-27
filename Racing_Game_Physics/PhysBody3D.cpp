@@ -35,6 +35,23 @@ vec3 PhysBody3D::GetPosition() const
 	return vec3(vector.getX(), vector.getY(), vector.getZ());
 }
 
+void PhysBody3D::SetListener(bool listener)
+{
+	if (this->listener_on != listener)
+	{
+		this->listener_on = listener;
+
+		if (listener == true)
+		{
+			body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+		}
+		else
+		{
+			body->setCollisionFlags(body->getCollisionFlags() &~btCollisionObject::CF_NO_CONTACT_RESPONSE);
+		}
+	}
+}
+
 // ---------------------------------------------------------
 void PhysBody3D::SetTransform(const float* matrix) const
 {
@@ -52,4 +69,15 @@ void PhysBody3D::SetPos(float x, float y, float z)
 	btTransform t = body->getWorldTransform();
 	t.setOrigin(btVector3(x, y, z));
 	body->setWorldTransform(t);
+}
+
+PhysBody3D::state PhysBody3D::GetState()
+{
+	return current_state;
+}
+
+
+void PhysBody3D::SetState(state current_state)
+{
+	this->current_state = current_state;
 }

@@ -16,15 +16,13 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
-
-	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
-	App->camera->LookAt(vec3(0, 0, 0));
 	
-	// Global Floor
+	// Floor
 	Cube* c = new Cube(300, -1, 300);
 	c->color.Set(125, 125, 125, 0.25F);
 	map.PushBack(c);
 
+	//Map creation
 	Cube road(1, 3, 1);
 	road.color.Set(0.0f, 0.0f, 1.0f);
 
@@ -34,8 +32,11 @@ bool ModuleSceneIntro::Start()
 	CreateRect(-7.0f, 0, -100, 15, 100, road, ORIENTATION::WEST);
 	CreateRect(-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::EAST);
 	CreateRect(100-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::NORTH);
-	CreateRect(-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::WEST);
+	CreateRect(7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::WEST);
 	CreateRect(-100-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::SOUTH);
+	
+	// Nitro Objects
+	NitroObject({ -17, 1, 30 }, 3, 20);
 	
 	return ret;
 }
@@ -51,7 +52,13 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		map[i]->Render();
 	}
-	
+
+	// Nitro Scene Objects
+	for (uint i = 0; i < nitro_objects.Count(); i++)
+	{
+		nitro_objects[i].Render();
+	}
+
 	return UPDATE_CONTINUE;
 }
 
@@ -61,8 +68,11 @@ bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
 
-	for (int i = 0; i < map.Count(); ++i)
+	for (uint i = 0; i < map.Count(); ++i)
 		delete map[i];
+
+	/*for (int i = 0; i < nitro_objects.Count(); i++)
+		delete nitro_objects[i];*/
 
 	return true;
 }
@@ -131,7 +141,45 @@ void ModuleSceneIntro::CreateRamp()
 {
 }
 
+void ModuleSceneIntro::NitroObject(vec3 pos, int size, int distance_to)
+{
+	for (int i = 0; i < size; i++)
+	{
+		Sphere nitro_obj(1);
+		nitro_obj.color.Set(255, 0, 128, 1.F);
+		nitro_obj.SetPos(pos.x + distance_to, pos.y, pos.z);
+		nitro_objects.PushBack(nitro_obj);
+		distance_to += 4;
+		PhysBody3D* sensor = App->physics->AddBody(nitro_obj, 0);
+		sensor->SetListener(true);
+		sensor->SetState(PhysBody3D::state::NITRO);
+		nitro_objects_body.PushBack(sensor);
+	} 
+}
+
+void ModuleSceneIntro::PickUpNitroObject(PhysBody3D * point)
+{
+	for (uint i = 0; i < nitro_objects_body.Count(); i++)
+	{
+		if (nitro_objects_body[i] == point)
+		{
+			nitro_objects.Pop(nitro_objects[i]);
+			nitro_objects_body.Pop(nitro_objects_body[i]);
+		}
+	}
+	App->player->nitro = true;
+}
+
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
+	if (body1->on_collision && body2->on_collision)
+	{
+		if (body2->GetState() == PhysBody3D::state::NITRO)
+		{
+			PickUpNitroObject(body2);
+			App->physics->DestroyBody(body2);
+		}
+
+	}
 }
 
