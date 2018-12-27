@@ -223,7 +223,11 @@ void ModuleSceneIntro::Checkpoint(PhysBody3D* checkpoint_body)
 			checkpoint_objects_body.Pop(nitro_objects_body[i]);
 		}
 	}
-
+	//Checkpoints 1 - 4
+	if(App->player->checkpoint_value >= 4)
+		App->player->checkpoint_value = 0;
+	else if(App->player->checkpoint_value == 0)
+		App->player->checkpoint_value =1;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)

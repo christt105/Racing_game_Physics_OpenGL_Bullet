@@ -2,6 +2,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "p2Point.h"
+#include "Timer.h"
 
 struct PhysVehicle3D;
 
@@ -40,5 +41,6 @@ private:
 
 	int current_time = 0;
 	int start_time = 0;
-
+	Timer timer;
+	int live_time = 0;
 };
