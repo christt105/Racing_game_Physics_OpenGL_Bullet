@@ -6,6 +6,7 @@
 struct PhysVehicle3D;
 
 #define MAX_ACCELERATION 3000.0f
+#define MAX_DECCELERATION -5000.0f
 #define TURN_DEGREES 15.0f * DEGTORAD
 #define BRAKE_POWER 1000.0f
 #define CAMERA_OFFSET_X 10
@@ -30,7 +31,7 @@ public:
 	float acceleration;
 	float brake;
 	bool nitro = true;
-
+	int checkpoint_value = 0;
 private:
 	vec3 direction;
 	vec3 axis;

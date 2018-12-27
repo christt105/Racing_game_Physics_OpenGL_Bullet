@@ -116,6 +116,16 @@ update_status ModulePlayer::Update(float dt)
 	
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
 		vehicle->SetPos(0, 12, 10);
+
+		switch (checkpoint_value)
+		{
+		case 0:
+			vehicle->SetPos(0, 1, 0);
+		case 1:
+			vehicle->SetPos(0, 1, 50);
+		default:
+			break;
+		}
 	}
 	
 	turn = acceleration = brake = 0.0F;
@@ -133,7 +143,12 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
-		acceleration = MAX_ACCELERATION;
+		
+		if (vehicle->GetKmh() >= 80)
+			acceleration = 0;
+		else
+			acceleration = MAX_ACCELERATION;
+
 		accelerating = true;
 	}
 
@@ -151,8 +166,11 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
-		acceleration = -MAX_ACCELERATION;
-		decelerating = true;
+		if (vehicle->GetKmh() <= -50)
+			acceleration = 0;
+		else
+			acceleration = MAX_DECCELERATION;
+		decelerating = true;    
 	}
 	
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
