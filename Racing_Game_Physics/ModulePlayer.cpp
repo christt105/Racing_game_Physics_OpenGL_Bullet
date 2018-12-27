@@ -107,13 +107,16 @@ bool ModulePlayer::Start()
 		vehicle->GetPosition().z - vehicle->GetLocalPosition().z * CAMERA_OFFSET_Z);
 	App->camera->LookAt(vehicle->GetPosition());
 
+	// Timer
+	timer.Start();
+
 	return true;
 }
 
 // Update: draw background
 update_status ModulePlayer::Update(float dt)
 {
-	
+	// Inputs
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
 		switch (checkpoint_value)
 		{
@@ -192,7 +195,9 @@ update_status ModulePlayer::Update(float dt)
 		App->camera->LookAt(vehicle->GetPosition());
 	}
 	char title[80];
-	sprintf_s(title, "Velocity: %.1f Km/h || Nitro: %d", vehicle->GetKmh(), nitro);
+
+	live_time = timer.Read() / 1000;
+	sprintf_s(title, "Velocity: %.1F Km/h || Nitro: %d || Timer: %d", vehicle->GetKmh(), nitro, live_time);
 	App->window->SetTitle(title);
 
 	return UPDATE_CONTINUE;
