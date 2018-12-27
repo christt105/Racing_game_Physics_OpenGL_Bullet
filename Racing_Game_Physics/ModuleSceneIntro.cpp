@@ -75,7 +75,7 @@ update_status ModuleSceneIntro::Update(float dt)
 		time_min++;
 		timer_manager = 60 * time_min;
 	}
-	if(timer.Read()/1000 == 240)
+	if(timer.Read()/1000 == 235)
 		App->audio->PlayMusic("Audio/Music/60 Seconds.ogg");
 
 	char title[80];
