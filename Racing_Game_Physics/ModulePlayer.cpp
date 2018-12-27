@@ -115,15 +115,16 @@ update_status ModulePlayer::Update(float dt)
 {
 	
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
-		vehicle->SetPos(0, 12, 10);
-
 		switch (checkpoint_value)
 		{
 		case 0:
 			vehicle->SetPos(0, 1, 0);
+			break;
 		case 1:
 			vehicle->SetPos(0, 1, 50);
+			break;
 		default:
+			vehicle->SetPos(0, 1, 0);
 			break;
 		}
 	}
