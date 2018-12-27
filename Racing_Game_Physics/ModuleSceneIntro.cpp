@@ -34,6 +34,8 @@ bool ModuleSceneIntro::Start()
 	// Nitro Objects
 	NitroObject({ -17, 1, 30 }, 3, 20);
 	
+	//Checkpoint Objects
+	//CreateCheckpoint({7, 1, 50});
 	return ret;
 }
 
@@ -117,17 +119,42 @@ void ModuleSceneIntro::NitroObject(vec3 pos, int size, int distance_to)
 	} 
 }
 
-void ModuleSceneIntro::PickUpNitroObject(PhysBody3D * point)
+void ModuleSceneIntro::PickUpNitroObject(PhysBody3D * nitro_body)
 {
-	for (uint i = 0; i < nitro_objects_body.Count(); i++)
+	for (int i = 0; i < nitro_objects_body.Count(); i++)
 	{
-		if (nitro_objects_body[i] == point)
+		if (nitro_objects_body[i] == nitro_body)
 		{
 			nitro_objects.Pop(nitro_objects[i]);
 			nitro_objects_body.Pop(nitro_objects_body[i]);
 		}
 	}
 	App->player->nitro = true;
+}
+
+void ModuleSceneIntro::CreateCheckpoint(vec3 pos)
+{
+	Cube checkpoint_obj(25, 2, 2);
+	checkpoint_obj.color.Set(0, 255, 0, 1.F);
+	checkpoint_obj.SetPos(pos.x, pos.y, pos.z);
+	checkpoint_objects.PushBack(checkpoint_obj);
+	PhysBody3D* sensor2 = App->physics->AddBody(checkpoint_obj, 0);
+	sensor2->SetListener(true);
+	sensor2->SetState(PhysBody3D::state::CHECKPOINT);
+	checkpoint_objects_body.PushBack(sensor2);
+}
+
+void ModuleSceneIntro::Checkpoint(PhysBody3D* checkpoint_body)
+{
+	for (uint i = 0; i < checkpoint_objects_body.Count(); i++)
+	{
+		if (checkpoint_objects_body[i] == checkpoint_body)
+		{
+			checkpoint_objects.Pop(checkpoint_objects[i]);
+			checkpoint_objects_body.Pop(nitro_objects_body[i]);
+		}
+	}
+
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
@@ -137,6 +164,11 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		if (body2->GetState() == PhysBody3D::state::NITRO)
 		{
 			PickUpNitroObject(body2);
+			App->physics->DestroyBody(body2);
+		}
+		if (body2->GetState() == PhysBody3D::state::CHECKPOINT)
+		{
+			Checkpoint(body2);
 			App->physics->DestroyBody(body2);
 		}
 

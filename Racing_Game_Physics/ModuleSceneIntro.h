@@ -25,7 +25,10 @@ public:
 	void CreateRamp();
 
 	void NitroObject(vec3 pos, int size, int distance_to);
-	void PickUpNitroObject(PhysBody3D* nitro_obj);
+	void PickUpNitroObject(PhysBody3D* nitro_body);
+
+	void CreateCheckpoint(vec3 pos);
+	void Checkpoint(PhysBody3D* checkpoint_body);
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
@@ -34,5 +37,9 @@ public:
 	p2DynArray <Cube*> map;
 	p2DynArray <Sphere> nitro_objects;
 	p2DynArray <PhysBody3D*> nitro_objects_body;
+	p2DynArray <Cube> checkpoint_objects;
+	p2DynArray <PhysBody3D*> checkpoint_objects_body;
+
+
 
 };

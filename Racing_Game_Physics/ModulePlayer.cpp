@@ -167,7 +167,7 @@ update_status ModulePlayer::Update(float dt)
 	App->camera->LookAt(vehicle->GetPosition());
 
 	char title[80];
-	sprintf_s(title, "%.1f Km/h		%.1f ac", vehicle->GetKmh(), acceleration);
+	sprintf_s(title, "Velocity: %.1f Km/h || Nitro: %d", vehicle->GetKmh(), nitro);
 	App->window->SetTitle(title);
 
 	return UPDATE_CONTINUE;

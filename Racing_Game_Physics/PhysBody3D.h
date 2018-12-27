@@ -11,7 +11,8 @@ class vec3;
 struct PhysBody3D
 {
 	friend class ModulePhysics3D;
-	enum class state { PLAYER, NITRO };
+	enum class state { PLAYER, NITRO, CHECKPOINT 
+	};
 
 public:
 	PhysBody3D(btRigidBody* body);
