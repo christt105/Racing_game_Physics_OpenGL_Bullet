@@ -34,12 +34,14 @@ public:
 	//void CreateRect(int x, int y, int z, int x_width, int high, int y_width);
 	void CreateRect(const float &x, const float &y, const float &z, const float &width, const float &length, const Cube & cube, ORIENTATION orientation = ORIENTATION::NORTH);
 	void CreateCurve();
-	void CreateRamp();
+	//void CreateRamp(const float & x, const float & y, const float & z, const float & inclination = 10.0f, const float& rotation = 0.0f);
 
 	void NitroObject(vec3 pos, int size, int distance_to);
 	void PickUpNitroObject(PhysBody3D* nitro_obj);
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
+
+	//void Angles2AxisAngle(const float& alpha_x, const float& beta_y, vec3& u, float& angle);
 
 public:
 	bool camera_free = false;

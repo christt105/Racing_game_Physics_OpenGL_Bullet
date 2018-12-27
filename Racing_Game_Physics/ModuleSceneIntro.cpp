@@ -137,9 +137,22 @@ void ModuleSceneIntro::CreateCurve()
 {
 }
 
-void ModuleSceneIntro::CreateRamp()
-{
-}
+//void ModuleSceneIntro::CreateRamp(const float & x, const float & y, const float & z, const float & inclination, const float & rotation)
+//{
+//	Cube* c = new Cube(10, 10, 10);
+//	c->SetPos(x, y, z);
+//	mat4x4 mat = c->transform;
+//	vec3 u(0,0,0);
+//	float angle = 0.0f;
+//	Angles2AxisAngle(inclination, rotation,u,angle);
+//	LOG("axis %.2f %.2f %.2f angle %.2f", u.x, u.y, u.z, angle);
+//	c->SetRotation(angle, u);
+//
+//	//c->SetRotation(rotation, vec3(0.0f, 1.0f, 0.0f));
+//	PhysBody3D* phys = App->physics->AddBody(*c, 0.0f);
+//	
+//	map.PushBack(c);
+//}
 
 void ModuleSceneIntro::NitroObject(vec3 pos, int size, int distance_to)
 {
@@ -179,7 +192,36 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			PickUpNitroObject(body2);
 			App->physics->DestroyBody(body2);
 		}
-
+		
 	}
 }
 
+//void ModuleSceneIntro::Angles2AxisAngle(const float & alpha_x, const float & beta_y, vec3 & u, float & angle)
+//{
+//	double c1 = cos(alpha_x / 2);
+//	double s1 = sin(alpha_x / 2);
+//	double c2 = cos(beta_y / 2);
+//	double s2 = sin(beta_y / 2);
+//	double c3 = cos(0 / 2);
+//	double s3 = cos(0 / 2);
+//	double c1c2 = c1 * c2;
+//	double s1s2 = s1 * s2;
+//	int w = c1c2 * c3 - s1s2 * s3;
+//	int x = c1c2 * s3 + s1s2 * c3;
+//	int y = s1 * c2*c3 + c1 * s2*s3;
+//	int z = c1 * s2*c3 - s1 * c2*s3;
+//	angle = 2 * acos(w);
+//	double norm = x * x + y * y + z * z;
+//	if (norm < 0.001) { // when all euler angles are zero angle = 0 so
+//		// we can set axis to anything to avoid divide by zero
+//		x = 1;
+//		y = z = 0;
+//	}
+//	else {
+//		norm = sqrt(norm);
+//		x /= norm;
+//		y /= norm;
+//		z /= norm;
+//	}
+//	u = vec3(x, y, z);
+//}
