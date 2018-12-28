@@ -57,7 +57,4 @@ public:
 
 private:
 	Timer timer;
-	int time_sec = 0;
-	int time_min = 0;
-	int timer_manager = 0;
 };

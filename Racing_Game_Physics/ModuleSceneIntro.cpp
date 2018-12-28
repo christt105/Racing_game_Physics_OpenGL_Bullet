@@ -86,18 +86,11 @@ update_status ModuleSceneIntro::Update(float dt)
 		checkpoint_objects[i]->Render();
 	}
 
-	// Timer Manage
-	time_sec = (timer.Read() / 1000) - timer_manager;
-	if (time_sec >= 60)
-	{
-		time_min++;
-		timer_manager = 60 * time_min;
-	}
 	if(timer.Read()/1000 == 235)
 		App->audio->PlayMusic("Audio/Music/60 Seconds.ogg");
 
 	char title[80];
-	sprintf_s(title, "Velocity: %.1F Km/h || Nitro: %d || Timer: %.2d:%.2d", App->player->vehicle->GetKmh(), App->player->nitro, time_min, time_sec);
+	sprintf_s(title, "Velocity: %.1F Km/h || Nitro: %d || Timer: %.2d:%.2d", App->player->vehicle->GetKmh(), App->player->nitro, timer.Read()/60000,timer.Read()/1000 % 60);
 	App->window->SetTitle(title);
 	return UPDATE_CONTINUE;
 }
