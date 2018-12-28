@@ -13,11 +13,6 @@ struct PhysVehicle3D;
 #define CAMERA_OFFSET_Y 5
 #define CAMERA_OFFSET_Z 10
 
-struct Attitude {
-	vec3 pos;
-	vec3 rot;
-};
-
 class ModulePlayer : public Module
 {
 public:
@@ -43,7 +38,7 @@ private:
 	vec3 axis;
 	bool accelerating = false;
 	bool decelerating = false;
-	p2DynArray<Attitude> ghost_pos;
+	p2DynArray<btTransform> ghost_pos;
 	bool save_ghost_data = false;
 	bool path_ghost = false;
 	int iterator_ghost = 0;

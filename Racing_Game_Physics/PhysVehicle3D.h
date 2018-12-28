@@ -51,7 +51,6 @@ public:
 	void Turn(float degrees);
 	float GetKmh() const;
 	vec3 GetLocalPosition() const;
-	void SetLocalPosition(const vec3& vector);
 public:
 
 	VehicleInfo info;

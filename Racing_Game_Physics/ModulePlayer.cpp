@@ -150,21 +150,13 @@ update_status ModulePlayer::Update(float dt)
 		timer.Start();
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
-		//vehicle->vehicle->getRigidBody()->getOrientation();
-		
 		ghost->vehicle->getRigidBody()->setWorldTransform(vehicle->vehicle->getRigidBody()->getWorldTransform());
-		//vehicle->vehicle->getChassisWorldTransform()
-		/*float* mat;
-		vehicle->GetTransform(mat);
-		ghost->SetTransform(mat);*/
 	}
 
-	if (save_ghost_data) {
-		if (timer.Read() > 10) {
-			ghost_pos.PushBack(Attitude({ vehicle->GetPosition(),vehicle->GetLocalPosition() }));
-			LOG("Saved position(%.2f, %.2f, %.2f) on %i", ghost_pos[ghost_pos.Count()-1].pos.x, ghost_pos[ghost_pos.Count()-1].pos.y, ghost_pos[ghost_pos.Count()-1].pos.z, ghost_pos.Count());
-			timer.Start();
-		}
+	if (save_ghost_data && timer.Read() > 10) {
+
+		ghost_pos.PushBack(vehicle->vehicle->getRigidBody()->getWorldTransform());
+		timer.Start();
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
@@ -173,28 +165,18 @@ update_status ModulePlayer::Update(float dt)
 		save_ghost_data = false;
 		path_ghost = true;
 		iterator_ghost = 0;
-		ghost->SetPos(ghost_pos[0].pos);
-		ghost->SetLocalPosition(ghost_pos[0].rot);
+		ghost->vehicle->getRigidBody()->setWorldTransform(ghost_pos[iterator_ghost]);
 	}
 
-	if (path_ghost) {
-		if (timer.Read() > 10) {
-			/*if (iterator_ghost+1 >= ghost_pos.Count())
-				iterator_ghost = 0;*/
-			if (iterator_ghost + 1 >= ghost_pos.Count()) {
-				path_ghost = false;
-				ghost_pos.Clear();
-				timer.Stop();
-				/*for (int i = 0; i < ghost_pos.Count(); ++i) {
-					delete ghost_pos[i];
-				}*/
-			}
-			else {
-				ghost->SetPos(ghost_pos[++iterator_ghost].pos);
-				//ghost.
-				ghost->SetLocalPosition(ghost_pos[iterator_ghost].rot);
-				timer.Start();
-			}
+	if (path_ghost && timer.Read() > 10) {
+		if (iterator_ghost + 1 >= ghost_pos.Count()) {
+			path_ghost = false;
+			ghost_pos.Clear();
+			timer.Stop();
+		}
+		else {
+			ghost->vehicle->getRigidBody()->setWorldTransform(ghost_pos[++iterator_ghost]);
+			timer.Start();
 		}
 	}
 	turn = acceleration = brake = 0.0F;
