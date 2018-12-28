@@ -28,12 +28,19 @@ bool ModuleSceneIntro::Start()
 	//Map creation
 	Cube road(1, 5, 1);
 	road.color.Set(0.0f, 0.0f, 0.0f);
+	int road_width = 15;
+	int radius = 20;
 
-	CreateRect(-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::NORTH);
-	CreateCurve(-27.0f, 0.0f, 100, 15, 0, 90, road, 20);
-	CreateRect(-25, 0, 120, 15, 150, road, ORIENTATION::EAST);
-	CreateCurve(-177.0f, 0.0f, 120, 15, 180, 270, road, 20);
-	//CreateCurve(-177.0f, 0.0f, 120, 15, 90, 270, road, 20);
+	CreateRect(-7.0f, 0, 0, road_width, 100, road, ORIENTATION::NORTH);
+	CreateCurve(-27.0f, 0, 100, road_width, 0, 90, road, radius);
+	CreateCurve(-27.0f, 20, 100, road_width, 90, 180, road, radius);
+	CreateCurve(-27.0f, 40, 100, road_width, 180, 270, road, radius);
+	CreateCurve(-27.0f, 60, 100, road_width, 270, 360, road, radius);
+	//CreateRect(-25, 0, 120, road_width, 150, road, ORIENTATION::EAST);
+	//CreateCurve(-175.0f, 0.0f, 100, road_width, 180, 360, road, radius);
+	//CreateCurve(-175.0f, 0.0f, 45, road_width, 0, 180, road, radius);
+	//CreateRect(-155, 0, 43, road_width, 300, road,ORIENTATION::SOUTH);
+	//CreateCurve(-140, 0, -256, road_width, 180, 270, road, radius);
 	
 	// Nitro Objects
 	NitroObject({ -23, 1, 30 }, 3, 20);
@@ -166,11 +173,14 @@ void ModuleSceneIntro::CreateCurve(const float & x, const float & y, const float
 	Cube* c1 = nullptr;
 	Cube* c2 = nullptr;
 	
-	for (int i = angle_i; i <= angle_f*2; i = i + cube.size.x * 10) {
+	for (int i = angle_i; i <= angle_f; i = i + cube.size.x * 5) {
 		c1 = new Cube(cube);
 		c2 = new Cube(cube);
-		c1->SetPos(x + radius * cos(i*3.1415 / 360), y, z + radius * sin(i*3.1415 / 360));
-		c2->SetPos(x + (radius + width) * cos(i*3.1415 / 360), y, z + (radius + width) * sin(i*3.1415 / 360));
+		LOG("%i (%.2f, %.2f)", i, radius * cos(i*3.1415 / 180), radius * sin(i*3.1415 / 180));
+		
+		c1->SetPos(x + radius * cos(i*3.1415 / 180), y, z + radius * sin(i*3.1415 / 180));
+		c2->SetPos(x + (radius + width) * cos(i*3.1415 / 180), y, z + (radius + width) * sin(i*3.1415 / 180));
+		
 		App->physics->AddBody(*c1, 0.0F);
 		App->physics->AddBody(*c2, 0.0F);
 		map.PushBack(c1);
