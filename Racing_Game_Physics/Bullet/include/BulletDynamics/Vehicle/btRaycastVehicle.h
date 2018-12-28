@@ -175,8 +175,29 @@ public:
 			  chassisTrans.getBasis()[0][m_indexForwardAxis], 
 			  chassisTrans.getBasis()[1][m_indexForwardAxis], 
 			  chassisTrans.getBasis()[2][m_indexForwardAxis]); 
-
+		
 		return forwardW;
+	}
+
+	///Worldspace forward vector
+	void setForwardVector(const btVector3& v) const
+	{
+		btTransform chassisTrans = getChassisWorldTransform();
+		btVector3 vec = v;
+		vec.normalize();
+		btMatrix3x3 matrix = chassisTrans.getBasis();
+		btVector3 colum_x = matrix.getColumn(0);
+		btVector3 colum_y = matrix.getColumn(1);
+		btVector3 colum_z = matrix.getColumn(2);
+		/*const btScalar x = v.getX();
+		const btScalar y = v.y;
+		const btScalar z = v.z;*/
+
+		matrix.setValue(vec.getX(), colum_y.getX(), colum_z.getX(),
+						colum_x.getY(), vec.getY(), colum_z.getY(),
+						colum_x.getZ(), colum_y.getZ(), vec.getZ());
+
+		chassisTrans.setBasis(matrix);
 	}
 
 	///Velocity of vehicle (positive if velocity vector has same direction as foward vector)

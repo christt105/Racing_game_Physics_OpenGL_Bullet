@@ -138,11 +138,20 @@ update_status ModulePlayer::Update(float dt)
 		save_ghost_data = !save_ghost_data;
 		timer.Start();
 	}
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
+		//vehicle->vehicle->getRigidBody()->getOrientation();
+		
+		ghost->vehicle->getRigidBody()->setWorldTransform(vehicle->vehicle->getRigidBody()->getWorldTransform());
+		//vehicle->vehicle->getChassisWorldTransform()
+		/*float* mat;
+		vehicle->GetTransform(mat);
+		ghost->SetTransform(mat);*/
+	}
 
 	if (save_ghost_data) {
-		if (timer.Read() > 1000) {
-			ghost_pos.PushBack(vehicle->GetPosition());
-			LOG("Saved position(%.2f, %.2f, %.2f) on %i", ghost_pos[ghost_pos.Count()-1].x, ghost_pos[ghost_pos.Count()-1].y, ghost_pos[ghost_pos.Count()-1].z, ghost_pos.Count());
+		if (timer.Read() > 10) {
+			ghost_pos.PushBack(Attitude({ vehicle->GetPosition(),vehicle->GetLocalPosition() }));
+			LOG("Saved position(%.2f, %.2f, %.2f) on %i", ghost_pos[ghost_pos.Count()-1].pos.x, ghost_pos[ghost_pos.Count()-1].pos.y, ghost_pos[ghost_pos.Count()-1].pos.z, ghost_pos.Count());
 			timer.Start();
 		}
 	}
@@ -153,11 +162,12 @@ update_status ModulePlayer::Update(float dt)
 		save_ghost_data = false;
 		path_ghost = true;
 		iterator_ghost = 0;
-		ghost->SetPos(ghost_pos[0]);
+		ghost->SetPos(ghost_pos[0].pos);
+		ghost->SetLocalPosition(ghost_pos[0].rot);
 	}
 
 	if (path_ghost) {
-		if (timer.Read() > 1000) {
+		if (timer.Read() > 10) {
 			/*if (iterator_ghost+1 >= ghost_pos.Count())
 				iterator_ghost = 0;*/
 			if (iterator_ghost + 1 >= ghost_pos.Count()) {
@@ -169,7 +179,9 @@ update_status ModulePlayer::Update(float dt)
 				}*/
 			}
 			else {
-				ghost->SetPos(ghost_pos[++iterator_ghost]);
+				ghost->SetPos(ghost_pos[++iterator_ghost].pos);
+				//ghost.
+				ghost->SetLocalPosition(ghost_pos[iterator_ghost].rot);
 				timer.Start();
 			}
 		}

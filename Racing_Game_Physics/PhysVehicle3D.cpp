@@ -99,3 +99,8 @@ vec3 PhysVehicle3D::GetLocalPosition() const
 	btVector3 f_vector = vehicle->getForwardVector();
 	return vec3(f_vector.getX(), f_vector.getY(), f_vector.getZ());
 }
+
+void PhysVehicle3D::SetLocalPosition(const vec3& vector)
+{
+	vehicle->setForwardVector(btVector3({ vector.x,vector.y,vector.z }));
+}
