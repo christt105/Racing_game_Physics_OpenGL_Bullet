@@ -98,7 +98,7 @@ bool ModulePlayer::Start()
 	car.wheels[3].steering = false;
 
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetState(PhysBody3D::state::PLAYER);
+	vehicle->SetState(PhysBody3D::Tag::PLAYER);
 	vehicle->SetPos(0, 1, 0);
 	vehicle->collision_listeners.add(App->scene_intro);
 
@@ -107,11 +107,10 @@ bool ModulePlayer::Start()
 		vehicle->GetPosition().z - vehicle->GetLocalPosition().z * CAMERA_OFFSET_Z);
 	App->camera->LookAt(vehicle->GetPosition());
 
-
 	ghost = App->physics->AddVehicle(car);
-	ghost->SetState(PhysBody3D::state::GHOST);
+	ghost->SetState(PhysBody3D::Tag::GHOST);
 	ghost->SetPos(10, 1, 0);
-	ghost->SetListener(true);
+	ghost->SetAsSensor(true);
 
 	//SFx
 	fx_horn = App->audio->LoadFx("Audio/SFX/carhorn.wav");

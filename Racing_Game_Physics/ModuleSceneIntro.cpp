@@ -204,8 +204,8 @@ void ModuleSceneIntro::NitroObject(vec3 pos, int size, int distance_to)
 		nitro_objects.PushBack(nitro_obj);
 		distance_to += 4;
 		PhysBody3D* sensor = App->physics->AddBody(*nitro_obj, 0);
-		sensor->SetListener(true);
-		sensor->SetState(PhysBody3D::state::NITRO);
+		sensor->SetAsSensor(true);
+		sensor->SetState(PhysBody3D::Tag::NITRO);
 		nitro_objects_body.PushBack(sensor);
 	} 
 }
@@ -231,8 +231,8 @@ void ModuleSceneIntro::CreateCheckpoint(vec3 pos)
 	checkpoint_obj->SetPos(pos.x, pos.y, pos.z);
 	checkpoint_objects.PushBack(checkpoint_obj);
 	PhysBody3D* sensor = App->physics->AddBody(*checkpoint_obj, 0);
-	sensor->SetListener(true);
-	sensor->SetState(PhysBody3D::state::CHECKPOINT);
+	sensor->SetAsSensor(true);
+	sensor->SetState(PhysBody3D::Tag::CHECKPOINT);
 	checkpoint_objects_body.PushBack(sensor);
 }
 
@@ -257,13 +257,13 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
 	if (body1->on_collision && body2->on_collision)
 	{
-		if (body2->GetState() == PhysBody3D::state::NITRO)
+		if (body2->GetState() == PhysBody3D::Tag::NITRO)
 		{
 			PickUpNitroObject(body2);
 			App->physics->DestroyBody(body2);
 		}
 
-		if (body2->GetState() == PhysBody3D::state::CHECKPOINT)
+		if (body2->GetState() == PhysBody3D::Tag::CHECKPOINT)
 		{
 			Checkpoint(body2);
 			App->physics->DestroyBody(body2);

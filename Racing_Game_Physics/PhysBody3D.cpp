@@ -35,7 +35,7 @@ vec3 PhysBody3D::GetPosition() const
 	return vec3(vector.getX(), vector.getY(), vector.getZ());
 }
 
-void PhysBody3D::SetListener(bool listener)
+void PhysBody3D::SetAsSensor(bool listener)
 {
 	if (this->listener_on != listener)
 	{
@@ -78,13 +78,13 @@ void PhysBody3D::SetPos(const vec3 &pos)
 	body->setWorldTransform(t);
 }
 
-PhysBody3D::state PhysBody3D::GetState()
+PhysBody3D::Tag PhysBody3D::GetState()
 {
-	return current_state;
+	return tag;
 }
 
 
-void PhysBody3D::SetState(state current_state)
+void PhysBody3D::SetState(Tag current_state)
 {
-	this->current_state = current_state;
+	this->tag = current_state;
 }

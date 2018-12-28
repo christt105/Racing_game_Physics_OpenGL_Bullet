@@ -51,6 +51,8 @@ public:
 	void Turn(float degrees);
 	float GetKmh() const;
 	vec3 GetLocalPosition() const;
+	//void DisableWheelCollision(bool is_true);
+
 public:
 
 	VehicleInfo info;

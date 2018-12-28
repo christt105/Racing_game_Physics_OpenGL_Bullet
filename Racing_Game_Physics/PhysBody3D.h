@@ -11,7 +11,7 @@ class vec3;
 struct PhysBody3D
 {
 	friend class ModulePhysics3D;
-	enum class state { PLAYER, NITRO, CHECKPOINT, GHOST
+	enum class Tag { PLAYER, NITRO, CHECKPOINT, GHOST
 	};
 
 public:
@@ -21,17 +21,17 @@ public:
 	void Push(float x, float y, float z);
 	void GetTransform(float* matrix) const;
 	vec3 GetPosition() const;
-	void SetListener(bool listener);
+	void SetAsSensor(bool listener);
 	void SetTransform(const float* matrix) const;
 	void SetPos(float x, float y, float z);
 	void SetPos(const vec3& pos);
-	state GetState();
-	void SetState(state current_state);
+	Tag GetState();
+	void SetState(Tag tag);
 
 private:
 	btRigidBody* body = nullptr;
 	bool listener_on = false;
-	state current_state;
+	Tag tag;
 
 public:
 	p2List<Module*> collision_listeners;

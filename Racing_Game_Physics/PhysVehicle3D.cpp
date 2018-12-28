@@ -39,12 +39,12 @@ void PhysVehicle3D::Render()
 	}
 
 	Cube chassis(info.chassis_size.x, info.chassis_size.y, info.chassis_size.z);
-	Cube cabin(2.25f, 0.75f, 1.5);
+	Cube cabin(2.25F, 0.75F, 1.5);
 	Cube false_down_chassis(2.5F, 0.75F, 4);
 
-	chassis.color.Set(1.0f, 0.0f, 0.0f);
-	cabin.color.Set(1.0f, 0.0f, 0.0f);
-	false_down_chassis.color.Set(1.0f, 0.0f, 0.0f);
+	chassis.color.Set(1.0F, 0.0F, 0.0F);
+	cabin.color.Set(1.0F, 0.0F, 0.0F);
+	false_down_chassis.color.Set(1.0F, 0.0F, 0.0F);
 
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(&chassis.transform);
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(&cabin.transform);
@@ -58,10 +58,13 @@ void PhysVehicle3D::Render()
 	chassis.transform.M[13] += offset.getY();
 	chassis.transform.M[14] += offset.getZ();
 
-	cabin.transform.M[13] += offset.getY() + chassis.size.y/1.5f;
+	cabin.transform.M[12] += offset.getX();
+	cabin.transform.M[13] += offset.getY() + chassis.size.y;
+	cabin.transform.M[14] += offset.getZ();
 
-	false_down_chassis.transform.M[13] += 0.5F;
-
+	false_down_chassis.transform.M[12] += offset.getX();
+	false_down_chassis.transform.M[13] += offset.getY() - 0.5F;
+	false_down_chassis.transform.M[14] += offset.getZ();
 
 	chassis.Render();
 	cabin.Render();
@@ -115,3 +118,18 @@ vec3 PhysVehicle3D::GetLocalPosition() const
 	btVector3 f_vector = vehicle->getForwardVector();
 	return vec3(f_vector.getX(), f_vector.getY(), f_vector.getZ());
 }
+
+//void PhysVehicle3D::DisableWheelCollision(bool is_true)
+//{
+//		if (is_true == true)
+//		{
+//			vehicle->getNumWheels();
+//			//this->vehicle->getWheelInfo(0).;
+//			body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+//		}
+//		else
+//		{
+//			body->setCollisionFlags(body->getCollisionFlags() &~btCollisionObject::CF_NO_CONTACT_RESPONSE);
+//		}
+//	}
+//}
