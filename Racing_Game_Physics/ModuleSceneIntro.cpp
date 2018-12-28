@@ -33,14 +33,22 @@ bool ModuleSceneIntro::Start()
 
 	CreateRect(-7.0f, 0, 0, road_width, 100, road, ORIENTATION::NORTH);
 	CreateCurve(-27.0f, 0, 100, road_width, 0, 90, road, radius);
-	CreateCurve(-27.0f, 20, 100, road_width, 90, 180, road, radius);
-	CreateCurve(-27.0f, 40, 100, road_width, 180, 270, road, radius);
-	CreateCurve(-27.0f, 60, 100, road_width, 270, 360, road, radius);
-	//CreateRect(-25, 0, 120, road_width, 150, road, ORIENTATION::EAST);
-	//CreateCurve(-175.0f, 0.0f, 100, road_width, 180, 360, road, radius);
-	//CreateCurve(-175.0f, 0.0f, 45, road_width, 0, 180, road, radius);
-	//CreateRect(-155, 0, 43, road_width, 300, road,ORIENTATION::SOUTH);
-	//CreateCurve(-140, 0, -256, road_width, 180, 270, road, radius);
+	CreateRect(-25, 0, 120, road_width, 150, road, ORIENTATION::EAST);
+	CreateCurve(-175.0f, 0.0f, 100, road_width, 90, 270, road, radius);
+	CreateCurve(-175.0f, 0.0f, 45, road_width, 0, 90, road, radius);
+	CreateRect(-155, 0, 43, road_width, 300, road,ORIENTATION::SOUTH);
+	CreateCurve(-120, 0, -257, road_width, 180, 270, road, radius);
+	CreateRect(-117, 0, -292, road_width, 150, road, ORIENTATION::WEST);
+	CreateCurve(33, 0, -312, road_width, 0, 90, road, radius);
+	CreateRect(53, 0, -314, road_width, 150, road, ORIENTATION::SOUTH);
+	CreateCurve(88, 0, -465, road_width, 180, 360, road, radius);
+	
+	CreateRect(108, 0, -462, road_width, 200, road, ORIENTATION::NORTH);
+	CreateCurve(-120, 0, -257, road_width, 180, 270, road, radius);
+	CreateRect(-117, 0, -292, road_width, 150, road, ORIENTATION::WEST);
+	CreateCurve(-120, 0, -257, road_width, 180, 270, road, radius); // doble
+	CreateRect(-117, 0, -292, road_width, 150, road, ORIENTATION::WEST);
+	CreateCurve(-120, 0, -257, road_width, 180, 270, road, radius);
 	
 	// Nitro Objects
 	NitroObject({ -23, 1, 30 }, 3, 20);
@@ -176,7 +184,6 @@ void ModuleSceneIntro::CreateCurve(const float & x, const float & y, const float
 	for (int i = angle_i; i <= angle_f; i = i + cube.size.x * 5) {
 		c1 = new Cube(cube);
 		c2 = new Cube(cube);
-		LOG("%i (%.2f, %.2f)", i, radius * cos(i*3.1415 / 180), radius * sin(i*3.1415 / 180));
 		
 		c1->SetPos(x + radius * cos(i*3.1415 / 180), y, z + radius * sin(i*3.1415 / 180));
 		c2->SetPos(x + (radius + width) * cos(i*3.1415 / 180), y, z + (radius + width) * sin(i*3.1415 / 180));
