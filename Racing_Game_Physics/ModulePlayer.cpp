@@ -20,10 +20,10 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 
 	VehicleInfo car;
-
+	
 	// Car properties ----------------------------------------
-	car.chassis_size.Set(2, 2, 4);
-	car.chassis_offset.Set(0, 1.5, 0);
+	car.chassis_size.Set(2.5F, 0.5F, 4);
+	car.chassis_offset.Set(0, 1, 0);
 	car.mass = 500.0F;
 	car.suspensionStiffness = 15.88F;
 	car.suspensionCompression = 0.83F;
@@ -35,7 +35,7 @@ bool ModulePlayer::Start()
 	// Wheel properties ---------------------------------------
 	float connection_height = 1.2F;
 	float wheel_radius = 0.6F;
-	float wheel_width = 0.5F;
+	float wheel_width = 0.7F;
 	float suspensionRestLength = 1.2F;
 
 	// Don't change anything below this line ------------------
@@ -110,7 +110,7 @@ bool ModulePlayer::Start()
 
 	ghost = App->physics->AddVehicle(car);
 	ghost->SetState(PhysBody3D::state::GHOST);
-	ghost->SetPos(0, 1, 0);
+	ghost->SetPos(10, 1, 0);
 	ghost->SetListener(true);
 
 	//SFx
