@@ -21,16 +21,19 @@ bool ModuleSceneIntro::Start()
 	bool ret = true;
 	
 	// Floor
-	Cube* c = new Cube(300, -1, 300);
+	Cube* c = new Cube(3000, -1, 3000);
 	c->color.Set(125, 125, 125, 0.25F);
 	map.PushBack(c);
 
 	//Map creation
-	Cube road(1, 3, 1);
+	Cube road(1, 5, 1);
 	road.color.Set(0.0f, 0.0f, 0.0f);
 
 	CreateRect(-7.0f, 0.0f, 0.0f, 15, 100, road, ORIENTATION::NORTH);
-	CreateCurve(-20-7.0f, 0.0f, 100, 15, 180, 0, road, 20);
+	CreateCurve(-27.0f, 0.0f, 100, 15, 0, 90, road, 20);
+	CreateRect(-25, 0, 120, 15, 150, road, ORIENTATION::EAST);
+	CreateCurve(-177.0f, 0.0f, 120, 15, 180, 270, road, 20);
+	//CreateCurve(-177.0f, 0.0f, 120, 15, 90, 270, road, 20);
 	
 	// Nitro Objects
 	NitroObject({ -23, 1, 30 }, 3, 20);
@@ -109,7 +112,7 @@ void ModuleSceneIntro::CreateRect(const float & x, const float & y, const float 
 	Cube* c1 = nullptr;
 	Cube* c2 = nullptr;
 	
-	for (int i = 0; i < length; ++i) {
+	for (int i = 0; i < length; i=i+2) {
 		phys1 = App->physics->AddBody(cube, 0.0F);
 		phys2 = App->physics->AddBody(cube, 0.0F);
 		switch (orientation)
@@ -163,7 +166,7 @@ void ModuleSceneIntro::CreateCurve(const float & x, const float & y, const float
 	Cube* c1 = nullptr;
 	Cube* c2 = nullptr;
 	
-	for (int i = angle_f; i < angle_i - angle_f; i = i + cube.size.x*10) {
+	for (int i = angle_i; i <= angle_f*2; i = i + cube.size.x * 10) {
 		c1 = new Cube(cube);
 		c2 = new Cube(cube);
 		c1->SetPos(x + radius * cos(i*3.1415 / 360), y, z + radius * sin(i*3.1415 / 360));
