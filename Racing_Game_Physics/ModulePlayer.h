@@ -52,4 +52,10 @@ private:
 	int current_time = 0;
 	int start_time = 0;
 
+	uint fx_horn;
+	uint fx_crash;
+	uint fx_racing;
+	uint fx_screech;
+	uint fx_car_engine;
+	uint fx_start_car;
 };
