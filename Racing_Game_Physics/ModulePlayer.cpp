@@ -113,13 +113,24 @@ bool ModulePlayer::Start()
 	ghost->SetPos(0, 1, 0);
 	ghost->SetListener(true);
 
+	//SFx
+	fx_horn = App->audio->LoadFx("Audio/SFX/carhorn.wav");
+	fx_crash = App->audio->LoadFx("Audio/SFX/crash.wav");
+	fx_racing = App->audio->LoadFx("Audio/SFX/racing.wav");
+	fx_start_car = App->audio->LoadFx("Audio/SFX/start_car.wav");
+	fx_screech = App->audio->LoadFx("Audio/SFX/screech.wav");
+	fx_car_engine = App->audio->LoadFx("Audio/SFX/car_engine.wav");
 	return true;
 }
 
 // Update: draw background
 update_status ModulePlayer::Update(float dt)
 {
+
 	// Inputs
+	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN) {
+		App->audio->PlayFx(fx_horn);
+	}
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
 		switch (checkpoint_value)
 		{
@@ -185,6 +196,7 @@ update_status ModulePlayer::Update(float dt)
 		acceleration = 0;
 		accelerating = false;
 		decelerating = false;
+		//App->audio->PlayFx(fx_car_engine);
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
@@ -194,7 +206,7 @@ update_status ModulePlayer::Update(float dt)
 			acceleration = 0;
 		else
 			acceleration = MAX_ACCELERATION;
-
+		//App->audio->PlayFx(fx_racing);
 		accelerating = true;
 	}
 
