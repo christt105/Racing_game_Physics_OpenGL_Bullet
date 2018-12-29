@@ -50,7 +50,8 @@ public:
 	void Brake(float force);
 	void Turn(float degrees);
 	float GetKmh() const;
-	vec3 GetLocalPosition() const;
+	vec3 GetForwardVector() const;
+	vec3 GetUpperVector() const;
 	//void DisableWheelCollision(bool is_true);
 
 public:

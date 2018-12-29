@@ -121,10 +121,16 @@ float PhysVehicle3D::GetKmh() const
 	return vehicle->getCurrentSpeedKmHour();
 }
 
-vec3 PhysVehicle3D::GetLocalPosition() const
+vec3 PhysVehicle3D::GetForwardVector() const
 {
 	btVector3 f_vector = vehicle->getForwardVector();
 	return vec3(f_vector.getX(), f_vector.getY(), f_vector.getZ());
+}
+
+vec3 PhysVehicle3D::GetUpperVector() const
+{
+	btVector3 u_vector = vehicle->getUpVector();
+	return vec3(u_vector.getX(), u_vector.getY(), u_vector.getZ());
 }
 
 //void PhysVehicle3D::DisableWheelCollision(bool is_true)
