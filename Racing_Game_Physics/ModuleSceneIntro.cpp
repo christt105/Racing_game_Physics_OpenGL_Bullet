@@ -67,6 +67,9 @@ update_status ModuleSceneIntro::Update(float dt)
 {
 	current_time = SDL_GetTicks() - start_time;
 
+	//Hide Cursor
+	SDL_ShowCursor(SDL_DISABLE);
+
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 		camera_free = !camera_free;
 
