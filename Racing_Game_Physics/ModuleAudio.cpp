@@ -73,7 +73,8 @@ bool ModuleAudio::CleanUp()
 bool ModuleAudio::PlayMusic(const char* path, float fade_time)
 {
 	bool ret = true;
-	
+	Mix_VolumeMusic(7);
+
 	if(music != NULL)
 	{
 		if(fade_time > 0.0f)
@@ -136,7 +137,7 @@ unsigned int ModuleAudio::LoadFx(const char* path)
 		fx.add(chunk);
 		ret = fx.count();
 	}
-	Mix_VolumeChunk(chunk, 2);
+	Mix_VolumeChunk(chunk, 5);
 
 	return ret;
 }
