@@ -293,13 +293,14 @@ void ModulePlayer::NitroSpeed()
 	
 	if (current_time <= 1500)
 	{
-  		acceleration = MAX_ACCELERATION * 2;
+		if (vehicle->GetKmh() <= 150)
+			acceleration = MAX_ACCELERATION * 2;
+		else
+			acceleration = 0;
+	
 		accelerating = true;
+
 	}
 	
 }
 
-void ModulePlayer::OnCollision(PhysBody3D * body1, PhysBody3D * body2)
-{
-
-}
