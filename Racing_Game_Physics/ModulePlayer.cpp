@@ -101,9 +101,9 @@ bool ModulePlayer::Start()
 	vehicle->SetPos(0, 1, 0);
 	vehicle->collision_listeners.add(App->scene_intro);
 
-	App->camera->Position.Set(vehicle->GetPosition().x - vehicle->GetLocalPosition().x*CAMERA_OFFSET_X,
+	App->camera->Position.Set(vehicle->GetPosition().x - vehicle->GetForwardVector().x*CAMERA_OFFSET_X,
 		vehicle->GetPosition().y + CAMERA_OFFSET_Y,
-		vehicle->GetPosition().z - vehicle->GetLocalPosition().z * CAMERA_OFFSET_Z);
+		vehicle->GetPosition().z - vehicle->GetForwardVector().z * CAMERA_OFFSET_Z);
 	App->camera->LookAt(vehicle->GetPosition());
 
 	ghost = App->physics->AddVehicle(car);
@@ -170,7 +170,6 @@ update_status ModulePlayer::Update(float dt)
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
-		timer.Stop();
 		timer.Start();
 		save_ghost_data = false;
 		path_ghost = true;
@@ -189,6 +188,15 @@ update_status ModulePlayer::Update(float dt)
 			timer.Start();
 		}
 	}
+	//-----------------------------------------------------------
+
+	if (vehicle->GetUpperVector().y == -1) {
+		btTransform a;
+		a.setIdentity();
+		vehicle->vehicle->getRigidBody()->setWorldTransform(a);
+	}
+
+	//Car control	---------------------------------------------------------------
 	turn = acceleration = brake = 0.0F;
 
 	if (vehicle->GetKmh() >= 1 && accelerating)
@@ -264,9 +272,9 @@ update_status ModulePlayer::Update(float dt)
 	vehicle->Render();
 
 	if (!App->scene_intro->camera_free) {
-		App->camera->Position.Set(vehicle->GetPosition().x - vehicle->GetLocalPosition().x*CAMERA_OFFSET_X,
+		App->camera->Position.Set(vehicle->GetPosition().x - vehicle->GetForwardVector().x*CAMERA_OFFSET_X,
 			vehicle->GetPosition().y + CAMERA_OFFSET_Y,
-			vehicle->GetPosition().z - vehicle->GetLocalPosition().z * CAMERA_OFFSET_Z);
+			vehicle->GetPosition().z - vehicle->GetForwardVector().z * CAMERA_OFFSET_Z);
 		App->camera->LookAt(vehicle->GetPosition());
 	}
 
