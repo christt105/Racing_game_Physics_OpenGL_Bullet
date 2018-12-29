@@ -287,6 +287,8 @@ void ModulePlayer::NitroSpeed()
 	{
 		start_nitro = SDL_GetTicks(); 
 		nitro = false;
+		vehicle->nitro_off = 255;
+		vehicle->nitro_on = 0;
 	}
 
 	current_time = SDL_GetTicks() - start_nitro;

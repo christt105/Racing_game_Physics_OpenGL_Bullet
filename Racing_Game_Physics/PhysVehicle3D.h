@@ -57,4 +57,7 @@ public:
 
 	VehicleInfo info;
 	btRaycastVehicle* vehicle;
+	float nitro_on = 255;
+	float nitro_off = 0;
+
 };

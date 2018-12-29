@@ -283,6 +283,8 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		{
 			PickUpNitroObject(body2);
 			App->physics->DestroyBody(body2);
+			App->player->vehicle->nitro_off = 0;
+			App->player->vehicle->nitro_on = 255;
 
 			if (current_time >= 1000)
 			{
@@ -295,7 +297,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		{
 			Checkpoint(body2);
 			App->physics->DestroyBody(body2);
-
+			
 			if (current_time >= 1000)
 			{
 				App->audio->PlayFx(App->player->fx_checkpoint);
