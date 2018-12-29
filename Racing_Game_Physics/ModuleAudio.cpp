@@ -44,6 +44,7 @@ bool ModuleAudio::Init()
 	return ret;
 }
 
+
 // Called before quitting
 bool ModuleAudio::CleanUp()
 {
@@ -135,6 +136,7 @@ unsigned int ModuleAudio::LoadFx(const char* path)
 		fx.add(chunk);
 		ret = fx.count();
 	}
+	Mix_VolumeChunk(chunk, 2);
 
 	return ret;
 }

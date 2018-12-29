@@ -200,7 +200,9 @@ update_status ModulePlayer::Update(float dt)
 			acceleration = 0;
 		else
 			acceleration = MAX_ACCELERATION;
-		//App->audio->PlayFx(fx_racing);
+
+		App->audio->PlayFx(fx_racing, 0);
+
 		accelerating = true;
 	}
 
