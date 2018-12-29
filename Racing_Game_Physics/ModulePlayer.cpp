@@ -291,6 +291,7 @@ void ModulePlayer::NitroSpeed()
 		vehicle->nitro_on = 0;
 	}
 
+
 	current_time = SDL_GetTicks() - start_nitro;
 	
 	if (current_time <= 1500)

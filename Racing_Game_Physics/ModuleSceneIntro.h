@@ -44,7 +44,7 @@ public:
 	void Checkpoint(PhysBody3D* checkpoint_body);
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
-
+	void SetActive(bool set_active, PhysBody3D* body);
 	//void Angles2AxisAngle(const float& alpha_x, const float& beta_y, vec3& u, float& angle);
 
 public:
@@ -63,4 +63,5 @@ private:
 	Timer timer;
 	int current_time = 0;
 	int start_time = 0;
+	bool active = true;
 };
