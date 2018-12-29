@@ -290,7 +290,11 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			Checkpoint(body2);
 			App->physics->DestroyBody(body2);
 
-			
+			if (current_time >= 1000)
+			{
+				App->audio->PlayFx(App->player->fx_checkpoint);
+				start_time = SDL_GetTicks();
+			}
 		}
 
 		if (body2->GetState() == PhysBody3D::Tag::WALL)
