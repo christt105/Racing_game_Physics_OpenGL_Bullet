@@ -116,7 +116,7 @@ bool ModulePlayer::Start()
 	fx_crash = App->audio->LoadFx("Audio/SFX/crash.wav");
 	fx_racing = App->audio->LoadFx("Audio/SFX/racing.wav");
 	fx_start_car = App->audio->LoadFx("Audio/SFX/start_car.wav");
-	fx_screech = App->audio->LoadFx("Audio/SFX/screech.wav");
+	fx_nitro_pick_up = App->audio->LoadFx("Audio/SFX/nitro_pick_up.wav");
 	fx_car_engine = App->audio->LoadFx("Audio/SFX/car_engine.wav");
 	fx_checkpoint = App->audio->LoadFx("Audio/SFX/checkpoint.wav");
 	return true;
@@ -126,6 +126,12 @@ bool ModulePlayer::Start()
 update_status ModulePlayer::Update(float dt)
 {
 	current_time = SDL_GetTicks() - start_time;
+
+	if (turn_on_car)
+	{
+		App->audio->PlayFx(fx_start_car);
+		turn_on_car = false;
+	}
 
 	// Inputs
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN) {
