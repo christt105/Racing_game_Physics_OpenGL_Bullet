@@ -118,6 +118,7 @@ bool ModulePlayer::Start()
 	fx_start_car = App->audio->LoadFx("Audio/SFX/start_car.wav");
 	fx_screech = App->audio->LoadFx("Audio/SFX/screech.wav");
 	fx_car_engine = App->audio->LoadFx("Audio/SFX/car_engine.wav");
+	fx_checkpoint = App->audio->LoadFx("Audio/SFX/checkpoint.wav");
 	return true;
 }
 
@@ -287,4 +288,9 @@ void ModulePlayer::NitroSpeed()
 		accelerating = true;
 	}
 	
+}
+
+void ModulePlayer::OnCollision(PhysBody3D * body1, PhysBody3D * body2)
+{
+
 }

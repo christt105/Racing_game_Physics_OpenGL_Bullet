@@ -65,6 +65,8 @@ bool ModuleSceneIntro::Start()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
+	current_time = SDL_GetTicks() - start_time;
+
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 		camera_free = !camera_free;
 
@@ -115,8 +117,7 @@ bool ModuleSceneIntro::CleanUp()
 
 void ModuleSceneIntro::CreateRect(const float & x, const float & y, const float & z, const float & width, const float &length, const Cube & cube, ORIENTATION orientation)
 {
-	PhysBody3D* phys1 = nullptr;
-	PhysBody3D* phys2 = nullptr;
+	
 	Cube* c1 = nullptr;
 	Cube* c2 = nullptr;
 	
@@ -164,6 +165,10 @@ void ModuleSceneIntro::CreateRect(const float & x, const float & y, const float 
 		c2 = new Cube(cube);
 		c1->SetPos(phys1->GetPosition());
 		c2->SetPos(phys2->GetPosition());
+	
+		phys1->SetState(PhysBody3D::Tag::WALL);
+		phys2->SetState(PhysBody3D::Tag::WALL);
+
 		map.PushBack(c1);
 		map.PushBack(c2);
 	}	
@@ -181,8 +186,12 @@ void ModuleSceneIntro::CreateCurve(const float & x, const float & y, const float
 		c1->SetPos(x + radius * cos(i*3.1415 / 180), y, z + radius * sin(i*3.1415 / 180));
 		c2->SetPos(x + (radius + width) * cos(i*3.1415 / 180), y, z + (radius + width) * sin(i*3.1415 / 180));
 		
-		App->physics->AddBody(*c1, 0.0F);
-		App->physics->AddBody(*c2, 0.0F);
+		phys_curve1 = App->physics->AddBody(*c1, 0.0F);
+		phys_curve2 = App->physics->AddBody(*c2, 0.0F);
+
+		phys_curve1->SetState(PhysBody3D::Tag::WALL);
+		phys2->SetState(PhysBody3D::Tag::WALL);
+
 		map.PushBack(c1);
 		map.PushBack(c2);
 	}
@@ -280,6 +289,18 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		{
 			Checkpoint(body2);
 			App->physics->DestroyBody(body2);
+
+			
+		}
+
+		if (body2->GetState() == PhysBody3D::Tag::WALL)
+		{
+
+			if (current_time >= 500)
+			{
+				App->audio->PlayFx(App->player->fx_crash);
+				start_time = SDL_GetTicks();
+			}
 		}
 	}
 }

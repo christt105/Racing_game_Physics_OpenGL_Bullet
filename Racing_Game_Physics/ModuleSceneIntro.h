@@ -50,6 +50,10 @@ public:
 public:
 	bool camera_free = false;
 	p2DynArray <Cube*> map;
+	PhysBody3D* phys1 = nullptr;
+	PhysBody3D* phys2 = nullptr;
+	PhysBody3D* phys_curve1 = nullptr;
+	PhysBody3D* phys_curve2 = nullptr;
 	p2DynArray <Sphere*> nitro_objects;
 	p2DynArray <PhysBody3D*> nitro_objects_body;
 	p2DynArray <Cube*> checkpoint_objects;
@@ -57,4 +61,6 @@ public:
 
 private:
 	Timer timer;
+	int current_time = 0;
+	int start_time = 0;
 };

@@ -23,6 +23,7 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 	void NitroSpeed();
+	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 public:
 
@@ -33,6 +34,7 @@ public:
 	float brake;
 	bool nitro = true;
 	int checkpoint_value = 0;
+
 private:
 	vec3 direction;
 	vec3 axis;
@@ -48,10 +50,13 @@ private:
 	int start_time = 0;
 	int start_nitro = 0;
 
+public:
+
 	uint fx_horn;
 	uint fx_crash;
 	uint fx_racing;
 	uint fx_screech;
 	uint fx_car_engine;
 	uint fx_start_car;
+	uint fx_checkpoint;
 };
