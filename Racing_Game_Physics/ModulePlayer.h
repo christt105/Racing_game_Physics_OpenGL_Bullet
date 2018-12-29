@@ -46,6 +46,7 @@ private:
 
 	int current_time = 0;
 	int start_time = 0;
+	int start_nitro = 0;
 
 	uint fx_horn;
 	uint fx_crash;

@@ -39,7 +39,6 @@ bool ModulePlayer::Start()
 	float suspensionRestLength = 1.2F;
 
 	// Don't change anything below this line ------------------
-
 	float half_width = car.chassis_size.x*0.5F;
 	float half_length = car.chassis_size.z*0.5F;
 
@@ -125,6 +124,7 @@ bool ModulePlayer::Start()
 // Update: draw background
 update_status ModulePlayer::Update(float dt)
 {
+	current_time = SDL_GetTicks() - start_time;
 
 	// Inputs
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN) {
@@ -190,19 +190,26 @@ update_status ModulePlayer::Update(float dt)
 		acceleration = 0;
 		accelerating = false;
 		decelerating = false;
-		//App->audio->PlayFx(fx_car_engine);
+
+		if (current_time >= 5000)
+		{
+			App->audio->PlayFx(fx_car_engine);
+			start_time = SDL_GetTicks();
+		}
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
-		
 		if (vehicle->GetKmh() >= 80)
 			acceleration = 0;
 		else
 			acceleration = MAX_ACCELERATION;
 
-		App->audio->PlayFx(fx_racing, 0);
-
+		if (current_time >= 5000)
+		{
+			App->audio->PlayFx(fx_racing, 0, true);
+			start_time = SDL_GetTicks();
+		}
 		accelerating = true;
 	}
 
@@ -268,11 +275,11 @@ void ModulePlayer::NitroSpeed()
 {
 	if (nitro)
 	{
-		start_time = SDL_GetTicks(); 
+		start_nitro = SDL_GetTicks(); 
 		nitro = false;
 	}
 
-	current_time = SDL_GetTicks() - start_time;
+	current_time = SDL_GetTicks() - start_nitro;
 	
 	if (current_time <= 1500)
 	{
