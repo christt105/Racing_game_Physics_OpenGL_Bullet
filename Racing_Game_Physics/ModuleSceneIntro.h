@@ -40,7 +40,7 @@ public:
 	void NitroObject(vec3 pos, int size, int distance_to);
 	void PickUpNitroObject(PhysBody3D* nitro_body);
 
-	void CreateCheckpoint(vec3 pos);
+	void CreateCheckpoint(vec3 pos, bool rotate);
 	void Checkpoint(PhysBody3D* checkpoint_body);
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);

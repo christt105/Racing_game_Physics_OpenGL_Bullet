@@ -56,29 +56,33 @@ bool ModuleSceneIntro::Start()
 	CreateCurve(-27, 0, -27, road_width, -90, 0, road, radius);
 
 	// Nitro Objects
-	NitroObject({ -23.78F, 1, 95.70F}, 3, 20); //Normal
+	NitroObject({ -23.78F, 1, 95.70F}, 3, 20); 
 	NitroObject({ -129.81F, 1, 124.58F}, 1, 20);
 	NitroObject({ -129.81F, 1, 128.58F}, 1, 20);
-	NitroObject({ -129.81F, 1, 132.58F}, 1, 20);
-	NitroObject({ -171.57F, 1, -17.52F }, 3, 20);//Normal
-	NitroObject({ -170.91F, 1, -195.71F}, 3, 20);//Normal
-	NitroObject({ -29.24F, 1, -281.81F}, 1, 20);
+	NitroObject({ -129.81F, 1, 132.58F}, 1, 20);//checkpoint
+	NitroObject({ -171.57F, 1, -17.52F }, 3, 20);
+	NitroObject({ -170.91F, 1, -195.71F}, 3, 20);
+	NitroObject({ -29.24F, 1, -281.81F}, 1, 20);//checkpoint
 	NitroObject({ -29.24F, 1, -285.81F}, 1, 20);
 	NitroObject({ -29.24F, 1, -289.81F}, 1, 20);
-	NitroObject({ 35.08F, 1, -405.92F}, 3, 20);//Normal
-	NitroObject({ 92.05F, 1, -435.15F}, 3, 20);//Normal
-	NitroObject({ 33.71F, 1, -204.62F }, 3, 20);//Normal
+	NitroObject({ 35.08F, 1, -405.92F}, 3, 20);
+	NitroObject({ 92.05F, 1, -435.15F}, 3, 20);
+	NitroObject({ 33.71F, 1, -204.62F }, 3, 20);//checkpoint
 	NitroObject({ 220.48F, 1, -121.50F}, 1, 20);
 	NitroObject({ 220.48F, 1, -125.50F}, 1, 20);
 	NitroObject({ 220.48F, 1, -129.50F}, 1, 20);
 	NitroObject({ 98.90F, 1, -120.14F}, 1, 20);
 	NitroObject({ 98.90F, 1, -124.14F}, 1, 20);
 	NitroObject({ 98.90F, 1, -128.14F}, 1, 20);
-	NitroObject({ -21.62F, 1, -167.14F }, 3, 20);//Normal
-	NitroObject({ -77.66F, 1, -103.31F}, 3, 20);//Normal
-	
+	NitroObject({ -21.62F, 1, -167.14F }, 3, 20);
+	NitroObject({ -77.66F, 1, -103.31F}, 3, 20);
+
 	//Checkpoint Objects
-	CreateCheckpoint({0, 1, 50});
+	CreateCheckpoint({ -129.81F, 1, 128.58F }, false);
+	CreateCheckpoint({ -29.24F, 1, -284.81F }, false);
+	CreateCheckpoint({ 60.71F, 1, -204.62F }, true);
+	CreateCheckpoint({ 0, 0.44F, -26.71F }, true);
+
 
 	// Timer
 	timer.Start();
@@ -280,10 +284,15 @@ void ModuleSceneIntro::PickUpNitroObject(PhysBody3D * nitro_body)
 	App->player->nitro = true;
 }
 
-void ModuleSceneIntro::CreateCheckpoint(vec3 pos)
+void ModuleSceneIntro::CreateCheckpoint(vec3 pos, bool rotate)
 {
 	Cube* checkpoint_obj = nullptr;
-	checkpoint_obj = new Cube(15, 2, 2);
+
+	if(rotate)
+		checkpoint_obj = new Cube(15, 2, 2);
+	else
+		checkpoint_obj = new Cube(2, 2, 15);
+
 	checkpoint_obj->color.Set(0, 255, 0, 1.F);
 	checkpoint_obj->SetPos(pos.x, pos.y, pos.z);
 	checkpoint_objects.PushBack(checkpoint_obj);
@@ -304,10 +313,15 @@ void ModuleSceneIntro::Checkpoint(PhysBody3D* checkpoint_body)
 		}
 	}
 	//Checkpoints 1 - 4
-	if(App->player->checkpoint_value >= 4)
+	
+	if(App->player->checkpoint_value == 0)
+		App->player->checkpoint_value = 1;
+	else if(App->player->checkpoint_value == 1)
+		App->player->checkpoint_value = 2;
+	else if(App->player->checkpoint_value == 3)
+		App->player->checkpoint_value = 4;
+	else if (App->player->checkpoint_value >= 4)
 		App->player->checkpoint_value = 0;
-	else if(App->player->checkpoint_value == 0)
-		App->player->checkpoint_value =1;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
@@ -349,18 +363,6 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 				start_time = SDL_GetTicks();
 			}
 		}
-	}
-}
-
-void ModuleSceneIntro::SetActive(bool set_active, PhysBody3D * body)
-{
-	if (set_active)
-	{
-		active = false;
-	}
-	else
-	{
-
 	}
 }
 
