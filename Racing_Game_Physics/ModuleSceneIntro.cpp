@@ -256,7 +256,7 @@ void ModuleSceneIntro::CreatePendulum(const float & x, const float & z)
 	pendulumBall_shape.PushBack(ball_shape);
 	pendulumBall_body.PushBack(ball);
 
-	App->physics->AddConstraintP2P(*support, *ball, vec3(0,-5,0), vec3(0,7,0));
+	App->physics->AddConstraintP2P(*support, *ball, vec3(0,0,0), vec3(0,12,0));
 	
 }
 
