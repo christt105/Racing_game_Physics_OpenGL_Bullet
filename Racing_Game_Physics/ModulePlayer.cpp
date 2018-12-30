@@ -194,7 +194,7 @@ update_status ModulePlayer::Update(float dt)
 		accelerating = false;
 		decelerating = false;
 
-		if (current_time >= 5000)
+		if (current_time >= 5000 && !App->scene_intro->game_over)
 		{
 			App->audio->PlayFx(fx_car_engine);
 			start_time = SDL_GetTicks();
@@ -208,7 +208,7 @@ update_status ModulePlayer::Update(float dt)
 		else
 			acceleration = MAX_ACCELERATION;
 
-		if (current_time >= 5000)
+		if (current_time >= 5000 && !App->scene_intro->game_over)
 		{
 			App->audio->PlayFx(fx_racing, 0, true);
 			start_time = SDL_GetTicks();

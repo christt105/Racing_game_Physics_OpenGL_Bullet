@@ -451,7 +451,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		break;
 
 	case PhysBody3D::Tag::WALL:
-		if (current_time >= 500)
+		if (current_time >= 500 && !game_over)
 		{
 			App->audio->PlayFx(App->player->fx_crash);
 			start_time = SDL_GetTicks();
