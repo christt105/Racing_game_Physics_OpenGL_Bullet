@@ -24,6 +24,7 @@ public:
 	void SetTransform(const float* matrix) const;
 	void SetPos(float x, float y, float z);
 	void SetPos(const vec3& pos);
+	void SetActive(bool active);
 	Tag GetState();
 	void SetState(Tag tag);
 
@@ -35,6 +36,7 @@ private:
 public:
 	p2List<Module*> collision_listeners;
 	bool on_collision = true;
+	bool active = true;
 };
 
 #endif //__PhysBody3D_H__

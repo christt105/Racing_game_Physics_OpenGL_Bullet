@@ -113,13 +113,14 @@ update_status ModuleSceneIntro::Update(float dt)
 	// Nitro Scene Objects
 	for (uint i = 0; i < nitro_objects.Count(); i++)
 	{
-		if(nitro_objects[i] != nullptr)
+		if(nitro_objects[i]->active)
 			nitro_objects[i]->Render();
 	}
 
 	// Checkpoints Scene Objects
 	for (uint i = 0; i < checkpoint_objects.Count(); i++)
 	{
+		if (checkpoint_objects[i]->active)
 		checkpoint_objects[i]->Render();
 	}
 
@@ -268,8 +269,9 @@ void ModuleSceneIntro::NitroObject(vec3 pos, int size, int distance_to)
 		if (active)
 		{
 			nitro_obj = new Sphere(1);
-			nitro_obj->color.Set(255, 0, 128, 1.F);
+			nitro_obj->color.Set(255, 0, 128);
 			nitro_obj->SetPos(pos.x + distance_to, pos.y, pos.z);
+			nitro_obj->wire = true;
 			nitro_objects.PushBack(nitro_obj);
 			distance_to += 4;
 			PhysBody3D* sensor = App->physics->AddBody(*nitro_obj, 0);
@@ -287,18 +289,11 @@ void ModuleSceneIntro::PickUpNitroObject(PhysBody3D * nitro_body)
 	{
 		if (nitro_objects_body[i] == nitro_body)
 		{
-			nitro_objects.Pop(nitro_objects[i]);
-			nitro_objects_body.Pop(nitro_objects_body[i]);
-
-			/*if (nitro_objects[i] != nullptr)
-			{
-				delete nitro_objects[i];
-				nitro_objects[i] = nullptr;
-			}*/
-			//SetActive(active, nitro_objects_body[i]);
+			nitro_objects[i]->active = false;
+			break;
 		}
 	}
-	App->player->nitro = true;
+	
 }
 
 void ModuleSceneIntro::CreateCheckpoint(vec3 pos, bool rotate)
@@ -325,12 +320,12 @@ void ModuleSceneIntro::Checkpoint(PhysBody3D* checkpoint_body)
 	{
 		if (checkpoint_objects_body[i] == checkpoint_body)
 		{
-			checkpoint_objects.Pop(checkpoint_objects[i]);
-			checkpoint_objects_body.Pop(checkpoint_objects_body[i]);
+			checkpoint_objects[i]->active = false;
+			break;
 		}
 	}
 
-	App->player->SetCheckpointPosition();
+	
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
@@ -340,7 +335,8 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		if (body2->GetState() == PhysBody3D::Tag::NITRO)
 		{
 			PickUpNitroObject(body2);
-			App->physics->DestroyBody(body2);
+			body2->SetActive(false);
+			App->player->nitro = true;
 			App->player->vehicle->nitro_off = 0;
 			App->player->vehicle->nitro_on = 255;
 
@@ -354,7 +350,8 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		if (body2->GetState() == PhysBody3D::Tag::CHECKPOINT)
 		{
 			Checkpoint(body2);
-			App->physics->DestroyBody(body2);
+			body2->SetActive(false);
+			App->player->SetCheckpointPosition();
 			
 			if (current_time >= 1000)
 			{

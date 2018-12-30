@@ -87,7 +87,7 @@ update_status ModulePhysics3D::PreUpdate(float dt)
 			PhysBody3D* pbodyA = (PhysBody3D*)obA->getUserPointer();
 			PhysBody3D* pbodyB = (PhysBody3D*)obB->getUserPointer();
 
-			if(pbodyA && pbodyB)
+			if(pbodyA && pbodyB && pbodyA->active && pbodyB->active)
 			{
 				if (pbodyA->on_collision && pbodyB->on_collision)
 				{
