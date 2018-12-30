@@ -77,5 +77,6 @@ private:
 	char win_string[100];
 	int fastest_lap = 0;
 	int fastest_lap_time = 0;
+	bool start_game = false;
 
 };
