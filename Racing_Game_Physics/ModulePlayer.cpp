@@ -143,7 +143,6 @@ update_status ModulePlayer::Update(float dt)
 	// Inputs
 	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_DOWN) {
 		App->audio->PlayFx(fx_horn);
-		App->player->SaveGhostData();
 		LOG("%.2f %.2f %.2f", vehicle->GetPosition().x, vehicle->GetPosition().y, vehicle->GetPosition().z);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {
@@ -354,5 +353,23 @@ void ModulePlayer::IterateGhost()
 void ModulePlayer::SetCheckpointPosition()
 {
 	checkpoint_vehicle_transform = vehicle->vehicle->getRigidBody()->getWorldTransform();
+}
+
+void ModulePlayer::Reset()
+{
+	btTransform a; a.setIdentity();
+	vehicle->vehicle->getRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
+	vehicle->vehicle->getRigidBody()->setWorldTransform(a);
+	vehicle->SetPos(0, 1, 0);
+	SaveGhostData(false);
+	path_ghost = false;
+	save_ghost_data = false;
+	iterator_ghost = 0;
+	ghost_pos.Clear();
+	ghost_pos_prev.Clear();
+	SetCheckpointPosition();
+	timer_save_ghost.Start();
+	timer_iterate_ghost.Start();
+	timer_saving_data.Start();
 }
 

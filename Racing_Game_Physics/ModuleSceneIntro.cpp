@@ -152,8 +152,8 @@ update_status ModuleSceneIntro::Update(float dt)
 		if (checkpoint_objects[i]->active)
 			checkpoint_objects[i]->Render();
 
-		if (green_obj[i]->active)
-			green_obj[i]->Render();
+		if (map[i]->active)
+			map[i]->Render();
 	}
 
 	if(timer.Read()/1000 == 235)
@@ -178,9 +178,6 @@ bool ModuleSceneIntro::CleanUp()
 
 	for (int i = 0; i < nitro_objects.Count(); i++)
 		delete nitro_objects[i];
-
-	for (int i = 0; i < green_obj.Count(); i++)
-		delete green_obj[i];
 
 	for (int i = 0; i < checkpoint_objects.Count(); i++)
 		delete checkpoint_objects[i];
@@ -358,7 +355,7 @@ void ModuleSceneIntro::CreateCheckpoint(vec3 pos, bool rotate, PhysBody3D::Tag t
 		green_cube->color.Set(0, 255, 255);
 
 	green_cube->SetPos(pos.x, pos.y+ 4, pos.z);
-	green_obj.PushBack(green_cube);
+	map.PushBack(green_cube);
 
 }
 
@@ -372,6 +369,31 @@ void ModuleSceneIntro::Checkpoint(PhysBody3D* checkpoint_body)
 			break;
 		}
 	}
+}
+
+void ModuleSceneIntro::ResetEntities()
+{
+	for (int i = 0; i < nitro_objects_body.Count(); i++) {
+		nitro_objects_body[i]->SetActive(true);
+		nitro_objects[i]->active = true;
+	}
+
+	for (int i = 0; i < checkpoint_objects_body.Count(); i++) {
+		checkpoint_objects_body[i]->SetActive(true);
+		checkpoint_objects[i]->active = true;
+	}
+
+	for (int i = 0; i < pendulumBall_body.Count(); i++) {
+		pendulumBall_body[i]->SetActive(true);
+		pendulumBall_shape[i]->active = true;
+	}
+	
+	firstLap = true;
+	laps = 0;
+	timer_lap.Start();
+	timer.Start();
+	checkpoints = 0;
+	App->player->Reset();
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)

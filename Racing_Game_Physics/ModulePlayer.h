@@ -26,6 +26,7 @@ public:
 	bool SaveGhostData(bool to_save = true);
 	void IterateGhost();
 	void SetCheckpointPosition();
+	void Reset();
 
 public:
 

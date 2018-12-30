@@ -43,6 +43,8 @@ public:
 	void CreateCheckpoint(vec3 pos, bool rotate, PhysBody3D::Tag type = PhysBody3D::Tag::CHECKPOINT);
 	void Checkpoint(PhysBody3D* checkpoint_body);
 
+	void ResetEntities();
+
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 	//void Angles2AxisAngle(const float& alpha_x, const float& beta_y, vec3& u, float& angle);
 
@@ -55,7 +57,6 @@ public:
 
 	
 	p2DynArray <Cube*> checkpoint_objects;
-	p2DynArray <Cube*> green_obj;
 	p2DynArray <PhysBody3D*> checkpoint_objects_body;
 
 	p2DynArray<Sphere*> pendulumBall_shape;
