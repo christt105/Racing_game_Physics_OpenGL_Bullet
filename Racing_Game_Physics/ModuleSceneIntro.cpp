@@ -57,16 +57,23 @@ bool ModuleSceneIntro::Start()
 
 	// Nitro Objects
 	NitroObject({ -23.78F, 1, 95.70F}, 3, 20); //Normal
-	NitroObject({ -129.81F, 1, 128.58F}, 3, 20);
+	NitroObject({ -129.81F, 1, 124.58F}, 1, 20);
+	NitroObject({ -129.81F, 1, 128.58F}, 1, 20);
+	NitroObject({ -129.81F, 1, 132.58F}, 1, 20);
 	NitroObject({ -171.57F, 1, -17.52F }, 3, 20);//Normal
 	NitroObject({ -170.91F, 1, -195.71F}, 3, 20);//Normal
-	NitroObject({ -132.39F, 1, -282.55F}, 3, 20);
-	NitroObject({ -29.24F, 1, -288.81F}, 3, 20);
+	NitroObject({ -29.24F, 1, -281.81F}, 1, 20);
+	NitroObject({ -29.24F, 1, -285.81F}, 1, 20);
+	NitroObject({ -29.24F, 1, -289.81F}, 1, 20);
 	NitroObject({ 35.08F, 1, -405.92F}, 3, 20);//Normal
 	NitroObject({ 92.05F, 1, -435.15F}, 3, 20);//Normal
 	NitroObject({ 33.71F, 1, -204.62F }, 3, 20);//Normal
-	NitroObject({ 220.48F, 1, -123.50F}, 3, 20);
-	NitroObject({ 98.90F, 1, -122.14F}, 3, 20);
+	NitroObject({ 220.48F, 1, -121.50F}, 1, 20);
+	NitroObject({ 220.48F, 1, -125.50F}, 1, 20);
+	NitroObject({ 220.48F, 1, -129.50F}, 1, 20);
+	NitroObject({ 98.90F, 1, -120.14F}, 1, 20);
+	NitroObject({ 98.90F, 1, -124.14F}, 1, 20);
+	NitroObject({ 98.90F, 1, -128.14F}, 1, 20);
 	NitroObject({ -21.62F, 1, -167.14F }, 3, 20);//Normal
 	NitroObject({ -77.66F, 1, -103.31F}, 3, 20);//Normal
 	

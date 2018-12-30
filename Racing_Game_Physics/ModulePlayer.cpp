@@ -313,7 +313,7 @@ void ModulePlayer::NitroSpeed()
 	
 	if (current_time <= 1500)
 	{
-		if (vehicle->GetKmh() <= 180)
+		if (vehicle->GetKmh() <= 150)
 			acceleration = MAX_ACCELERATION * 2;
 		else
 			acceleration = 0;
