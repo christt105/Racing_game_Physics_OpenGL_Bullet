@@ -56,7 +56,19 @@ bool ModuleSceneIntro::Start()
 	CreateCurve(-27, 0, -27, road_width, -90, 0, road, radius);
 
 	// Nitro Objects
-	NitroObject({ -23, 1, 30 }, 3, 20);
+	NitroObject({ -23.78F, 1, 95.70F}, 3, 20); //Normal
+	NitroObject({ -129.81F, 1, 128.58F}, 3, 20);
+	NitroObject({ -171.57F, 1, -17.52F }, 3, 20);//Normal
+	NitroObject({ -170.91F, 1, -195.71F}, 3, 20);//Normal
+	NitroObject({ -132.39F, 1, -282.55F}, 3, 20);
+	NitroObject({ -29.24F, 1, -288.81F}, 3, 20);
+	NitroObject({ 35.08F, 1, -405.92F}, 3, 20);//Normal
+	NitroObject({ 92.05F, 1, -435.15F}, 3, 20);//Normal
+	NitroObject({ 33.71F, 1, -204.62F }, 3, 20);//Normal
+	NitroObject({ 220.48F, 1, -123.50F}, 3, 20);
+	NitroObject({ 98.90F, 1, -122.14F}, 3, 20);
+	NitroObject({ -21.62F, 1, -167.14F }, 3, 20);//Normal
+	NitroObject({ -77.66F, 1, -103.31F}, 3, 20);//Normal
 	
 	//Checkpoint Objects
 	CreateCheckpoint({0, 1, 50});
@@ -123,7 +135,6 @@ bool ModuleSceneIntro::CleanUp()
 
 void ModuleSceneIntro::CreateRect(const float & x, const float & y, const float & z, const float & width, const float &length, const Cube & cube, ORIENTATION orientation)
 {
-	
 	Cube* c1 = nullptr;
 	Cube* c2 = nullptr;
 	
