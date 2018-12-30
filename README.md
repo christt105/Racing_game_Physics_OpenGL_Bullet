@@ -5,6 +5,9 @@ v1.0
 
 ## Description
 This is a racing game made with OpenGL, Bullet and SDL.
+The objective is to do three laps in less than 4 min, dodging pendulums and picking nitro
+to beat the lap as fast as you can. You can also compite with yourself, a 
+ghost will run your previous lap.
 
 ### Installing
 Go to our github release page and download the las version .zip : 
@@ -24,7 +27,7 @@ Extract .zip files inside a folder and open the .exe file.
 
 ##### Debug functionality:
 * **F1** - Active debuggin view
-* **F2** - Respawn at start of the game
+* **F2** - Respawn at last checkpoint
 * **F3** - Free Camera
 * **R** - Up Camera
 * **F** - Down Camera
@@ -32,10 +35,11 @@ Extract .zip files inside a folder and open the .exe file.
 * **W A S D** - Move Free Camera
 
 ## Authors & Links
-* **Christian Martínez (christt105)** -  https://github.com/alejandro61299
+* **Christian MartÃ­nez (christt105)** -  https://github.com/christt105
 * **Marc Galvez(optus23)** -  https://github.com/optus23
 
-Github repository: https://github.com/LITTLE-BUSTERS-STUDIO/FallSlime
+Github repository: https://github.com/christt105/Racing_game_Physics_OpenGL_Bullet
+
 Trello: https://trello.com/b/EcIZwG4Q/physics-racing
 
 
@@ -43,7 +47,7 @@ Trello: https://trello.com/b/EcIZwG4Q/physics-racing
 
 MIT License
 
-Copyright (c) 2018 @christt105 (Christian Martínez de la Rosa) and @optus23 (Marc Gálvez Llorens)
+Copyright (c) 2018 @christt105 (Christian MartÃ­nez de la Rosa) and @optus23 (Marc GÃ¡lvez Llorens)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

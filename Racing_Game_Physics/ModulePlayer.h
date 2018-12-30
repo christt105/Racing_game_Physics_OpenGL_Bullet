@@ -26,6 +26,7 @@ public:
 	bool SaveGhostData(bool to_save = true);
 	void IterateGhost();
 	void SetCheckpointPosition();
+	void Reset();
 
 public:
 
@@ -49,6 +50,7 @@ private:
 	int iterator_ghost = 0;
 	Timer timer_save_ghost;
 	Timer timer_iterate_ghost;
+	Timer timer_saving_data;
 	btTransform checkpoint_vehicle_transform;
 
 	int current_time = 0;
