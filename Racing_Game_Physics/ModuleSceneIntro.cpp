@@ -470,10 +470,16 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		App->audio->PlayFx(App->player->fx_checkpoint);
 		timer_lap.Start();
 
-		if (laps >= 3 && timer.Read()/1000 >= 240)
+		// Win Condition
+		if (laps >= 3 && timer.Read()/1000 <= 240)
 		{
 			App->player->SaveGhostData(false);
-			LOG("*******GAME OVER**********");
+			LOG("*******WINNER WINNER CHICKER DINNER**********");
+			camera_free = true;
+
+			App->camera->Position.Set(0, 300, 0);
+			App->camera->LookAt(App->player->vehicle->GetPosition());
+			game_over = false;
 		}
 		else
 			laps++;
