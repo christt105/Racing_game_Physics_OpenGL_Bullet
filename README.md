@@ -5,7 +5,7 @@ v1.0
 
 ## Description
 This is a racing game made with OpenGL, Bullet and SDL.
-The objective is to do three laps in less than 3 min, dodging pendulums and picking nitro
+The objective is to do three laps in less than 4 min, dodging pendulums and picking nitro
 to beat the lap as fast as you can. You can also compite with yourself, a 
 ghost will run your previous lap.
 
