@@ -109,7 +109,7 @@ bool ModulePlayer::Start()
 	car.num_wheels = 0;
 	ghost = App->physics->AddVehicle(car);
 	ghost->SetState(PhysBody3D::Tag::GHOST);
-	ghost->SetPos(15, 1, 0);
+	ghost->SetPos(15, 1, 30);
 	ghost->SetAsSensor(true);
 	ghost->vehicle->getRigidBody()->setGravity(btVector3(0, 0, 0));
 	//ghost->vehicle->getRigidBody()->setFlags(ghost->vehicle->getRigidBody()->getFlags() | btRigidBodyFlags::BT_DISABLE_WORLD_GRAVITY | btRigidBody::CF_STATIC_OBJECT);
@@ -158,7 +158,7 @@ update_status ModulePlayer::Update(float dt)
 		//ghost->vehicle->getRigidBody()->setCenterOfMassTransform
 		ghost->vehicle->getRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
 		ghost->vehicle->getRigidBody()->setWorldTransform(vehicle->vehicle->getRigidBody()->getWorldTransform());
-		ghost->SetPos(ghost->GetPosition() + vec3(0, 1, 0));
+		ghost->SetPos(ghost->GetPosition() + vec3(0, 1, 20));
 	}
 
 	if (save_ghost_data && timer_save_ghost.Read() > 10) {
@@ -201,7 +201,7 @@ update_status ModulePlayer::Update(float dt)
 		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && !App->scene_intro->game_over)
 	{
 		if (vehicle->GetKmh() >= 100)
 			acceleration = 0;
@@ -216,19 +216,19 @@ update_status ModulePlayer::Update(float dt)
 		accelerating = true;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT && !App->scene_intro->game_over)
 	{
 		if(turn < TURN_DEGREES)
 			turn +=  TURN_DEGREES;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT && !App->scene_intro->game_over)
 	{
 		if(turn > -TURN_DEGREES)
 			turn -= TURN_DEGREES;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && !App->scene_intro->game_over)
 	{
 		if (vehicle->GetKmh() > 0)
 			brake = BRAKE_POWER;

@@ -61,6 +61,8 @@ public:
 	p2DynArray<Sphere*> pendulumBall_shape;
 	p2DynArray<PhysBody3D*> pendulumBall_body;
 
+	bool game_over = false;
+
 protected:
 	Timer timer_lap;
 
@@ -71,4 +73,5 @@ private:
 	int checkpoints = 0;
 	int laps = 0;
 	bool firstLap = true;
+	char win_string[];
 };

@@ -59,7 +59,6 @@ bool ModuleSceneIntro::Start()
 	CreatePendulum(-41, 129);
 	CreatePendulum(-79, 124);
 	CreatePendulum(-145, 131);
-	CreatePendulum(-194, 115);
 	CreatePendulum(-166, 72);
 	CreatePendulum(-152, 28);
 	CreatePendulum(-150, 16);
@@ -160,9 +159,22 @@ update_status ModuleSceneIntro::Update(float dt)
 		App->audio->PlayMusic("Audio/Music/60 Seconds.ogg");
 
 	char title[80];
-	sprintf_s(title, "Velocity: %.1F Km/h || Nitro: %d || Timer: %.2d:%.2d || Lap: %i/2 || Checkpoints: %i", 
+	sprintf_s(title, "Velocity: %.1F Km/h || Nitro: %d || Timer: %.2d:%.2d || Lap: %i/3 || Checkpoints: %i", 
 					App->player->vehicle->GetKmh(), App->player->nitro, timer.Read()/60000,timer.Read()/1000 % 60, laps,checkpoints);
 	App->window->SetTitle(title);
+
+	// Lose condition
+	if (timer.Read()/1000 >= 5)
+	{
+		App->player->SaveGhostData(false);
+		LOG("*******GAME OVER**********");
+		camera_free = true;
+
+		App->camera->Position.Set(0, 300, 0);
+		App->camera->LookAt(App->player->vehicle->GetPosition());
+		game_over = true;
+
+	}
 	return UPDATE_CONTINUE;
 }
 
@@ -425,9 +437,17 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		Checkpoint(body2);
 		body2->SetActive(false);
 		App->player->SetCheckpointPosition();
-		laps++;
 		App->audio->PlayFx(App->player->fx_checkpoint);
 		timer_lap.Start();
+
+		if (laps >= 3 && timer.Read()/1000 >= 240)
+		{
+			App->player->SaveGhostData(false);
+			LOG("*******GAME OVER**********");
+		}
+		else
+			laps++;
+
 		break;
 
 	case PhysBody3D::Tag::WALL:
