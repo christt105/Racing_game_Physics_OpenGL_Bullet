@@ -107,7 +107,6 @@ bool ModulePlayer::Start()
 	App->camera->LookAt(vehicle->GetPosition());
 
 	car.num_wheels = 0;
-	//car.mass = 1.0f;
 	ghost = App->physics->AddVehicle(car);
 	ghost->SetState(PhysBody3D::Tag::GHOST);
 	ghost->SetPos(15, 1, 0);
@@ -148,6 +147,7 @@ update_status ModulePlayer::Update(float dt)
 		LOG("%.2f %.2f %.2f", vehicle->GetPosition().x, vehicle->GetPosition().y, vehicle->GetPosition().z);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
+		vehicle->vehicle->getRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
 		vehicle->vehicle->getRigidBody()->setWorldTransform(checkpoint_vehicle_transform);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {
@@ -157,7 +157,7 @@ update_status ModulePlayer::Update(float dt)
 		//ghost->vehicle->getRigidBody()->setCenterOfMassTransform
 		ghost->vehicle->getRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
 		ghost->vehicle->getRigidBody()->setWorldTransform(vehicle->vehicle->getRigidBody()->getWorldTransform());
-		ghost->SetPos(ghost->GetPosition() + vec3(0, 10, 0));
+		ghost->SetPos(ghost->GetPosition() + vec3(0, 1, 0));
 	}
 
 	if (save_ghost_data && timer.Read() > 100) {
@@ -167,11 +167,13 @@ update_status ModulePlayer::Update(float dt)
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
-		timer.Start();
-		save_ghost_data = false;
-		path_ghost = true;
-		iterator_ghost = 0;
-		ghost->vehicle->getRigidBody()->setWorldTransform(ghost_pos[iterator_ghost]);
+		if (ghost_pos.Count() > 0) {
+			timer.Start();
+			save_ghost_data = false;
+			path_ghost = true;
+			iterator_ghost = 0;
+			ghost->vehicle->getRigidBody()->setWorldTransform(ghost_pos[iterator_ghost]);
+		}
 	}
 
 	if (path_ghost && timer.Read() > 100) {

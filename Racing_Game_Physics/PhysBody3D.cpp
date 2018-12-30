@@ -81,6 +81,7 @@ void PhysBody3D::SetPos(const vec3 &pos)
 void PhysBody3D::SetActive(bool is_active)
 {
 	active = is_active;
+	on_collision = is_active;
 }
 
 PhysBody3D::Tag PhysBody3D::GetState()

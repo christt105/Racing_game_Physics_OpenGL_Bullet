@@ -82,7 +82,7 @@ bool ModuleSceneIntro::Start()
 	CreateCheckpoint({ -129.81F, 1, 128.58F }, false);
 	CreateCheckpoint({ -29.24F, 1, -284.81F }, false);
 	CreateCheckpoint({ 60.71F, 1, -200.62F }, true);
-	CreateCheckpoint({ 0, 0.44F, -26.71F }, true);
+	CreateCheckpoint({ 0, 0.44F, 40.71F }, true, PhysBody3D::Tag::CHECKPOINT_FINISH);
 
 
 	// Timer
@@ -300,7 +300,7 @@ void ModuleSceneIntro::PickUpNitroObject(PhysBody3D * nitro_body)
 	
 }
 
-void ModuleSceneIntro::CreateCheckpoint(vec3 pos, bool rotate)
+void ModuleSceneIntro::CreateCheckpoint(vec3 pos, bool rotate, PhysBody3D::Tag type)
 {
 	Cube* checkpoint_obj = nullptr;
 	Cube* green_cube = nullptr;
@@ -321,10 +321,14 @@ void ModuleSceneIntro::CreateCheckpoint(vec3 pos, bool rotate)
 	checkpoint_objects.PushBack(checkpoint_obj);
 	PhysBody3D* sensor = App->physics->AddBody(*checkpoint_obj, 0);
 	sensor->SetAsSensor(true);
-	sensor->SetState(PhysBody3D::Tag::CHECKPOINT);
+	sensor->SetState(type);
 	checkpoint_objects_body.PushBack(sensor);
 
-	green_cube->color.Set(0, 255, 0);
+	if (type == PhysBody3D::Tag::CHECKPOINT)
+		green_cube->color.Set(0, 255, 0);
+	else
+		green_cube->color.Set(0, 255, 255);
+
 	green_cube->SetPos(pos.x, pos.y+ 4, pos.z);
 	green_obj.PushBack(green_cube);
 
@@ -346,41 +350,51 @@ void ModuleSceneIntro::Checkpoint(PhysBody3D* checkpoint_body)
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
-	if (body1->on_collision && body2->on_collision)
+	switch (body2->GetState())
 	{
-		if (body2->GetState() == PhysBody3D::Tag::NITRO)
+	case PhysBody3D::Tag::NITRO:
+		PickUpNitroObject(body2);
+		body2->SetActive(false);
+		App->player->nitro = true;
+		App->player->vehicle->nitro_off = 0;
+		App->player->vehicle->nitro_on = 255;
+
+		if (current_time >= 1000)
 		{
-			PickUpNitroObject(body2);
-			body2->SetActive(false);
-			App->player->nitro = true;
-			App->player->vehicle->nitro_off = 0;
-			App->player->vehicle->nitro_on = 255;
-
-			if (current_time >= 1000)
-			{
-				App->audio->PlayFx(App->player->fx_nitro_pick_up);
-				start_time = SDL_GetTicks();
-			}
+			App->audio->PlayFx(App->player->fx_nitro_pick_up);
+			start_time = SDL_GetTicks();
 		}
+		break;
+	case PhysBody3D::Tag::CHECKPOINT:
+		Checkpoint(body2);
+		body2->SetActive(false);
+		App->player->SetCheckpointPosition();
 
-		if (body2->GetState() == PhysBody3D::Tag::CHECKPOINT)
+		App->audio->PlayFx(App->player->fx_checkpoint);
+		break;
+	case PhysBody3D::Tag::CHECKPOINT_FINISH:
+		timer.Start();
+		for (int i = 0; i < checkpoint_objects_body.Count(); i++) {
+			if (checkpoint_objects[i] != nullptr)
+				checkpoint_objects[i]->active = true;
+			if (checkpoint_objects_body[i] != nullptr)
+				checkpoint_objects_body[i]->SetActive(true);
+		}
+		Checkpoint(body2);
+		body2->SetActive(false);
+		App->player->SetCheckpointPosition();
+
+		App->audio->PlayFx(App->player->fx_checkpoint);
+		break;
+	case PhysBody3D::Tag::WALL:
+		if (current_time >= 500)
 		{
-			Checkpoint(body2);
-			body2->SetActive(false);
-			App->player->SetCheckpointPosition();
-		
-			App->audio->PlayFx(App->player->fx_checkpoint);
+			App->audio->PlayFx(App->player->fx_crash);
+			start_time = SDL_GetTicks();
 		}
-
-		if (body2->GetState() == PhysBody3D::Tag::WALL)
-		{
-
-			if (current_time >= 500)
-			{
-				App->audio->PlayFx(App->player->fx_crash);
-				start_time = SDL_GetTicks();
-			}
-		}
+		break;
+	default:
+		break;
 	}
 }
 

@@ -11,7 +11,7 @@ class vec3;
 struct PhysBody3D
 {
 	friend class ModulePhysics3D;
-	enum class Tag { PLAYER, NITRO, CHECKPOINT, GHOST, WALL, NONE};
+	enum class Tag { PLAYER, NITRO, CHECKPOINT, CHECKPOINT_FINISH, GHOST, WALL, NONE};
 
 public:
 	PhysBody3D(btRigidBody* body);
@@ -32,11 +32,11 @@ private:
 	btRigidBody* body = nullptr;
 	bool listener_on = false;
 	Tag tag;
+	bool active = true;
 
 public:
 	p2List<Module*> collision_listeners;
 	bool on_collision = true;
-	bool active = true;
 };
 
 #endif //__PhysBody3D_H__

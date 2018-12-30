@@ -4,10 +4,10 @@
 #include "Globals.h"
 #include "Primitive.h"
 #include "Timer.h"
+#include "PhysBody3D.h"
 
 #define MAX_SNAKE 2
 
-struct PhysBody3D;
 struct PhysMotor3D;
 
 enum class ORIENTATION {
@@ -40,7 +40,7 @@ public:
 	void NitroObject(vec3 pos, int size, int distance_to);
 	void PickUpNitroObject(PhysBody3D* nitro_body);
 
-	void CreateCheckpoint(vec3 pos, bool rotate);
+	void CreateCheckpoint(vec3 pos, bool rotate, PhysBody3D::Tag type = PhysBody3D::Tag::CHECKPOINT);
 	void Checkpoint(PhysBody3D* checkpoint_body);
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
