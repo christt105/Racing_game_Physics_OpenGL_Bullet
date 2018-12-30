@@ -5,7 +5,7 @@
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
 
-#if _DEBUG
+#ifdef _DEBUG
 #pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
 #pragma comment (lib, "Bullet/libx86/BulletCollision_debug.lib")
 #pragma comment (lib, "Bullet/libx86/LinearMath_debug.lib")

@@ -112,7 +112,6 @@ bool ModulePlayer::Start()
 	ghost->SetPos(15, 1, 0);
 	ghost->SetAsSensor(true);
 	ghost->vehicle->getRigidBody()->setGravity(btVector3(0, 0, 0));
-	//ghost->vehicle->getRigidBody()->setFlags(ghost->vehicle->getRigidBody()->getFlags() | btRigidBodyFlags::BT_DISABLE_WORLD_GRAVITY | btRigidBody::CF_STATIC_OBJECT);
 
 	checkpoint_vehicle_transform = vehicle->vehicle->getRigidBody()->getWorldTransform();
 	//SFx
@@ -155,16 +154,17 @@ update_status ModulePlayer::Update(float dt)
 		vehicle->vehicle->getRigidBody()->setWorldTransform(checkpoint_vehicle_transform);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
-		//ghost->vehicle->getRigidBody()->setCenterOfMassTransform
 		ghost->vehicle->getRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
 		ghost->vehicle->getRigidBody()->setWorldTransform(vehicle->vehicle->getRigidBody()->getWorldTransform());
 		ghost->SetPos(ghost->GetPosition() + vec3(0, 1, 0));
 	}
 
 	if (save_ghost_data && timer_save_ghost.Read() > 10) {
-
 		ghost_pos.PushBack(vehicle->vehicle->getRigidBody()->getWorldTransform());
 		timer_save_ghost.Start();
+
+		if (timer_saving_data.Read() > 50000) //if saving more than 5 min it stops s
+			SaveGhostData(false);
 	}
 
 	if (path_ghost && timer_iterate_ghost.Read() > 10) {

@@ -159,9 +159,10 @@ update_status ModuleSceneIntro::Update(float dt)
 	if(timer.Read()/1000 == 235)
 		App->audio->PlayMusic("Audio/Music/60 Seconds.ogg");
 
-	char title[80];
-	sprintf_s(title, "Velocity: %.1F Km/h || Nitro: %d || Timer: %.2d:%.2d || Lap: %i/2 || Checkpoints: %i", 
-					App->player->vehicle->GetKmh(), App->player->nitro, timer.Read()/60000,timer.Read()/1000 % 60, laps,checkpoints);
+	char title[180];
+	sprintf_s(title, "Velocity: %.1F Km/h || Nitro: %d || Checkpoints: %i || Timer: %.2d:%.2d || Lap: %i/3 Time: %.2d:%.2d || Fastest Lap: %i Time: %.2d:%.2d", 
+					App->player->vehicle->GetKmh(), App->player->nitro, checkpoints, timer.Read()/60000,timer.Read()/1000 % 60, laps,
+					timer_lap.Read() / 60000, timer_lap.Read() / 1000 % 60,	fastest_lap, fastest_lap_time / 60000, fastest_lap_time / 1000 % 60);
 	App->window->SetTitle(title);
 	return UPDATE_CONTINUE;
 }
@@ -409,10 +410,16 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	case PhysBody3D::Tag::CHECKPOINT_FINISH:
 		if (firstLap) {
 			timer.Start();
+			timer_lap.Start();
+			fastest_lap_time = 400000;
 			App->player->SaveGhostData();
 		}
 		else {
 			App->player->IterateGhost();
+			if (timer_lap.Read() < fastest_lap_time) {
+				fastest_lap_time = timer_lap.Read();
+				fastest_lap = laps;
+			}
 		}
 
 		checkpoints = 0;
@@ -425,6 +432,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		Checkpoint(body2);
 		body2->SetActive(false);
 		App->player->SetCheckpointPosition();
+		
 		laps++;
 		App->audio->PlayFx(App->player->fx_checkpoint);
 		timer_lap.Start();

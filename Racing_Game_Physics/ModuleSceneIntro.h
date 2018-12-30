@@ -71,4 +71,6 @@ private:
 	int checkpoints = 0;
 	int laps = 0;
 	bool firstLap = true;
+	int fastest_lap = 0;
+	int fastest_lap_time = 0;
 };
