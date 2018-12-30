@@ -144,14 +144,15 @@ update_status ModulePlayer::Update(float dt)
 	// Inputs
 	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_DOWN) {
 		App->audio->PlayFx(fx_horn);
+		App->player->SaveGhostData();
 		LOG("%.2f %.2f %.2f", vehicle->GetPosition().x, vehicle->GetPosition().y, vehicle->GetPosition().z);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
+	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {
+		IterateGhost();
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN || vehicle->GetUpperVector().y == -1) {
 		vehicle->vehicle->getRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
 		vehicle->vehicle->getRigidBody()->setWorldTransform(checkpoint_vehicle_transform);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {
-		SaveGhostData(!save_ghost_data);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
 		//ghost->vehicle->getRigidBody()->setCenterOfMassTransform
@@ -160,40 +161,25 @@ update_status ModulePlayer::Update(float dt)
 		ghost->SetPos(ghost->GetPosition() + vec3(0, 1, 0));
 	}
 
-	if (save_ghost_data && timer.Read() > 100) {
+	if (save_ghost_data && timer_save_ghost.Read() > 10) {
 
 		ghost_pos.PushBack(vehicle->vehicle->getRigidBody()->getWorldTransform());
-		timer.Start();
+		timer_save_ghost.Start();
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
-		if (ghost_pos.Count() > 0) {
-			timer.Start();
-			save_ghost_data = false;
-			path_ghost = true;
-			iterator_ghost = 0;
-			ghost->vehicle->getRigidBody()->setWorldTransform(ghost_pos[iterator_ghost]);
-		}
-	}
-
-	if (path_ghost && timer.Read() > 100) {
-		if (iterator_ghost + 1 >= ghost_pos.Count()) {
+	if (path_ghost && timer_iterate_ghost.Read() > 10) {
+		if (iterator_ghost + 1 >= ghost_pos_prev.Count()) {
 			path_ghost = false;
-			ghost_pos.Clear();
-			timer.Stop();
+			ghost_pos_prev.Clear();
+			timer_iterate_ghost.Stop();
 		}
 		else {
-			ghost->vehicle->getRigidBody()->setWorldTransform(ghost_pos[++iterator_ghost]);
-			timer.Start();
+			ghost->vehicle->getRigidBody()->setWorldTransform(ghost_pos_prev[++iterator_ghost]);
+			timer_iterate_ghost.Start();
 		}
 	}
-	//-----------------------------------------------------------
 
-	if (vehicle->GetUpperVector().y == -1) {
-		btTransform a;
-		a.setIdentity();
-		vehicle->vehicle->getRigidBody()->setWorldTransform(checkpoint_vehicle_transform);
-	}
+	//-----------------------------------------------------------
 
 	//Car control	---------------------------------------------------------------
 	turn = acceleration = brake = 0.0F;
@@ -327,7 +313,7 @@ bool ModulePlayer::SaveGhostData(bool to_save)
 {
 	if (to_save && !save_ghost_data) {
 		save_ghost_data = true;
-		timer.Start();
+		timer_save_ghost.Start();
 		LOG("Starting saving ghost data");
 		return true;
 	}
@@ -341,14 +327,28 @@ bool ModulePlayer::SaveGhostData(bool to_save)
 	}
 	else if (!to_save && !save_ghost_data) {
 		save_ghost_data = false;
-		timer.Stop();
+		timer_save_ghost.Stop();
 		ghost_pos_prev = ghost_pos;
 		ghost_pos.Clear();
-		LOG("Stopping saving ghost data, time recording %i",timer.Read()/1000);
+		LOG("Stopping saving ghost data, time recording %i",timer_save_ghost.Read()/1000);
 		return true;
 	}
 
 	return false;
+}
+
+void ModulePlayer::IterateGhost()
+{
+	timer_iterate_ghost.Start();
+	path_ghost = true;
+	ghost_pos_prev = ghost_pos;
+
+	iterator_ghost = 0;
+	if (ghost_pos_prev.Count() > 0)
+		ghost->vehicle->getRigidBody()->setWorldTransform(ghost_pos_prev[0]);
+
+	ghost_pos.Clear();
+	ghost_pos.PushBack(vehicle->vehicle->getRigidBody()->getWorldTransform());
 }
 
 void ModulePlayer::SetCheckpointPosition()

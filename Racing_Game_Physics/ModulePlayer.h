@@ -24,6 +24,7 @@ public:
 	bool CleanUp();
 	void NitroSpeed();
 	bool SaveGhostData(bool to_save = true);
+	void IterateGhost();
 	void SetCheckpointPosition();
 
 public:
@@ -46,7 +47,8 @@ private:
 	bool save_ghost_data = false;
 	bool path_ghost = false;
 	int iterator_ghost = 0;
-	Timer timer;
+	Timer timer_save_ghost;
+	Timer timer_iterate_ghost;
 	btTransform checkpoint_vehicle_transform;
 
 	int current_time = 0;

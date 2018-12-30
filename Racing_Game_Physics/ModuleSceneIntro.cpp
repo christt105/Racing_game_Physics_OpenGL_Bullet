@@ -379,8 +379,13 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		break;
 
 	case PhysBody3D::Tag::CHECKPOINT_FINISH:
-		if (firstLap)
+		if (firstLap) {
 			timer.Start();
+			App->player->SaveGhostData();
+		}
+		else {
+			App->player->IterateGhost();
+		}
 
 		checkpoints = 0;
 		for (int i = 0; i < checkpoint_objects_body.Count(); i++) {
@@ -393,8 +398,8 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		body2->SetActive(false);
 		App->player->SetCheckpointPosition();
 		laps++;
-
 		App->audio->PlayFx(App->player->fx_checkpoint);
+		timer_lap.Start();
 		break;
 
 	case PhysBody3D::Tag::WALL:

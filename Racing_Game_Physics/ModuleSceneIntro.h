@@ -60,8 +60,12 @@ public:
 
 	p2DynArray<Sphere*> pendulumBall_shape;
 	p2DynArray<PhysBody3D*> pendulumBall_body;
+
+protected:
+	Timer timer_lap;
+
 private:
-	Timer timer;
+	Timer timer;	
 	int current_time = 0;
 	int start_time = 0;
 	int checkpoints = 0;
