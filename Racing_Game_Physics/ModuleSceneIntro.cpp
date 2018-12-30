@@ -334,18 +334,18 @@ void ModuleSceneIntro::CreateCheckpoint(vec3 pos, bool rotate, PhysBody3D::Tag t
 	Cube* green_cube = nullptr;
 	if (rotate)
 	{
-		checkpoint_obj = new Cube(15, 2, 2);
+		checkpoint_obj = new Cube(15, 1, 1);
 		green_cube = new Cube(15, 1, 1);
 	}
 	else
 	{
-		checkpoint_obj = new Cube(2, 2, 15);
+		checkpoint_obj = new Cube(1, 1, 15);
 		green_cube = new Cube(1, 1, 15);
 
 	}
 
 
-	checkpoint_obj->SetPos(pos.x, pos.y, pos.z);
+	checkpoint_obj->SetPos(pos.x, pos.y+1, pos.z);
 	checkpoint_objects.PushBack(checkpoint_obj);
 	PhysBody3D* sensor = App->physics->AddBody(*checkpoint_obj, 0);
 	sensor->SetAsSensor(true);
