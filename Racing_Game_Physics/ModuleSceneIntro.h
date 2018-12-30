@@ -64,5 +64,7 @@ private:
 	Timer timer;
 	int current_time = 0;
 	int start_time = 0;
-	bool active = true;
+	int checkpoints = 0;
+	int laps = 0;
+	bool firstLap = true;
 };

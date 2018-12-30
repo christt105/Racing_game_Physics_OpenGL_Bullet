@@ -84,6 +84,7 @@ bool ModuleSceneIntro::Start()
 	CreateCheckpoint({ 60.71F, 1, -200.62F }, true);
 	CreateCheckpoint({ 0, 0.44F, 40.71F }, true, PhysBody3D::Tag::CHECKPOINT_FINISH);
 
+	firstLap = true;
 
 	// Timer
 	timer.Start();
@@ -131,7 +132,8 @@ update_status ModuleSceneIntro::Update(float dt)
 		App->audio->PlayMusic("Audio/Music/60 Seconds.ogg");
 
 	char title[80];
-	sprintf_s(title, "Velocity: %.1F Km/h || Nitro: %d || Timer: %.2d:%.2d", App->player->vehicle->GetKmh(), App->player->nitro, timer.Read()/60000,timer.Read()/1000 % 60);
+	sprintf_s(title, "Velocity: %.1F Km/h || Nitro: %d || Timer: %.2d:%.2d || Lap: %i/2 || Checkpoints: %i", 
+					App->player->vehicle->GetKmh(), App->player->nitro, timer.Read()/60000,timer.Read()/1000 % 60, laps,checkpoints);
 	App->window->SetTitle(title);
 	return UPDATE_CONTINUE;
 }
@@ -271,20 +273,17 @@ void ModuleSceneIntro::NitroObject(vec3 pos, int size, int distance_to)
 	Sphere* nitro_obj = nullptr;
 	for (int i = 0; i < size; i++)
 	{
-		if (active)
-		{
-			nitro_obj = new Sphere(1);
-			nitro_obj->color.Set(3, 2, 1);
-			nitro_obj->SetPos(pos.x + distance_to, pos.y, pos.z);
-			nitro_obj->wire = true;
-			nitro_objects.PushBack(nitro_obj);
-			distance_to += 4;
-			PhysBody3D* sensor = App->physics->AddBody(*nitro_obj, 0);
-			sensor->SetAsSensor(true);
-			sensor->SetState(PhysBody3D::Tag::NITRO);
-			nitro_objects_body.PushBack(sensor);
-		}
-	} 
+		nitro_obj = new Sphere(1);
+		nitro_obj->color.Set(3, 2, 1);
+		nitro_obj->SetPos(pos.x + distance_to, pos.y, pos.z);
+		nitro_obj->wire = true;
+		nitro_objects.PushBack(nitro_obj);
+		distance_to += 4;
+		PhysBody3D* sensor = App->physics->AddBody(*nitro_obj, 0);
+		sensor->SetAsSensor(true);
+		sensor->SetState(PhysBody3D::Tag::NITRO);
+		nitro_objects_body.PushBack(sensor);
+	}
 }
 
 void ModuleSceneIntro::PickUpNitroObject(PhysBody3D * nitro_body)
@@ -344,8 +343,6 @@ void ModuleSceneIntro::Checkpoint(PhysBody3D* checkpoint_body)
 			break;
 		}
 	}
-
-	
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
@@ -365,15 +362,27 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			start_time = SDL_GetTicks();
 		}
 		break;
+
 	case PhysBody3D::Tag::CHECKPOINT:
 		Checkpoint(body2);
 		body2->SetActive(false);
 		App->player->SetCheckpointPosition();
-
+		checkpoints++;
+		if(checkpoints>=3)
+			for(int i =0;i<checkpoint_objects_body.Count();i++)
+				if (checkpoint_objects_body[i]->GetState() == PhysBody3D::Tag::CHECKPOINT_FINISH) {
+					checkpoint_objects_body[i]->SetActive(true);
+					checkpoint_objects[i]->active = true;
+					firstLap = false;
+				}
 		App->audio->PlayFx(App->player->fx_checkpoint);
 		break;
+
 	case PhysBody3D::Tag::CHECKPOINT_FINISH:
-		timer.Start();
+		if (firstLap)
+			timer.Start();
+
+		checkpoints = 0;
 		for (int i = 0; i < checkpoint_objects_body.Count(); i++) {
 			if (checkpoint_objects[i] != nullptr)
 				checkpoint_objects[i]->active = true;
@@ -383,9 +392,11 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		Checkpoint(body2);
 		body2->SetActive(false);
 		App->player->SetCheckpointPosition();
+		laps++;
 
 		App->audio->PlayFx(App->player->fx_checkpoint);
 		break;
+
 	case PhysBody3D::Tag::WALL:
 		if (current_time >= 500)
 		{
