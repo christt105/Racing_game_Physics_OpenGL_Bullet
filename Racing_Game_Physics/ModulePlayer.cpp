@@ -155,7 +155,7 @@ update_status ModulePlayer::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
 		ghost->vehicle->getRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
 		ghost->vehicle->getRigidBody()->setWorldTransform(vehicle->vehicle->getRigidBody()->getWorldTransform());
-		ghost->SetPos(ghost->GetPosition() + vec3(0, 1, 20));
+		ghost->SetPos(ghost->GetPosition() + vec3(0, 1, 10));
 	}
 
 	if (save_ghost_data && timer_save_ghost.Read() > 10) {
