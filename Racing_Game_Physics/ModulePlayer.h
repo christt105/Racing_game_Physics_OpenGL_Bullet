@@ -57,6 +57,7 @@ public:
 	uint fx_crash;
 	uint fx_racing;
 	uint fx_nitro_pick_up;
+	uint fx_nitro;
 	uint fx_car_engine;
 	uint fx_start_car;
 	uint fx_checkpoint;

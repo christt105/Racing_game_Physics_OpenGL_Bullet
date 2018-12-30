@@ -121,6 +121,7 @@ bool ModulePlayer::Start()
 	fx_racing = App->audio->LoadFx("Audio/SFX/racing.wav");
 	fx_start_car = App->audio->LoadFx("Audio/SFX/start_car.wav");
 	fx_nitro_pick_up = App->audio->LoadFx("Audio/SFX/nitro_pick_up.wav");
+	fx_nitro = App->audio->LoadFx("Audio/SFX/nitro.wav");
 	fx_car_engine = App->audio->LoadFx("Audio/SFX/car_engine.wav");
 	fx_checkpoint = App->audio->LoadFx("Audio/SFX/checkpoint.wav");
 	App->audio->PlayMusic("Audio/Music/Ambientation.ogg");
@@ -316,6 +317,7 @@ void ModulePlayer::NitroSpeed()
 {
 	if (nitro)
 	{
+		App->audio->PlayFx(fx_nitro);
 		start_nitro = SDL_GetTicks(); 
 		nitro = false;
 		vehicle->nitro_off = 255;
