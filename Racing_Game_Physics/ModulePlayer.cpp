@@ -155,7 +155,7 @@ update_status ModulePlayer::Update(float dt)
 			vehicle->SetPos(-29.24F, 1, -284.81F);
 			break;
 		case 3:
-			vehicle->SetPos(60.71F, 1, -204.62F);
+			vehicle->SetPos(60.71F, 1, -200.62F);
 			break;
 		case 4:
 			vehicle->SetPos(-129.81F, 1, 128.58F);

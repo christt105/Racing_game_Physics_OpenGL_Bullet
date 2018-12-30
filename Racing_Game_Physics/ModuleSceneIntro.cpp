@@ -80,7 +80,7 @@ bool ModuleSceneIntro::Start()
 	//Checkpoint Objects
 	CreateCheckpoint({ -129.81F, 1, 128.58F }, false);
 	CreateCheckpoint({ -29.24F, 1, -284.81F }, false);
-	CreateCheckpoint({ 60.71F, 1, -204.62F }, true);
+	CreateCheckpoint({ 60.71F, 1, -200.62F }, true);
 	CreateCheckpoint({ 0, 0.44F, -26.71F }, true);
 
 
