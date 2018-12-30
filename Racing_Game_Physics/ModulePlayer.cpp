@@ -190,7 +190,7 @@ update_status ModulePlayer::Update(float dt)
 	if (vehicle->GetUpperVector().y == -1) {
 		btTransform a;
 		a.setIdentity();
-		vehicle->vehicle->getRigidBody()->setWorldTransform(a);
+		vehicle->vehicle->getRigidBody()->setWorldTransform(checkpoint_vehicle_transform);
 	}
 
 	//Car control	---------------------------------------------------------------
