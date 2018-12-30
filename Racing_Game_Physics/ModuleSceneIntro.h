@@ -32,7 +32,6 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	//void CreateRect(int x, int y, int z, int x_width, int high, int y_width);
 	void CreateRect(const float &x, const float &y, const float &z, const float &width, const float &length, const Cube & cube, ORIENTATION orientation = ORIENTATION::NORTH);
 	void CreateCurve(const float &x, const float &y, const float &z, const float & width, const float & angle_i, const float & angle_f, const Cube & cube, const float & radius);
 	void CreatePendulum(const float &x, const float &z);
@@ -45,7 +44,6 @@ public:
 	void Checkpoint(PhysBody3D* checkpoint_body);
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
-	void SetActive(bool set_active, PhysBody3D* body);
 	//void Angles2AxisAngle(const float& alpha_x, const float& beta_y, vec3& u, float& angle);
 
 public:

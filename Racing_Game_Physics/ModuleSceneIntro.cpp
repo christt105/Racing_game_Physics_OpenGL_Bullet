@@ -147,6 +147,9 @@ bool ModuleSceneIntro::CleanUp()
 	for (int i = 0; i < checkpoint_objects.Count(); i++)
 		delete checkpoint_objects[i];
 
+	for (int i = 0; i < pendulumBall_shape.Count(); i++)
+		delete pendulumBall_shape[i];
+
 	return true;
 }
 
