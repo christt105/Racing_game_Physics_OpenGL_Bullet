@@ -120,8 +120,8 @@ update_status ModuleSceneIntro::Update(float dt)
 	// Checkpoints Scene Objects
 	for (uint i = 0; i < checkpoint_objects.Count(); i++)
 	{
-		if (checkpoint_objects[i] != nullptr)
-			checkpoint_objects[i]->Render();
+		if (green_obj[i] != nullptr)
+			green_obj[i]->Render();
 	}
 
 	if(timer.Read()/1000 == 235)
@@ -144,6 +144,9 @@ bool ModuleSceneIntro::CleanUp()
 
 	for (int i = 0; i < nitro_objects.Count(); i++)
 		delete nitro_objects[i];
+
+	for (int i = 0; i < green_obj.Count(); i++)
+		delete green_obj[i];
 
 	for (int i = 0; i < checkpoint_objects.Count(); i++)
 		delete checkpoint_objects[i];
@@ -301,19 +304,32 @@ void ModuleSceneIntro::PickUpNitroObject(PhysBody3D * nitro_body)
 void ModuleSceneIntro::CreateCheckpoint(vec3 pos, bool rotate)
 {
 	Cube* checkpoint_obj = nullptr;
-
-	if(rotate)
+	Cube* green_cube = nullptr;
+	if (rotate)
+	{
 		checkpoint_obj = new Cube(15, 2, 2);
+		green_cube = new Cube(15, 1, 1);
+		green_cube->SetPos(pos.x, pos.y + 4, pos.z + 10);
+	}
 	else
+	{
 		checkpoint_obj = new Cube(2, 2, 15);
+		green_cube = new Cube(1, 1, 15);
+		green_cube->SetPos(pos.x + 10, pos.y + 4, pos.z + 10);
 
-	checkpoint_obj->color.Set(0, 255, 0, 100);
+	}
+
+
 	checkpoint_obj->SetPos(pos.x, pos.y, pos.z);
 	checkpoint_objects.PushBack(checkpoint_obj);
 	PhysBody3D* sensor = App->physics->AddBody(*checkpoint_obj, 0);
 	sensor->SetAsSensor(true);
 	sensor->SetState(PhysBody3D::Tag::CHECKPOINT);
 	checkpoint_objects_body.PushBack(sensor);
+
+	green_cube->color.Set(0, 255, 0, 100);
+	green_obj.PushBack(green_cube);
+
 }
 
 void ModuleSceneIntro::Checkpoint(PhysBody3D* checkpoint_body)
@@ -323,6 +339,7 @@ void ModuleSceneIntro::Checkpoint(PhysBody3D* checkpoint_body)
 		if (checkpoint_objects_body[i] == checkpoint_body)
 		{
 			checkpoint_objects.Pop(checkpoint_objects[i]);
+			green_obj.Pop(green_obj[i]);
 			checkpoint_objects_body.Pop(checkpoint_objects_body[i]);
 		}
 	}

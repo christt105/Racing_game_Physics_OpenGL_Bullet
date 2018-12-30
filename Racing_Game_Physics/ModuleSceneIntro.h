@@ -52,8 +52,10 @@ public:
 
 	p2DynArray <Sphere*> nitro_objects;
 	p2DynArray <PhysBody3D*> nitro_objects_body;
+
 	
 	p2DynArray <Cube*> checkpoint_objects;
+	p2DynArray <Cube*> green_obj;
 	p2DynArray <PhysBody3D*> checkpoint_objects_body;
 
 	p2DynArray<Sphere*> pendulumBall_shape;
