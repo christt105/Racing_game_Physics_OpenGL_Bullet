@@ -19,7 +19,7 @@ Extract .zip files inside a folder and open the .exe file.
 * **LEFT** - Move player to the left
 * **RIGHT** - Move player to the right
 * **DOWN** - Brake, and if it's totaly braked move backward
-* **SPACE** - Nitro Power
+* **SPACE** - Keep pressing Space to Nitro Power
 * **LALT** - Klaxon
 
 ##### Debug functionality:
