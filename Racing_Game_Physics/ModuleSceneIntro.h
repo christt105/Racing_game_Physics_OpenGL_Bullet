@@ -78,5 +78,6 @@ private:
 	int fastest_lap = 0;
 	int fastest_lap_time = 0;
 	bool start_game = false;
+	bool game_win = false;
 
 };
