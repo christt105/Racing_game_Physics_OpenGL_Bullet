@@ -257,26 +257,9 @@ void ModuleSceneIntro::CreatePendulum(const float & x, const float & z)
 	pendulumBall_shape.PushBack(ball_shape);
 	pendulumBall_body.PushBack(ball);
 
-	App->physics->AddConstraintP2P(*support, *ball, vec3(0,-5,0), vec3(0,7,0));
+	App->physics->AddConstraintP2P(*support, *ball, vec3(0,0,0), vec3(0,12,0));
 	
 }
-
-//void ModuleSceneIntro::CreateRamp(const float & x, const float & y, const float & z, const float & inclination, const float & rotation)
-//{
-//	Cube* c = new Cube(10, 10, 10);
-//	c->SetPos(x, y, z);
-//	mat4x4 mat = c->transform;
-//	vec3 u(0,0,0);
-//	float angle = 0.0f;
-//	Angles2AxisAngle(inclination, rotation,u,angle);
-//	LOG("axis %.2f %.2f %.2f angle %.2f", u.x, u.y, u.z, angle);
-//	c->SetRotation(angle, u);
-//
-//	//c->SetRotation(rotation, vec3(0.0f, 1.0f, 0.0f));
-//	PhysBody3D* phys = App->physics->AddBody(*c, 0.0f);
-//	
-//	map.PushBack(c);
-//}
 
 void ModuleSceneIntro::NitroObject(vec3 pos, int size, int distance_to)
 {
@@ -343,16 +326,8 @@ void ModuleSceneIntro::Checkpoint(PhysBody3D* checkpoint_body)
 			checkpoint_objects_body.Pop(checkpoint_objects_body[i]);
 		}
 	}
-	//Checkpoints 1 - 4
-	
-	if(App->player->checkpoint_value == 0)
-		App->player->checkpoint_value = 1;
-	else if(App->player->checkpoint_value == 1)
-		App->player->checkpoint_value = 2;
-	else if(App->player->checkpoint_value == 3)
-		App->player->checkpoint_value = 4;
-	else if (App->player->checkpoint_value >= 4)
-		App->player->checkpoint_value = 0;
+
+	App->player->SetCheckpointPosition();
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
@@ -396,6 +371,23 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		}
 	}
 }
+
+//void ModuleSceneIntro::CreateRamp(const float & x, const float & y, const float & z, const float & inclination, const float & rotation)
+//{
+//	Cube* c = new Cube(10, 10, 10);
+//	c->SetPos(x, y, z);
+//	mat4x4 mat = c->transform;
+//	vec3 u(0,0,0);
+//	float angle = 0.0f;
+//	Angles2AxisAngle(inclination, rotation,u,angle);
+//	LOG("axis %.2f %.2f %.2f angle %.2f", u.x, u.y, u.z, angle);
+//	c->SetRotation(angle, u);
+//
+//	//c->SetRotation(rotation, vec3(0.0f, 1.0f, 0.0f));
+//	PhysBody3D* phys = App->physics->AddBody(*c, 0.0f);
+//	
+//	map.PushBack(c);
+//}
 
 //void ModuleSceneIntro::Angles2AxisAngle(const float & alpha_x, const float & beta_y, vec3 & u, float & angle)
 //{
