@@ -106,6 +106,7 @@ bool ModulePlayer::Start()
 		vehicle->GetPosition().z - vehicle->GetForwardVector().z * CAMERA_OFFSET_Z);
 	App->camera->LookAt(vehicle->GetPosition());
 
+	//car.num_wheels = 0;
 	ghost = App->physics->AddVehicle(car);
 	ghost->SetState(PhysBody3D::Tag::GHOST);
 	ghost->SetPos(10, 1, 0);
