@@ -155,7 +155,7 @@ update_status ModuleSceneIntro::Update(float dt)
 			map[i]->Render();
 	}
 
-	if(timer.Read()/1000 == 235)
+	if(timer.Read()/1000 == 180)
 		App->audio->PlayMusic("Audio/Music/60 Seconds.ogg");
 
 	char title[180];
