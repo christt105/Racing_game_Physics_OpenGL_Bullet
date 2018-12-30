@@ -159,23 +159,33 @@ update_status ModuleSceneIntro::Update(float dt)
 		App->audio->PlayMusic("Audio/Music/60 Seconds.ogg");
 
 	char title[180];
-	sprintf_s(title, "Velocity: %.1F Km/h || Nitro: %d || Checkpoints: %i || Timer: %.2d:%.2d || Lap: %i/3 Time: %.2d:%.2d || Fastest Lap: %i Time: %.2d:%.2d", 
-					App->player->vehicle->GetKmh(), App->player->nitro, checkpoints, timer.Read()/60000,timer.Read()/1000 % 60, laps,
-					timer_lap.Read() / 60000, timer_lap.Read() / 1000 % 60,	fastest_lap, fastest_lap_time / 60000, fastest_lap_time / 1000 % 60);
-	App->window->SetTitle(title);
+	if (!game_over)
+	{
+		sprintf_s(title, "Velocity: %.1F Km/h || Nitro: %d || Checkpoints: %i || Timer: %.2d:%.2d || Lap: %i/3 Time: %.2d:%.2d || Fastest Lap: %i Time: %.2d:%.2d",
+			App->player->vehicle->GetKmh(), App->player->nitro, checkpoints, timer.Read() / 60000, timer.Read() / 1000 % 60, laps,
+			timer_lap.Read() / 60000, timer_lap.Read() / 1000 % 60, fastest_lap, fastest_lap_time / 60000, fastest_lap_time / 1000 % 60);
+	}
+	else
+	{
+		sprintf_s(title, "Timer: %.2d:%.2d || Lap: %i/3 Time: %.2d:%.2d || Fastest Lap: %i Time: %.2d:%.2d ||           GAME OVER!!!!!!!!!!", timer.Read() / 60000, timer.Read() / 1000 % 60, laps,
+			timer_lap.Read() / 60000, timer_lap.Read() / 1000 % 60, fastest_lap, fastest_lap_time / 60000, fastest_lap_time / 1000 % 60);
+	}
+	
 
 	// Lose condition
-	if (timer.Read()/1000 >= 240)
+	if (timer.Read()/1000 >= 4 && start_game)
 	{
 		App->player->SaveGhostData(false);
 		LOG("*******GAME OVER**********");
 		camera_free = true;
 
-		App->camera->Position.Set(0, 300, 0);
+		App->camera->Position.Set(0, 50, 0);
 		App->camera->LookAt(App->player->vehicle->GetPosition());
 		game_over = true;
-
 	}
+
+	App->window->SetTitle(title);
+
 	return UPDATE_CONTINUE;
 }
 
@@ -484,6 +494,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		else
 			laps++;
 
+		start_game = true;
 		break;
 
 	case PhysBody3D::Tag::WALL:
