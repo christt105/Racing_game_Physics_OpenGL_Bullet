@@ -50,7 +50,7 @@ public:
 
 public:
 	bool camera_free = false;
-	p2DynArray <Cube*> map;
+	p2DynArray <Primitive*> map;
 	PhysBody3D* phys1 = nullptr;
 	PhysBody3D* phys2 = nullptr;
 	PhysBody3D* phys_curve1 = nullptr;

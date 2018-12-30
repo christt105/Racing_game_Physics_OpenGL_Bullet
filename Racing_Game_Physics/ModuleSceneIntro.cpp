@@ -230,11 +230,19 @@ void ModuleSceneIntro::CreateCurve(const float & x, const float & y, const float
 void ModuleSceneIntro::CreatePendulum(const float & x, const float & z)
 {
 	int support_high = 15;
-	PhysBody3D* support = App->physics->AddBody(Cube(), 0.0F);
-	PhysBody3D* ball = App->physics->AddBody(Sphere(2), 10.0F);
+	Cube* support_shape = new Cube();
+	Sphere* ball_shape = new Sphere(2);
 
-	support->SetPos(x, support_high, z);
-	ball->SetPos(x, 2.2F, z);
+	support_shape->SetPos(x, support_high, z);
+	support_shape->color.Set(0, 0, 0);
+	ball_shape->SetPos(x, 2.2F, z);
+	ball_shape->color.Set(1, 1, 0);
+	
+	PhysBody3D* support = App->physics->AddBody(*support_shape, 0.0F);
+	PhysBody3D* ball = App->physics->AddBody(*ball_shape, 10.0F);
+
+	map.PushBack(support_shape);
+	map.PushBack(ball_shape);
 
 	App->physics->AddConstraintP2P(*support, *ball, vec3(0,-5,0), vec3(0,7,0));
 	
