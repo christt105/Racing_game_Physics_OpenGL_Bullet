@@ -218,7 +218,7 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
-		if (vehicle->GetKmh() >= 80)
+		if (vehicle->GetKmh() >= 100)
 			acceleration = 0;
 		else
 			acceleration = MAX_ACCELERATION;
@@ -254,6 +254,13 @@ update_status ModulePlayer::Update(float dt)
 				acceleration = 0;
 			else
 				acceleration = MAX_DECCELERATION;
+
+			if (current_time >= 5000)
+			{
+				App->audio->PlayFx(fx_car_engine);
+				start_time = SDL_GetTicks();
+			}
+
 			decelerating = true;
 		}
 
@@ -304,7 +311,7 @@ void ModulePlayer::NitroSpeed()
 	
 	if (current_time <= 1500)
 	{
-		if (vehicle->GetKmh() <= 150)
+		if (vehicle->GetKmh() <= 180)
 			acceleration = MAX_ACCELERATION * 2;
 		else
 			acceleration = 0;
