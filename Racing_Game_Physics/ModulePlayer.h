@@ -29,17 +29,17 @@ public:
 
 public:
 
-	PhysVehicle3D* vehicle;
-	PhysVehicle3D* ghost;
-	float turn;
-	float acceleration;
-	float brake;
+	PhysVehicle3D* vehicle = nullptr;
+	PhysVehicle3D* ghost = nullptr;
+	float turn = 0.0F;
+	float acceleration = 0.0F;
+	float brake = 0.0F;
 	bool nitro = true;
 	int checkpoint_value = 0;
 
 private:
-	vec3 direction;
-	vec3 axis;
+	vec3 direction = { 0,0,0 };
+	vec3 axis = { 0,0,0 };
 	bool accelerating = false;
 	bool decelerating = false;
 	p2DynArray<btTransform> ghost_pos;
@@ -57,13 +57,13 @@ private:
 
 public:
 
-	uint fx_horn;
-	uint fx_crash;
-	uint fx_racing;
-	uint fx_nitro_pick_up;
-	uint fx_nitro;
-	uint fx_car_engine;
-	uint fx_start_car;
-	uint fx_checkpoint;
+	uint fx_horn = 0;
+	uint fx_crash = 0;
+	uint fx_racing = 0;
+	uint fx_nitro_pick_up = 0;
+	uint fx_nitro = 0;
+	uint fx_car_engine = 0;
+	uint fx_start_car = 0;
+	uint fx_checkpoint = 0;
 	bool turn_on_car = true;
 };

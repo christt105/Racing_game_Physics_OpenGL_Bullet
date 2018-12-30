@@ -31,7 +31,7 @@ public:
 	
 	Color color;
 	mat4x4 transform;
-	bool axis,wire, active;
+	bool axis,wire, active = true;
 
 protected:
 	PrimitiveTypes type;
