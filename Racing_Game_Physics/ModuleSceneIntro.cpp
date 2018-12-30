@@ -158,16 +158,15 @@ update_status ModuleSceneIntro::Update(float dt)
 	if(timer.Read()/1000 == 180)
 		App->audio->PlayMusic("Audio/Music/60 Seconds.ogg");
 
-	char title[180];
+	char title[280];
 	if (!game_over & !game_win)
 	{
-		sprintf_s(title, "Velocity: %.1F Km/h || Nitro: %d || Checkpoints: %i || Timer: %.2d:%.2d || Lap: %i/3 Time: %.2d:%.2d || Fastest Lap: %i Time: %.2d:%.2d",
-			App->player->vehicle->GetKmh(), App->player->nitro, checkpoints, timer.Read() / 60000, timer.Read() / 1000 % 60, laps,
-			timer_lap.Read() / 60000, timer_lap.Read() / 1000 % 60, fastest_lap, fastest_lap_time / 60000, fastest_lap_time / 1000 % 60);
+		sprintf_s(title, "Velocity: %.1F Km/h || Nitro: %d || Checkpoints: %i || Lap: %i/3 Time: %.2d:%.2d || Fastest Lap: %i Time: %.2d:%.2d                                                                                      Timer: %.2d:%.2d",
+			App->player->vehicle->GetKmh(), App->player->nitro, checkpoints, laps, timer_lap.Read() / 60000, timer_lap.Read() / 1000 % 60, fastest_lap, fastest_lap_time / 60000, fastest_lap_time / 1000 % 60, timer.Read() / 60000, timer.Read() / 1000 % 60);
 	}
 	else if(game_over)
 	{
-		sprintf_s(title, "Timer: %.2d:%.2d || Lap: %i/3 Time: %.2d:%.2d || Fastest Lap: %i Time: %.2d:%.2d ||           GAME OVER!!!!!!!!!!", timer.Read() / 60000, timer.Read() / 1000 % 60, laps,
+		sprintf_s(title, "Timer: %.2d:%.2d || Lap: %i/3 Time: %.2d:%.2d || Fastest Lap: %i Time: %.2d:%.2d ||           GAME OVER!!!!!!!!!!              Reset Game by Pressing ENTER", timer.Read() / 60000, timer.Read() / 1000 % 60, laps,
 			timer_lap.Read() / 60000, timer_lap.Read() / 1000 % 60, fastest_lap, fastest_lap_time / 60000, fastest_lap_time / 1000 % 60);
 	}
 	else if (game_win)
