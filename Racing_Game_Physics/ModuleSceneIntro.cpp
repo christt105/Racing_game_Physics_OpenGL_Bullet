@@ -116,6 +116,9 @@ bool ModuleSceneIntro::Start()
 	// Timer
 	timer.Start();
 
+	game_over = false;
+	start_game = false;
+
 	return ret;
 }
 
@@ -126,6 +129,10 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 		camera_free = !camera_free;
+
+	if (!start_game && App->input->GetKey(SDL_SCANCODE_KP_ENTER) == KEY_DOWN) {
+		ResetVars();
+	}
 
 	//Render Map 
 	for (int i = 0; i < map.Count(); i++)
@@ -397,7 +404,7 @@ void ModuleSceneIntro::Checkpoint(PhysBody3D* checkpoint_body)
 	}
 }
 
-void ModuleSceneIntro::ResetEntities()
+void ModuleSceneIntro::ResetVars()
 {
 	for (int i = 0; i < nitro_objects_body.Count(); i++) {
 		nitro_objects_body[i]->SetActive(true);
@@ -420,6 +427,8 @@ void ModuleSceneIntro::ResetEntities()
 	timer.Start();
 	checkpoints = 0;
 	App->player->Reset();
+	game_over = false;
+	start_game = false;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
