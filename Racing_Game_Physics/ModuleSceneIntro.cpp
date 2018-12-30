@@ -120,7 +120,8 @@ update_status ModuleSceneIntro::Update(float dt)
 	// Checkpoints Scene Objects
 	for (uint i = 0; i < checkpoint_objects.Count(); i++)
 	{
-		checkpoint_objects[i]->Render();
+		if (checkpoint_objects[i] != nullptr)
+			checkpoint_objects[i]->Render();
 	}
 
 	if(timer.Read()/1000 == 235)
@@ -282,19 +283,15 @@ void ModuleSceneIntro::NitroObject(vec3 pos, int size, int distance_to)
 	Sphere* nitro_obj = nullptr;
 	for (int i = 0; i < size; i++)
 	{
-		if (active)
-		{
-			nitro_obj = new Sphere(1);
-			nitro_obj->color.Set(255, 0, 128, 1.F);
-			nitro_obj->SetPos(pos.x + distance_to, pos.y, pos.z);
-			nitro_objects.PushBack(nitro_obj);
-			distance_to += 4;
-			PhysBody3D* sensor = App->physics->AddBody(*nitro_obj, 0);
-			sensor->SetAsSensor(true);
-			sensor->SetState(PhysBody3D::Tag::NITRO);
-			nitro_objects_body.PushBack(sensor);
-		}
-		
+		nitro_obj = new Sphere(1);
+		nitro_obj->color.Set(255, 0, 128, 1.F);
+		nitro_obj->SetPos(pos.x + distance_to, pos.y, pos.z);
+		nitro_objects.PushBack(nitro_obj);
+		distance_to += 4;
+		PhysBody3D* sensor = App->physics->AddBody(*nitro_obj, 0);
+		sensor->SetAsSensor(true);
+		sensor->SetState(PhysBody3D::Tag::NITRO);
+		nitro_objects_body.PushBack(sensor);
 	} 
 }
 
@@ -306,13 +303,13 @@ void ModuleSceneIntro::PickUpNitroObject(PhysBody3D * nitro_body)
 		{
 			nitro_objects.Pop(nitro_objects[i]);
 			nitro_objects_body.Pop(nitro_objects_body[i]);
+		
 
 			/*if (nitro_objects[i] != nullptr)
 			{
 				delete nitro_objects[i];
 				nitro_objects[i] = nullptr;
 			}*/
-			//SetActive(active, nitro_objects_body[i]);
 		}
 	}
 	App->player->nitro = true;
@@ -327,7 +324,7 @@ void ModuleSceneIntro::CreateCheckpoint(vec3 pos, bool rotate)
 	else
 		checkpoint_obj = new Cube(2, 2, 15);
 
-	checkpoint_obj->color.Set(0, 255, 0, 1.F);
+	checkpoint_obj->color.Set(0, 255, 0, 100);
 	checkpoint_obj->SetPos(pos.x, pos.y, pos.z);
 	checkpoint_objects.PushBack(checkpoint_obj);
 	PhysBody3D* sensor = App->physics->AddBody(*checkpoint_obj, 0);
