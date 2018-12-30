@@ -43,7 +43,7 @@ public:
 	void CreateCheckpoint(vec3 pos, bool rotate, PhysBody3D::Tag type = PhysBody3D::Tag::CHECKPOINT);
 	void Checkpoint(PhysBody3D* checkpoint_body);
 
-	void ResetEntities();
+	void ResetVars();
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 	//void Angles2AxisAngle(const float& alpha_x, const float& beta_y, vec3& u, float& angle);
