@@ -121,7 +121,10 @@ update_status ModuleSceneIntro::Update(float dt)
 	for (uint i = 0; i < checkpoint_objects.Count(); i++)
 	{
 		if (checkpoint_objects[i]->active)
-		checkpoint_objects[i]->Render();
+			checkpoint_objects[i]->Render();
+
+		if (green_obj[i]->active)
+			green_obj[i]->Render();
 	}
 
 	if(timer.Read()/1000 == 235)
@@ -144,6 +147,9 @@ bool ModuleSceneIntro::CleanUp()
 
 	for (int i = 0; i < nitro_objects.Count(); i++)
 		delete nitro_objects[i];
+
+	for (int i = 0; i < green_obj.Count(); i++)
+		delete green_obj[i];
 
 	for (int i = 0; i < checkpoint_objects.Count(); i++)
 		delete checkpoint_objects[i];
@@ -247,18 +253,17 @@ void ModuleSceneIntro::CreatePendulum(const float & x, const float & z)
 
 	support_shape->SetPos(x, support_high, z);
 	support_shape->color.Set(0, 0, 0);
-	ball_shape->SetPos(x, 2.2F, z);
-	ball_shape->color.Set(1, 1, 0);
-	
+	ball_shape->color.Set(1, 2, 3);
+	ball_shape->SetPos(x, 0.2F, z);
+
 	PhysBody3D* support = App->physics->AddBody(*support_shape, 0.0F);
-	PhysBody3D* ball = App->physics->AddBody(*ball_shape, 10.0F);
+	PhysBody3D* ball = App->physics->AddBody(*ball_shape, 2000.0F);
 
 	map.PushBack(support_shape);
 	pendulumBall_shape.PushBack(ball_shape);
 	pendulumBall_body.PushBack(ball);
 
-	App->physics->AddConstraintP2P(*support, *ball, vec3(0,0,0), vec3(0,12,0));
-	
+	App->physics->AddConstraintP2P(*support, *ball, vec3(2,0,0), vec3(-3,10,0));
 }
 
 void ModuleSceneIntro::NitroObject(vec3 pos, int size, int distance_to)
@@ -269,7 +274,7 @@ void ModuleSceneIntro::NitroObject(vec3 pos, int size, int distance_to)
 		if (active)
 		{
 			nitro_obj = new Sphere(1);
-			nitro_obj->color.Set(255, 0, 128);
+			nitro_obj->color.Set(3, 2, 1);
 			nitro_obj->SetPos(pos.x + distance_to, pos.y, pos.z);
 			nitro_obj->wire = true;
 			nitro_objects.PushBack(nitro_obj);
@@ -279,7 +284,6 @@ void ModuleSceneIntro::NitroObject(vec3 pos, int size, int distance_to)
 			sensor->SetState(PhysBody3D::Tag::NITRO);
 			nitro_objects_body.PushBack(sensor);
 		}
-		
 	} 
 }
 
@@ -299,19 +303,31 @@ void ModuleSceneIntro::PickUpNitroObject(PhysBody3D * nitro_body)
 void ModuleSceneIntro::CreateCheckpoint(vec3 pos, bool rotate)
 {
 	Cube* checkpoint_obj = nullptr;
-
-	if(rotate)
+	Cube* green_cube = nullptr;
+	if (rotate)
+	{
 		checkpoint_obj = new Cube(15, 2, 2);
+		green_cube = new Cube(15, 1, 1);
+	}
 	else
+	{
 		checkpoint_obj = new Cube(2, 2, 15);
+		green_cube = new Cube(1, 1, 15);
 
-	checkpoint_obj->color.Set(0, 255, 0, 1.F);
+	}
+
+
 	checkpoint_obj->SetPos(pos.x, pos.y, pos.z);
 	checkpoint_objects.PushBack(checkpoint_obj);
 	PhysBody3D* sensor = App->physics->AddBody(*checkpoint_obj, 0);
 	sensor->SetAsSensor(true);
 	sensor->SetState(PhysBody3D::Tag::CHECKPOINT);
 	checkpoint_objects_body.PushBack(sensor);
+
+	green_cube->color.Set(0, 255, 0);
+	green_cube->SetPos(pos.x, pos.y+ 4, pos.z);
+	green_obj.PushBack(green_cube);
+
 }
 
 void ModuleSceneIntro::Checkpoint(PhysBody3D* checkpoint_body)
@@ -352,12 +368,8 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			Checkpoint(body2);
 			body2->SetActive(false);
 			App->player->SetCheckpointPosition();
-			
-			if (current_time >= 1000)
-			{
-				App->audio->PlayFx(App->player->fx_checkpoint);
-				start_time = SDL_GetTicks();
-			}
+		
+			App->audio->PlayFx(App->player->fx_checkpoint);
 		}
 
 		if (body2->GetState() == PhysBody3D::Tag::WALL)

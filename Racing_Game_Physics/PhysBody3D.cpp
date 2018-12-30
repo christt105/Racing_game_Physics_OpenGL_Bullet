@@ -81,10 +81,6 @@ void PhysBody3D::SetPos(const vec3 &pos)
 void PhysBody3D::SetActive(bool is_active)
 {
 	active = is_active;
-	body->activate();
-	body->getCollisionFlags();
-	body->setFlags(body->getFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE | btCollisionObject::CF_DISABLE_VISUALIZE_OBJECT | btRigidBody::CF_KINEMATIC_OBJECT);
-	body->setActivationState(body->getActivationState() | btCollisionObject::CF_NO_CONTACT_RESPONSE | btCollisionObject::CF_DISABLE_VISUALIZE_OBJECT | btRigidBody::CF_KINEMATIC_OBJECT);
 }
 
 PhysBody3D::Tag PhysBody3D::GetState()
