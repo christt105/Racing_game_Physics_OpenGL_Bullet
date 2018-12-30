@@ -54,7 +54,35 @@ bool ModuleSceneIntro::Start()
 	CreateRect(-61, 0, -182, road_width, 100, road, ORIENTATION::NORTH);
 	CreateCurve(-26, 0, -82, road_width, 95, 180, road, radius);
 	CreateCurve(-27, 0, -27, road_width, -90, 0, road, radius);
-	CreatePendulum(0, 10);
+
+	//Pendulums
+	CreatePendulum(-41, 129);
+	CreatePendulum(-79, 124);
+	CreatePendulum(-145, 131);
+	CreatePendulum(-194, 115);
+	CreatePendulum(-166, 72);
+	CreatePendulum(-152, 28);
+	CreatePendulum(-150, 16);
+	CreatePendulum(-145, 0);
+	CreatePendulum(-149, -129);
+	CreatePendulum(-148, -218);
+	CreatePendulum(-84, -286);
+	CreatePendulum(-45, -283);
+	CreatePendulum(57, -335);
+	CreatePendulum(62, -375);
+	CreatePendulum(58, -436);
+	CreatePendulum(114, -458);
+	CreatePendulum(113, -409);
+	CreatePendulum(116,-374);
+	CreatePendulum(114, -328);
+	CreatePendulum(73, -230);
+	CreatePendulum(207, -121);
+	CreatePendulum(172, -123);
+	CreatePendulum(131, -127);
+	CreatePendulum(0, -188);
+	CreatePendulum(-31, -208);
+	CreatePendulum(-26, -56);
+	CreatePendulum(-2, 8);
 	
 	// Nitro Objects
 	NitroObject({ -23.78F, 1, 95.70F}, 3, 20); 
@@ -259,13 +287,13 @@ void ModuleSceneIntro::CreatePendulum(const float & x, const float & z)
 	ball_shape->SetPos(x, 0.2F, z);
 
 	PhysBody3D* support = App->physics->AddBody(*support_shape, 0.0F);
-	PhysBody3D* ball = App->physics->AddBody(*ball_shape, 2000.0F);
+	PhysBody3D* ball = App->physics->AddBody(*ball_shape, 200.0F);
 
 	map.PushBack(support_shape);
 	pendulumBall_shape.PushBack(ball_shape);
 	pendulumBall_body.PushBack(ball);
 
-	App->physics->AddConstraintP2P(*support, *ball, vec3(2,0,0), vec3(-3,10,0));
+	App->physics->AddConstraintP2P(*support, *ball, vec3(0,0,0), vec3(0,12,0));
 }
 
 void ModuleSceneIntro::NitroObject(vec3 pos, int size, int distance_to)
