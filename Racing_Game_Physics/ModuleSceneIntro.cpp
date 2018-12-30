@@ -31,7 +31,7 @@ bool ModuleSceneIntro::Start()
 	int road_width = 15;
 	int radius = 20;
 
-	CreateRect(-7.0f, 0, 0, road_width, 100, road, ORIENTATION::NORTH);
+	CreateRect(-7.0f, 0, -25, road_width, 125, road, ORIENTATION::NORTH);
 	CreateCurve(-27.0f, 0, 100, road_width, 0, 90, road, radius);
 	CreateRect(-25, 0, 120, road_width, 150, road, ORIENTATION::EAST);
 	CreateCurve(-175.0f, 0.0f, 100, road_width, 90, 270, road, radius);
@@ -42,14 +42,19 @@ bool ModuleSceneIntro::Start()
 	CreateCurve(33, 0, -312, road_width, 0, 90, road, radius);
 	CreateRect(53, 0, -314, road_width, 150, road, ORIENTATION::SOUTH);
 	CreateCurve(88, 0, -465, road_width, 180, 360, road, radius);
-	
 	CreateRect(108, 0, -462, road_width, 200, road, ORIENTATION::NORTH);
-	CreateCurve(-120, 0, -257, road_width, 180, 270, road, radius);
-	CreateRect(-117, 0, -292, road_width, 150, road, ORIENTATION::WEST);
-	CreateCurve(-120, 0, -257, road_width, 180, 270, road, radius); // doble
-	CreateRect(-117, 0, -292, road_width, 150, road, ORIENTATION::WEST);
-	CreateCurve(-120, 0, -257, road_width, 180, 270, road, radius);
-	
+	CreateCurve(88, 0, -262, road_width, 0, 90, road, radius);
+	CreateCurve(86, 0, -207, road_width, 90, 270, road, radius);
+	CreateRect(88, 0, -187, road_width, 150, road, ORIENTATION::WEST);
+	CreateCurve(238, 0, -152, road_width, -90, 90, road, radius);
+	CreateRect(235, 0, -132, road_width, 206, road, ORIENTATION::EAST);
+	CreateCurve(29, 0, -152, road_width, 90, 180, road, radius);
+	CreateRect(-6, 0, -154, road_width, 30, road, ORIENTATION::SOUTH);
+	CreateCurve(-26, 0, -184, road_width, 180, 360, road, radius);
+	CreateRect(-61, 0, -182, road_width, 100, road, ORIENTATION::NORTH);
+	CreateCurve(-26, 0, -82, road_width, 95, 180, road, radius);
+	CreateCurve(-27, 0, -27, road_width, -90, 0, road, radius);
+
 	// Nitro Objects
 	NitroObject({ -23, 1, 30 }, 3, 20);
 	
@@ -66,9 +71,6 @@ bool ModuleSceneIntro::Start()
 update_status ModuleSceneIntro::Update(float dt)
 {
 	current_time = SDL_GetTicks() - start_time;
-
-	//Hide Cursor
-	SDL_ShowCursor(SDL_DISABLE);
 
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 		camera_free = !camera_free;
