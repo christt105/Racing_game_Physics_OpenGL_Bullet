@@ -137,7 +137,7 @@ update_status ModulePlayer::Update(float dt)
 	}
 
 	// Inputs
-	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN) {
+	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_DOWN) {
 		App->audio->PlayFx(fx_horn);
 		LOG("%.2f %.2f %.2f", vehicle->GetPosition().x, vehicle->GetPosition().y, vehicle->GetPosition().z);
 	}
