@@ -104,6 +104,11 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		map[i]->Render();
 	}
+
+	for (int i = 0; i < pendulumBall_body.Count(); i++) {
+		pendulumBall_body[i]->GetTransform(&pendulumBall_shape[i]->transform);
+		pendulumBall_shape[i]->Render();
+	}
 	
 	// Nitro Scene Objects
 	for (uint i = 0; i < nitro_objects.Count(); i++)
@@ -245,7 +250,8 @@ void ModuleSceneIntro::CreatePendulum(const float & x, const float & z)
 	PhysBody3D* ball = App->physics->AddBody(*ball_shape, 10.0F);
 
 	map.PushBack(support_shape);
-	map.PushBack(ball_shape);
+	pendulumBall_shape.PushBack(ball_shape);
+	pendulumBall_body.PushBack(ball);
 
 	App->physics->AddConstraintP2P(*support, *ball, vec3(0,-5,0), vec3(0,7,0));
 	
