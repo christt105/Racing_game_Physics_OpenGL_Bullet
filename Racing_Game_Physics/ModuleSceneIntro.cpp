@@ -130,7 +130,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 		camera_free = !camera_free;
 
-	if (!start_game && App->input->GetKey(SDL_SCANCODE_KP_ENTER) == KEY_DOWN) {
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && (game_over || game_win)) {
 		ResetVars();
 	}
 
@@ -429,6 +429,8 @@ void ModuleSceneIntro::ResetVars()
 	App->player->Reset();
 	game_over = false;
 	start_game = false;
+	camera_free = false;
+	game_win = false;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
