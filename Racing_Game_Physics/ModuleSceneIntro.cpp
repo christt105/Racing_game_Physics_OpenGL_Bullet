@@ -250,9 +250,9 @@ void ModuleSceneIntro::CreatePendulum(const float & x, const float & z)
 
 	support_shape->SetPos(x, support_high, z);
 	support_shape->color.Set(0, 0, 0);
-	ball_shape->SetPos(x, 2.2F, z);
-	ball_shape->color.Set(1, 1, 0);
-	
+	ball_shape->color.Set(1, 2, 3);
+	ball_shape->SetPos(x, 0.2F, z);
+
 	PhysBody3D* support = App->physics->AddBody(*support_shape, 0.0F);
 	PhysBody3D* ball = App->physics->AddBody(*ball_shape, 2000.0F);
 
@@ -260,8 +260,7 @@ void ModuleSceneIntro::CreatePendulum(const float & x, const float & z)
 	pendulumBall_shape.PushBack(ball_shape);
 	pendulumBall_body.PushBack(ball);
 
-	App->physics->AddConstraintP2P(*support, *ball, vec3(0,0,0), vec3(0,15,0));
-	
+	App->physics->AddConstraintP2P(*support, *ball, vec3(2,0,0), vec3(-3,10,0));
 }
 
 void ModuleSceneIntro::NitroObject(vec3 pos, int size, int distance_to)
@@ -270,7 +269,7 @@ void ModuleSceneIntro::NitroObject(vec3 pos, int size, int distance_to)
 	for (int i = 0; i < size; i++)
 	{
 		nitro_obj = new Sphere(1);
-		nitro_obj->color.Set(255, 0, 128, 1.F);
+		nitro_obj->color.Set(3, 2, 1);
 		nitro_obj->SetPos(pos.x + distance_to, pos.y, pos.z);
 		nitro_objects.PushBack(nitro_obj);
 		distance_to += 4;
@@ -325,7 +324,7 @@ void ModuleSceneIntro::CreateCheckpoint(vec3 pos, bool rotate)
 	sensor->SetState(PhysBody3D::Tag::CHECKPOINT);
 	checkpoint_objects_body.PushBack(sensor);
 
-	green_cube->color.Set(0, 255, 0, 100);
+	green_cube->color.Set(0, 255, 0);
 	green_cube->SetPos(pos.x, pos.y+ 4, pos.z);
 	green_obj.PushBack(green_cube);
 
@@ -368,12 +367,8 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		{
 			Checkpoint(body2);
 			App->physics->DestroyBody(body2);
-			
-			if (current_time >= 1000)
-			{
-				App->audio->PlayFx(App->player->fx_checkpoint);
-				start_time = SDL_GetTicks();
-			}
+		
+			App->audio->PlayFx(App->player->fx_checkpoint);
 		}
 
 		if (body2->GetState() == PhysBody3D::Tag::WALL)
