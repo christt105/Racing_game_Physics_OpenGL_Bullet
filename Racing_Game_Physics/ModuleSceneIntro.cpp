@@ -26,7 +26,7 @@ bool ModuleSceneIntro::Start()
 	map.PushBack(c);
 
 	//Map creation
-	Cube road(1, 5, 1);
+	Cube road(1, 15, 1);
 	road.color.Set(0.0f, 0.0f, 0.0f);
 	int road_width = 15;
 	int radius = 20;
@@ -127,7 +127,7 @@ void ModuleSceneIntro::CreateRect(const float & x, const float & y, const float 
 	Cube* c1 = nullptr;
 	Cube* c2 = nullptr;
 	
-	for (int i = 0; i < length; i=i+2) {
+	for (int i = 0; i < length; i=i+3) {
 		phys1 = App->physics->AddBody(cube, 0.0F);
 		phys2 = App->physics->AddBody(cube, 0.0F);
 		switch (orientation)
