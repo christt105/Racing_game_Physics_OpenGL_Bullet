@@ -149,51 +149,52 @@ void ModuleSceneIntro::CreateRect(const float & x, const float & y, const float 
 {
 	Cube* c1 = nullptr;
 	Cube* c2 = nullptr;
+	PhysBody3D* phys1 = nullptr;
+	PhysBody3D* phys2 = nullptr;
 	
 	for (int i = 0; i < length; i=i+3) {
-		phys1 = App->physics->AddBody(cube, 0.0F);
-		phys2 = App->physics->AddBody(cube, 0.0F);
+		c1 = new Cube(cube);
+		c2 = new Cube(cube);
+		
 		switch (orientation)
 		{
 		case ORIENTATION::NORTH:
-			phys1->SetPos(x, y, z + cube.size.x*i);
-			phys2->SetPos(x + width, y, z + cube.size.x*i);
+			c1->SetPos(x, y, z + cube.size.x*i);
+			c2->SetPos(x + width, y, z + cube.size.x*i);
 			break;
 		case ORIENTATION::SOUTH:
-			phys1->SetPos(x, y, z - cube.size.x*i);
-			phys2->SetPos(x + width, y, z - cube.size.x*i);
+			c1->SetPos(x, y, z - cube.size.x*i);
+			c2->SetPos(x + width, y, z - cube.size.x*i);
 			break;
 		case ORIENTATION::EAST:
-			phys1->SetPos(x - cube.size.x*i, y, z);
-			phys2->SetPos(x - cube.size.x*i, y, z + width);
+			c1->SetPos(x - cube.size.x*i, y, z);
+			c2->SetPos(x - cube.size.x*i, y, z + width);
 			break;
 		case ORIENTATION::WEST:
-			phys1->SetPos(x + cube.size.x*i, y, z);
-			phys2->SetPos(x + cube.size.x*i, y, z + width);
+			c1->SetPos(x + cube.size.x*i, y, z);
+			c2->SetPos(x + cube.size.x*i, y, z + width);
 			break;
 		case ORIENTATION::NORTHEAST:
-			phys1->SetPos(x - cube.size.x*i, y, z + cube.size.x*i);
-			phys2->SetPos(x + width - cube.size.x*i, y, z + cube.size.x*i);
+			c1->SetPos(x - cube.size.x*i, y, z + cube.size.x*i);
+			c2->SetPos(x + width - cube.size.x*i, y, z + cube.size.x*i);
 			break;
 		case ORIENTATION::NORTHWEST:
-			phys1->SetPos(x + cube.size.x*i, y, z + cube.size.x*i);
-			phys2->SetPos(x + width + cube.size.x*i, y, z + cube.size.x*i);
+			c1->SetPos(x + cube.size.x*i, y, z + cube.size.x*i);
+			c2->SetPos(x + width + cube.size.x*i, y, z + cube.size.x*i);
 			break;
 		case ORIENTATION::SOUTHEAST:
-			phys1->SetPos(x - cube.size.x*i, y, z - cube.size.x*i);
-			phys2->SetPos(x - cube.size.x*i + width, y, z - cube.size.x*i);
+			c1->SetPos(x - cube.size.x*i, y, z - cube.size.x*i);
+			c2->SetPos(x - cube.size.x*i + width, y, z - cube.size.x*i);
 			break;
 		case ORIENTATION::SOUTHWEST:
-			phys1->SetPos(x + cube.size.x*i, y, z - cube.size.x*i);
-			phys2->SetPos(x + cube.size.x*i + width, y, z - cube.size.x*i);
+			c1->SetPos(x + cube.size.x*i, y, z - cube.size.x*i);
+			c2->SetPos(x + cube.size.x*i + width, y, z - cube.size.x*i);
 			break;
 		default:
 			break;
 		}
-		c1 = new Cube(cube);
-		c2 = new Cube(cube);
-		c1->SetPos(phys1->GetPosition());
-		c2->SetPos(phys2->GetPosition());
+		phys1 = App->physics->AddBody(*c1, 0.0F);
+		phys2 = App->physics->AddBody(*c2, 0.0F);
 	
 		phys1->SetState(PhysBody3D::Tag::WALL);
 		phys2->SetState(PhysBody3D::Tag::WALL);
@@ -207,6 +208,8 @@ void ModuleSceneIntro::CreateCurve(const float & x, const float & y, const float
 {
 	Cube* c1 = nullptr;
 	Cube* c2 = nullptr;
+	PhysBody3D* curve1 = nullptr;
+	PhysBody3D* curve2 = nullptr;
 	
 	for (int i = angle_i; i <= angle_f; i = i + cube.size.x * 5) {
 		c1 = new Cube(cube);
@@ -215,11 +218,11 @@ void ModuleSceneIntro::CreateCurve(const float & x, const float & y, const float
 		c1->SetPos(x + radius * cos(i*3.1415 / 180), y, z + radius * sin(i*3.1415 / 180));
 		c2->SetPos(x + (radius + width) * cos(i*3.1415 / 180), y, z + (radius + width) * sin(i*3.1415 / 180));
 		
-		phys_curve1 = App->physics->AddBody(*c1, 0.0F);
-		phys_curve2 = App->physics->AddBody(*c2, 0.0F);
+		curve1 = App->physics->AddBody(*c1, 0.0F);
+		curve2 = App->physics->AddBody(*c2, 0.0F);
 
-		phys_curve1->SetState(PhysBody3D::Tag::WALL);
-		phys2->SetState(PhysBody3D::Tag::WALL);
+		curve1->SetState(PhysBody3D::Tag::WALL);
+		curve2->SetState(PhysBody3D::Tag::WALL);
 
 		map.PushBack(c1);
 		map.PushBack(c2);
