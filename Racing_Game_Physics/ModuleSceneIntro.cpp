@@ -164,7 +164,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	App->window->SetTitle(title);
 
 	// Lose condition
-	if (timer.Read()/1000 >= 5)
+	if (timer.Read()/1000 >= 240)
 	{
 		App->player->SaveGhostData(false);
 		LOG("*******GAME OVER**********");
