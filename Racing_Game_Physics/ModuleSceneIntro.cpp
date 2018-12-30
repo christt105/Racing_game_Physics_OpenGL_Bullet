@@ -116,6 +116,9 @@ bool ModuleSceneIntro::Start()
 	// Timer
 	timer.Start();
 
+	game_over = false;
+	start_game = false;
+
 	return ret;
 }
 
