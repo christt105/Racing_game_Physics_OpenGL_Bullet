@@ -106,11 +106,14 @@ bool ModulePlayer::Start()
 		vehicle->GetPosition().z - vehicle->GetForwardVector().z * CAMERA_OFFSET_Z);
 	App->camera->LookAt(vehicle->GetPosition());
 
-	//car.num_wheels = 0;
+	car.num_wheels = 0;
+	//car.mass = 1.0f;
 	ghost = App->physics->AddVehicle(car);
 	ghost->SetState(PhysBody3D::Tag::GHOST);
-	ghost->SetPos(10, 1, 0);
+	ghost->SetPos(15, 1, 0);
 	ghost->SetAsSensor(true);
+	ghost->vehicle->getRigidBody()->setGravity(btVector3(0, 0, 0));
+	//ghost->vehicle->getRigidBody()->setFlags(ghost->vehicle->getRigidBody()->getFlags() | btRigidBodyFlags::BT_DISABLE_WORLD_GRAVITY | btRigidBody::CF_STATIC_OBJECT);
 
 	//SFx
 	fx_horn = App->audio->LoadFx("Audio/SFX/carhorn.wav");
@@ -166,14 +169,16 @@ update_status ModulePlayer::Update(float dt)
 		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {
-		save_ghost_data = !save_ghost_data;
-		timer.Start();
+		SaveGhostData(!save_ghost_data);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
+		//ghost->vehicle->getRigidBody()->setCenterOfMassTransform
+		ghost->vehicle->getRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
 		ghost->vehicle->getRigidBody()->setWorldTransform(vehicle->vehicle->getRigidBody()->getWorldTransform());
+		ghost->SetPos(ghost->GetPosition() + vec3(0, 10, 0));
 	}
 
-	if (save_ghost_data && timer.Read() > 10) {
+	if (save_ghost_data && timer.Read() > 100) {
 
 		ghost_pos.PushBack(vehicle->vehicle->getRigidBody()->getWorldTransform());
 		timer.Start();
@@ -187,7 +192,7 @@ update_status ModulePlayer::Update(float dt)
 		ghost->vehicle->getRigidBody()->setWorldTransform(ghost_pos[iterator_ghost]);
 	}
 
-	if (path_ghost && timer.Read() > 10) {
+	if (path_ghost && timer.Read() > 100) {
 		if (iterator_ghost + 1 >= ghost_pos.Count()) {
 			path_ghost = false;
 			ghost_pos.Clear();
@@ -331,5 +336,33 @@ void ModulePlayer::NitroSpeed()
 
 	}
 	
+}
+
+bool ModulePlayer::SaveGhostData(bool to_save)
+{
+	if (to_save && !save_ghost_data) {
+		save_ghost_data = true;
+		timer.Start();
+		LOG("Starting saving ghost data");
+		return true;
+	}
+	else if (to_save && save_ghost_data) { //already saving data
+		LOG("Warning: already saving ghost data");
+		return false;
+	}
+	else if (!to_save && !save_ghost_data) { //don't saving data
+		LOG("Warning: already don't saving ghost data");
+		return false;
+	}
+	else if (!to_save && !save_ghost_data) {
+		save_ghost_data = false;
+		timer.Stop();
+		ghost_pos_prev = ghost_pos;
+		ghost_pos.Clear();
+		LOG("Stopping saving ghost data, time recording %i",timer.Read()/1000);
+		return true;
+	}
+
+	return false;
 }
 

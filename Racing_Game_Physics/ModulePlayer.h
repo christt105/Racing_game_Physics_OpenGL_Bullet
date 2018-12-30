@@ -23,6 +23,7 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 	void NitroSpeed();
+	bool SaveGhostData(bool to_save = true);
 
 public:
 
@@ -40,6 +41,7 @@ private:
 	bool accelerating = false;
 	bool decelerating = false;
 	p2DynArray<btTransform> ghost_pos;
+	p2DynArray<btTransform> ghost_pos_prev;
 	bool save_ghost_data = false;
 	bool path_ghost = false;
 	int iterator_ghost = 0;
