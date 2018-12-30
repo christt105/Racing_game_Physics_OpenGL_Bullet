@@ -24,6 +24,7 @@ Extract .zip files inside a folder and open the .exe file.
 * **DOWN** - Brake, and if it's totaly braked move backward
 * **SPACE** - Keep pressing Space to Nitro Power
 * **LALT** - Klaxon
+* **ENTER** - Restarts game after loose or win
 
 ##### Debug functionality:
 * **F1** - Active debuggin view
