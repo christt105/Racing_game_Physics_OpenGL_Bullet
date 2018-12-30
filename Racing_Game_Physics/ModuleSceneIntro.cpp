@@ -54,7 +54,8 @@ bool ModuleSceneIntro::Start()
 	CreateRect(-61, 0, -182, road_width, 100, road, ORIENTATION::NORTH);
 	CreateCurve(-26, 0, -82, road_width, 95, 180, road, radius);
 	CreateCurve(-27, 0, -27, road_width, -90, 0, road, radius);
-
+	CreatePendulum(0, 10);
+	
 	// Nitro Objects
 	NitroObject({ -23.78F, 1, 95.70F}, 3, 20); 
 	NitroObject({ -129.81F, 1, 124.58F}, 1, 20);
@@ -223,6 +224,19 @@ void ModuleSceneIntro::CreateCurve(const float & x, const float & y, const float
 		map.PushBack(c1);
 		map.PushBack(c2);
 	}
+	
+}
+
+void ModuleSceneIntro::CreatePendulum(const float & x, const float & z)
+{
+	int support_high = 15;
+	PhysBody3D* support = App->physics->AddBody(Cube(), 0.0F);
+	PhysBody3D* ball = App->physics->AddBody(Sphere(2), 10.0F);
+
+	support->SetPos(x, support_high, z);
+	ball->SetPos(x, 2.2F, z);
+
+	App->physics->AddConstraintP2P(*support, *ball, vec3(0,-5,0), vec3(0,7,0));
 	
 }
 
