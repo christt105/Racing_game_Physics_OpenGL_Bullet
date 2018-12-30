@@ -277,6 +277,7 @@ update_status ModulePlayer::Update(float dt)
 	vehicle->Brake(brake);
 
 	vehicle->Render();
+	ghost->Render();
 
 	if (!App->scene_intro->camera_free) {
 		App->camera->Position.Set(vehicle->GetPosition().x - vehicle->GetForwardVector().x*CAMERA_OFFSET_X,
