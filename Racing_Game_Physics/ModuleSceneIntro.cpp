@@ -254,13 +254,13 @@ void ModuleSceneIntro::CreatePendulum(const float & x, const float & z)
 	ball_shape->color.Set(1, 1, 0);
 	
 	PhysBody3D* support = App->physics->AddBody(*support_shape, 0.0F);
-	PhysBody3D* ball = App->physics->AddBody(*ball_shape, 10.0F);
+	PhysBody3D* ball = App->physics->AddBody(*ball_shape, 2000.0F);
 
 	map.PushBack(support_shape);
 	pendulumBall_shape.PushBack(ball_shape);
 	pendulumBall_body.PushBack(ball);
 
-	App->physics->AddConstraintP2P(*support, *ball, vec3(0,0,0), vec3(0,12,0));
+	App->physics->AddConstraintP2P(*support, *ball, vec3(0,0,0), vec3(0,15,0));
 	
 }
 
@@ -309,13 +309,11 @@ void ModuleSceneIntro::CreateCheckpoint(vec3 pos, bool rotate)
 	{
 		checkpoint_obj = new Cube(15, 2, 2);
 		green_cube = new Cube(15, 1, 1);
-		green_cube->SetPos(pos.x, pos.y + 4, pos.z + 10);
 	}
 	else
 	{
 		checkpoint_obj = new Cube(2, 2, 15);
 		green_cube = new Cube(1, 1, 15);
-		green_cube->SetPos(pos.x + 10, pos.y + 4, pos.z + 10);
 
 	}
 
@@ -328,6 +326,7 @@ void ModuleSceneIntro::CreateCheckpoint(vec3 pos, bool rotate)
 	checkpoint_objects_body.PushBack(sensor);
 
 	green_cube->color.Set(0, 255, 0, 100);
+	green_cube->SetPos(pos.x, pos.y+ 4, pos.z);
 	green_obj.PushBack(green_cube);
 
 }
