@@ -115,6 +115,7 @@ bool ModulePlayer::Start()
 	ghost->vehicle->getRigidBody()->setGravity(btVector3(0, 0, 0));
 	//ghost->vehicle->getRigidBody()->setFlags(ghost->vehicle->getRigidBody()->getFlags() | btRigidBodyFlags::BT_DISABLE_WORLD_GRAVITY | btRigidBody::CF_STATIC_OBJECT);
 
+	checkpoint_vehicle_transform = vehicle->vehicle->getRigidBody()->getWorldTransform();
 	//SFx
 	fx_horn = App->audio->LoadFx("Audio/SFX/carhorn.wav");
 	fx_crash = App->audio->LoadFx("Audio/SFX/crash.wav");
@@ -147,27 +148,7 @@ update_status ModulePlayer::Update(float dt)
 		LOG("%.2f %.2f %.2f", vehicle->GetPosition().x, vehicle->GetPosition().y, vehicle->GetPosition().z);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
-		switch (checkpoint_value)
-		{
-		case 0:
-			vehicle->SetPos(0, 1, 0);
-			break;
-		case 1:
-			vehicle->SetPos(-129.81F, 1, 128.58F);
-			break;
-		case 2:
-			vehicle->SetPos(-29.24F, 1, -284.81F);
-			break;
-		case 3:
-			vehicle->SetPos(60.71F, 1, -200.62F);
-			break;
-		case 4:
-			vehicle->SetPos(-129.81F, 1, 128.58F);
-			break;
-		default:
-			vehicle->SetPos(0, 0.44F, -26.71F);
-			break;
-		}
+		vehicle->vehicle->getRigidBody()->setWorldTransform(checkpoint_vehicle_transform);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {
 		SaveGhostData(!save_ghost_data);
@@ -366,5 +347,10 @@ bool ModulePlayer::SaveGhostData(bool to_save)
 	}
 
 	return false;
+}
+
+void ModulePlayer::SetCheckpointPosition()
+{
+	checkpoint_vehicle_transform = vehicle->vehicle->getRigidBody()->getWorldTransform();
 }
 
